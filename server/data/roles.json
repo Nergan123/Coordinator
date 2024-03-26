@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "Scout",
+    "hp": 18,
+    "ac": 13,
+    "image": "server/data/armor.png",
+    "description": "Stealthy and fast, the Scout is the perfect unit for recon missions.",
+    "weapons": [
+      {
+        "name": "Pistol",
+        "damage": 2,
+        "capacity": 6
+      },
+      {
+        "name": "Shotgun",
+        "damage": 20,
+        "capacity":  2
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Soldier",
+    "hp": 24,
+    "ac": 15,
+    "image": "server/data/armor.png",
+    "description": "Heavily armored and well armed, the Soldier is the backbone of any army.",
+    "weapons": [
+      {
+        "name": "Rifle",
+        "damage": 4,
+        "capacity": 15
+      },
+      {
+        "name": "Grenade",
+        "damage": 40,
+        "capacity":  1
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Sniper",
+    "hp": 18,
+    "ac": 11,
+    "image": "server/data/armor.png",
+    "description": "Deadly from a distance, the Sniper can take out enemies before they even know he's there.",
+    "weapons": [
+      {
+        "name": "Sniper Rifle",
+        "damage": 60,
+        "capacity": 1
+      },
+      {
+        "name": "Pistol",
+        "damage": 2,
+        "capacity": 6
+      }
+    ]
+  }
+]

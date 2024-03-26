@@ -1,0 +1,21 @@
+.dm-page {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.libs {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 2em 2em 2em 2em;
+    overflow-x: auto;
+}
+
+.side-bar {
+    color: #272a41;
+}

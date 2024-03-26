@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Lobby",
+    "image": "server/data/enemy.png",
+    "music": {
+      "calm": [
+
+      ],
+      "battle": [
+
+      ]
+    }
+  },
+  {
+    "name": "Lobby2",
+    "image": "server/data/enemy.png",
+    "music": {
+      "calm": [
+
+      ],
+      "battle": [
+
+      ]
+    }
+  }
+]

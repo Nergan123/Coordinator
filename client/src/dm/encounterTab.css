@@ -1,0 +1,61 @@
+.encounter-tab {
+    display: flex;
+    align-self: flex-end;
+    flex-direction: column;
+    height: 100%;
+    width: 30%;
+    padding: 2em;
+    border-left: 1px solid #ffffff;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.7);
+    background-color: #1f2133;
+}
+
+.upper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.upper img {
+    width: 50%;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgb(255, 255, 255);
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.lower {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 25px;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.7);
+}
+
+.list-of-players {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.list-of-enemies {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.start-encounter-button {
+    position: fixed;
+    bottom: 1em;
+    align-self: center;
+}

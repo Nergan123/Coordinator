@@ -1,0 +1,104 @@
+[
+  {
+    "name": "Machine",
+    "id": 1,
+    "hp": 100,
+    "armor": 10,
+    "image": "server/data/enemy.png",
+    "abilities": [
+      {
+        "name": "Laser",
+        "damage": 10
+      },
+      {
+        "name": "Missile",
+        "damage": 20
+      }
+    ]
+  },
+  {
+    "name": "Slasher",
+    "id": 2,
+    "hp": 150,
+    "armor": 5,
+    "image": "server/data/enemy.png",
+    "abilities": [
+      {
+        "name": "Sword",
+        "damage": 15
+      },
+      {
+        "name": "Shield",
+        "damage": 0
+      }
+    ]
+  },
+  {
+    "name": "Slasher",
+    "id": 2,
+    "hp": 150,
+    "armor": 5,
+    "image": "server/data/enemy.png",
+    "abilities": [
+      {
+        "name": "Sword",
+        "damage": 15
+      },
+      {
+        "name": "Shield",
+        "damage": 0
+      }
+    ]
+  },
+  {
+    "name": "Slasher",
+    "id": 2,
+    "hp": 150,
+    "armor": 5,
+    "image": "server/data/enemy.png",
+    "abilities": [
+      {
+        "name": "Sword",
+        "damage": 15
+      },
+      {
+        "name": "Shield",
+        "damage": 0
+      }
+    ]
+  },
+  {
+    "name": "Slasher",
+    "id": 2,
+    "hp": 150,
+    "armor": 5,
+    "image": "server/data/enemy.png",
+    "abilities": [
+      {
+        "name": "Sword",
+        "damage": 15
+      },
+      {
+        "name": "Shield",
+        "damage": 0
+      }
+    ]
+  },
+  {
+    "name": "Slasher",
+    "id": 2,
+    "hp": 150,
+    "armor": 5,
+    "image": "server/data/enemy.png",
+    "abilities": [
+      {
+        "name": "Sword",
+        "damage": 15
+      },
+      {
+        "name": "Shield",
+        "damage": 0
+      }
+    ]
+  }
+]

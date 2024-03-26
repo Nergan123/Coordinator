@@ -1,0 +1,82 @@
+.character-management {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.character {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+    width: 20%;
+}
+
+.stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+}
+
+.description {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 10px;
+    width: 100%;
+}
+
+.image img {
+    width: 300px;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+}
+
+.role {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.role-description {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.role-description img {
+    width: 300px;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.role-stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.weapon-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 10px;
+}
