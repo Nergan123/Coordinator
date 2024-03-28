@@ -1,9 +1,12 @@
 import {useEffect, useState} from "react";
 import CharacterDisplay from "./characterDisplay";
 import "./manageCharacters.css";
+import {useNavigate} from "react-router-dom";
 
 function ManageCharacters() {
     const [characters, setCharacters] = useState([]);
+
+    const navigate = useNavigate();
 
     const getCharacters = async () => {
         const response = await fetch("/api/values",
@@ -28,6 +31,7 @@ function ManageCharacters() {
             {characters.map((character: any) => {
                 return (<CharacterDisplay character={character} key={character.name}/>);
             })}
+            <button onClick={() => navigate("/")} className={"to-main-menu-button"}>Main Menu</button>
         </div>
     );
 }

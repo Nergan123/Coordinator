@@ -3,20 +3,30 @@ export type State = {
     image: String
 };
 
-export type Ability = {
-    name: String;
-    damage: Number;
-};
-
 export type Music = {
     calm: string[];
     battle: string[];
+};
+
+export type Stats = {
+    hp: Number;
+    ac: Number;
+    dex: Number;
+    str: Number;
+    int: Number;
+    wis: Number;
+    con: Number;
 };
 
 export type Weapon = {
     name: String;
     damage: Number;
     capacity: Number;
+};
+
+export type Ability = {
+    name: String;
+    description: String;
 };
 
 export type User = {

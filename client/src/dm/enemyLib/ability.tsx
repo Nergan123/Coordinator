@@ -4,7 +4,7 @@ function Ability({ ability }: { ability: AbilityData }) {
   return (
     <div>
       <h3>{ability.name}</h3>
-      <p>{ability.damage.toLocaleString()}</p>
+      <p>{ability.description}</p>
     </div>
   );
 }

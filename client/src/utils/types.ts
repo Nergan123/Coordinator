@@ -5,7 +5,7 @@ export type State = {
 
 export type AbilityData = {
     name: String;
-    damage: Number;
+    description: String;
 };
 
 export type EnemyData = {
@@ -37,11 +37,21 @@ export type WeaponData = {
 export type RoleData = {
     id: number;
     name: string;
-    hp: number;
-    ac: number;
+    stats: StatsData;
     image: string;
     description: string;
     weapons: WeaponData[];
+    abilities: AbilityData[];
+};
+
+export type StatsData = {
+    hp: number;
+    ac: number;
+    dex: number;
+    str: number;
+    int: number;
+    wis: number;
+    con: number;
 };
 
 export type CharacterData = {

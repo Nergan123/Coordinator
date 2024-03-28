@@ -2,60 +2,222 @@
   {
     "id": 1,
     "name": "Scout",
-    "hp": 18,
-    "ac": 13,
-    "image": "server/data/armor.png",
-    "description": "Stealthy and fast, the Scout is the perfect unit for recon missions.",
+    "stats": {
+      "hp": 18,
+      "ac": 13,
+      "dex": 2,
+      "con": 0,
+      "wis": 1,
+      "str": -1,
+      "int": 1
+    },
+    "image": "server/data/roleImages/scout.jpg",
+    "description": "Versatile and agile explorer, adept at gathering information, navigating treacherous environments, and outmaneuvering enemies. Scouts rely on their keen senses, stealth, and quick reflexes to gather intelligence, scout ahead for threats, and uncover hidden dangers. They are skilled in reconnaissance, tracking, and survival techniques, making them invaluable assets in uncovering secrets and avoiding potential traps in the unforgiving world. Scouts excel at moving swiftly and silently through dangerous territories, providing valuable information and support to their team while remaining one step ahead of danger.",
     "weapons": [
-      {
-        "name": "Pistol",
-        "damage": 2,
-        "capacity": 6
-      },
       {
         "name": "Shotgun",
         "damage": 20,
         "capacity":  2
+      },
+      {
+        "name": "Pulse Pistol",
+        "damage": 2,
+        "capacity": 6
+      }
+    ],
+    "abilities": [
+      {
+        "name": "Sneak Attack",
+        "description":"If enemy is not able to detect a player. Deal 2d20 damage"
+      },
+      {
+        "name": "Detection",
+        "description": "Uncover whats in front of you."
       }
     ]
   },
   {
     "id": 2,
     "name": "Soldier",
-    "hp": 24,
-    "ac": 15,
-    "image": "server/data/armor.png",
-    "description": "Heavily armored and well armed, the Soldier is the backbone of any army.",
+    "stats": {
+      "hp": 23,
+      "ac": 15,
+      "dex": -1,
+      "con": 2,
+      "wis": 1,
+      "str": 2,
+      "int": 0
+    },
+    "image": "server/data/roleImages/soldier.jpg",
+    "description": "Highly trained and disciplined combat specialist, proficient in a variety of weapons and tactics. Soldiers excel in frontline combat, utilizing their expertise in firearms and close-quarters combat to eliminate threats efficiently. They are known for their resilience and ability to with stand intense physical and psychological stress in the face of terrifying ene mies. Soldiers often serve as the back bone of any team, providing crucial support and protection to their allies while leading the charge against the horrors of the universe",
     "weapons": [
       {
-        "name": "Rifle",
+        "name": "Assault rifle",
         "damage": 4,
         "capacity": 15
       },
       {
-        "name": "Grenade",
-        "damage": 40,
-        "capacity":  1
+        "name": "Vibro blade",
+        "damage": 20,
+        "capacity": 9999
+      }
+    ],
+    "abilities":  [
+      {
+        "name": "Bastion",
+        "description": "Increases AC by +3 but damage roll is reduced for 3 turns."
+      },
+      {
+        "name": "Charge",
+        "description": "Double dash."
       }
     ]
   },
   {
     "id": 3,
     "name": "Sniper",
-    "hp": 18,
-    "ac": 11,
-    "image": "server/data/armor.png",
-    "description": "Deadly from a distance, the Sniper can take out enemies before they even know he's there.",
+    "stats": {
+      "hp": 15,
+      "ac": 12,
+      "dex": 1,
+      "con": 2,
+      "wis": 0,
+      "str": -1,
+      "int": 1
+    },
+    "image": "server/data/roleImages/sniper.jpeg",
+    "description": "Precision marksman specializing in long-range combat and eliminating targets with deadly accuracy. Snipers are masters of patience, observation, and precision shooting, capable of taking out enemies from a distance with a single well-placed shot. They excel in reconnaissance, providing overwatch for their team, and picking off high-priority targets with surgical precision. Snipers are known for their ability to control the battlefield from afar, neutralizing threats before they can get close. With their expertise in long-range weaponry and stealth tactics, Snipers play a crucial role in any mission, ensuring that their team has the advantage of surprise and strategic superiority in the deadly world you are about to enter.",
     "weapons": [
       {
-        "name": "Sniper Rifle",
-        "damage": 60,
-        "capacity": 1
+        "name": "Precision Shot Rifle",
+        "damage": 20,
+        "capacity": 5
       },
       {
-        "name": "Pistol",
+        "name": "Silenced Pistol",
         "damage": 2,
         "capacity": 6
+      }
+    ],
+    "abilities":  [
+      {
+        "name": "Snipe",
+        "description": "Preparation takes 1 turn. Deals 2d20 damage avoiding armor."
+      },
+      {
+        "name": "Disengage",
+        "description": "Allows to escape the enemy close combat. Once per battle."
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Marauder",
+    "stats": {
+      "hp": 15,
+      "ac": 14,
+      "dex": 0,
+      "con": 2,
+      "wis": 1,
+      "str": 2,
+      "int": 0
+    },
+    "image": "server/data/roleImages/marauder.png",
+    "description": "Formidable melee combatant, specializing in close-quarters combat and brutal hand-to-hand engagements. Marauders are fearless warriors who excel in charging headfirst into battle, wielding heavy melee weapons with devastating force. They are known for their strength, endurance, and ferocity in combat, capable of overpowering enemies with sheer brute force. Marauders thrive in the chaos of close combat, using their aggressive fighting style to break through enemy lines and unleash havoc on their foes. With their resilience and raw power, Marauders are a force to be reckoned with on the battlefield, striking fear into the hearts of their enemies",
+    "weapons": [
+      {
+        "name": "Plasma saw",
+        "damage": 9999,
+        "capacity": 20
+      },
+      {
+        "name": "Kinetic Glove",
+        "damage": 1,
+        "capacity": 40
+      }
+    ],
+    "abilities":  [
+      {
+        "name": "Carnage",
+        "description": "Double action. Cooldown 3 turns"
+      },
+      {
+        "name": "Blind rage",
+        "description": "Heals 1d4 damage outside the battle"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Medic",
+    "stats": {
+        "hp": 13,
+        "ac": 13,
+        "dex": 0,
+        "con": 1,
+        "wis": 1,
+        "str": -1,
+        "int": 2
+    },
+    "image": "server/data/roleImages/medic.jpg",
+    "description": "Skilled healer and support specialist, dedicated to keeping their team alive and healthy in the face of constant danger. Field Medics are trained in advanced medical techniques, first aid, and combat triage, allowing them to quickly assess and treat injuries on the battlefield. They excel in providing emergency medical care, stabilizing wounded allies, and administering life-saving treatments in the midst of chaos. Field Medics are also proficient in the use of medical equipment, pharmaceuticals, and advanced technology to heal injuries, cure ailments, and enhance the resilience of their team. With their selfless dedication to saving lives and their unwavering commitment to their comrades, Field Medics are indispensable members of any team",
+    "weapons": [
+      {
+        "name": "Stun Blade",
+        "damage": 20,
+        "capacity": 5
+      },
+      {
+        "name": "Pulse Pistol",
+        "damage": 2,
+        "capacity": 6
+      }
+    ],
+    "abilities":  [
+      {
+        "name": "Adrenaline pump overload",
+        "description": "Heals 2d6 damage. Twice per battle"
+      },
+      {
+        "name": "Analyze",
+        "description": "Adds 1d4 to non combat checks to 2 party members"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Engineer",
+    "stats": {
+      "hp": 14,
+      "ac": 13,
+      "dex": 1,
+      "con": -1,
+      "wis": 1,
+      "str": -1,
+      "int": 1
+    },
+    "image": "server/data/roleImages/engineer.jpg",
+    "description": "Resourceful and tech-savvy specialist, skilled in repairing, modifying, and creating advanced technology to support their team in the harsh environment of space. Field Engineers possess a deep understanding of machinery, electronics, and engineering principles, allowing them to maintain and upgrade equipment, construct improvised devices, and hack into systems to gain an advantage in combat. They excel in problem-solving, innovation, and adaptability, using their technical expertise to overcome obstacles and outsmart enemies. Field Engineers play a vital role in keeping their team’s gear in top condition, providing essential support in the field, and using their ingenuity to turn the tide of battle in their favor",
+    "weapons": [
+      {
+        "name": "Plasma Cutter",
+        "damage": 6,
+        "capacity": 4
+      },
+      {
+        "name": "Pulse Pistol",
+        "damage": 2,
+        "capacity": 6
+      }
+    ],
+    "abilities":  [
+      {
+        "name": "Overclock",
+        "description": "In combat: Grants 1d4 to attack roll for 2 turns for 2 party members. Non combat: overclock the device you have access to"
+      },
+      {
+        "name": "Drone",
+        "description": "Allows to check the next room. Once per day"
       }
     ]
   }

@@ -121,6 +121,9 @@ function CreateCharacter() {
                 </div>
                 <button className={"save-button"} onClick={saveCharacter}>Save Character</button>
             </div>
+
+            <button onClick={() => navigate("/")} className={"back-button"}>Back</button>
+
             <div className={"character-build"}>
                 <div className={"character-description"}>
                     <h1>{name}</h1>

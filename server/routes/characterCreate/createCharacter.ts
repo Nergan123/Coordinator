@@ -40,6 +40,19 @@ class CreateCharacter {
         }
     }
 
+    public deleteCharacter = async (req: any, res: any, characterName: string) => {
+        const query = `DELETE FROM ${this.tableName} WHERE name = $1 AND user_id = $2`;
+        const values = [characterName, req.user.id];
+
+        const result = await this.db.query(query, values);
+        if (!result) {
+            this.logger.error('Failed to delete character');
+            res.status(500).send('Failed to delete character');
+        }
+
+        res.status(200).send('Character deleted successfully');
+    }
+
     private async saveCharacterToDb(user: any, data: any, fileName: string) {
         const query = `INSERT INTO ${this.tableName} (user_id, name, path) VALUES ($1, $2, $3)`;
         const values = [user.id, data.name, fileName];

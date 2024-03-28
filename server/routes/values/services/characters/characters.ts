@@ -15,7 +15,7 @@ class Characters {
         this.db = new DbHandler();
         this.bucket = new Bucket();
         this.roles = dataRoles.map((role: any) => {
-            return new Role(role.id, role.name, role.hp, role.ac, role.image, role.description, role.weapons);
+            return new Role(role.id, role.name, role.stats, role.image, role.description, role.weapons,role.abilities);
         });
     }
 

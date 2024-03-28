@@ -1,7 +1,7 @@
 import Role from "../roles/role";
 
 class Character {
-    private name: string;
+    name: string;
     private description: string;
     public role: Role;
     private image: string;

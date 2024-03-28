@@ -11,6 +11,7 @@ import cookieParser from 'cookie-parser';
 import verifyToken from "./middleWare/verifyToken";
 import CreateCharacter from "./routes/characterCreate/createCharacter";
 import multer from "multer";
+import Game from "./routes/game/game";
 
 const upload = multer();
 
@@ -21,12 +22,14 @@ export default class App {
     private loginHandler: LoginHandler;
     private createCharacter: CreateCharacter;
     private logger: winston.Logger;
+    private game: Game;
 
     constructor() {
         this.resolver = new Resolver();
         this.registerHandler = new RegisterHandler();
         this.loginHandler = new LoginHandler();
         this.createCharacter = new CreateCharacter();
+        this.game = new Game();
 
         this.logger = logger;
 
@@ -89,6 +92,17 @@ export default class App {
             }
 
             await this.createCharacter.createCharacter(req, res, name, description, role, imageFile);
+        });
+        this.app.post('/api/character-delete', verifyToken, async (req, res) => {
+            const data = req.body;
+
+            await this.createCharacter.deleteCharacter(req, res, data.characterName);
+        });
+
+        this.app.post('/api/game/add-character', verifyToken, (req, res) => {
+            this.game.addCharacter(req.body.character);
+
+            res.sendStatus(200);
         });
     }
 }
