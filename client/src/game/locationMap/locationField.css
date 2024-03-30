@@ -1,0 +1,16 @@
+.location-field {
+    display: flex;
+    flex-direction: column;
+    justify-self: flex-start;
+    justify-content: flex-start;
+    background-color: #1f2133;
+    margin: 5px;
+    padding: 10px;
+    height: 50%;
+}
+
+.location-field h2 {
+    font-size: 1.5rem;
+    margin-top: 1em;
+    padding: 0;
+}

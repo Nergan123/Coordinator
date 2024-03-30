@@ -1,15 +1,20 @@
-import {Music} from "@types";
 import fs from "fs";
 
 class GameLocation {
-    private name: string;
+    public name: string;
     private image: string;
-    private music: Music;
+    private map: string;
+    private description: string;
+    private musicCalm: string[];
+    private musicBattle: string[];
 
-    constructor(name: string, imagePath: string, music: Music) {
+    constructor(name: string, description: string, imagePath: string, mapPath: string, musicCalm: string[], musicBattle: string[]) {
         this.name = name;
+        this.description = description;
+        this.map = fs.readFileSync(mapPath, { encoding: 'base64' });
         this.image = fs.readFileSync(imagePath, { encoding: 'base64' });
-        this.music = music;
+        this.musicCalm = musicCalm;
+        this.musicBattle = musicBattle;
     }
 }
 

@@ -1,8 +1,25 @@
 .game-main {
-    height: 100%;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    background-color: #000000;
-    color: aqua;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+.left-border {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 20%;
+    border: 1px solid #ffffff;
+    overflow: hidden;
+}
+
+.middle-border {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 60%;
+    border: 1px solid #ffffff;
+    overflow: hidden;
 }

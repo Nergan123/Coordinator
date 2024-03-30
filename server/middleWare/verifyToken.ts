@@ -23,6 +23,7 @@ async function verifyToken(req: Request, res: Response, next: NextFunction) {
     try {
         logger.debug('Verifying token');
         const payload = jwt.verify(token, process.env.SECRET_KEY as Secret || 'default_secret');
+        console.log(payload);
         if (typeof payload === "object" && "id" in payload) {
             req.user = payload as User;
         }

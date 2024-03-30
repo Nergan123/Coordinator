@@ -1,6 +1,5 @@
 import express, {Express} from "express";
 import cors from "cors";
-import * as fs from "fs";
 import Resolver from "./routes/values/resolver";
 import RegisterHandler from "./routes/register/registerHandler";
 import loadEnv from "./utils/loadEnv";
@@ -53,13 +52,6 @@ export default class App {
         this.app.get('/', (req, res) => {
             res.send('Hello World From the Typescript Server!');
         });
-        this.app.get('/api/game/state', verifyToken, (req, res) => {
-            const image = fs.readFileSync('server/game/images/enemy.png', { encoding: 'base64' });
-            res.send({
-                state: "in-progress",
-                image: image
-            });
-        });
         this.app.post('/api/values', verifyToken, (req, res) => {
             this.resolver.getValue(req).then((data) => {
                 res.header('Content-Type', 'application/json');
@@ -100,9 +92,29 @@ export default class App {
         });
 
         this.app.post('/api/game/add-character', verifyToken, (req, res) => {
-            this.game.addCharacter(req.body.character);
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            this.game.addCharacter(req.body.character, req.user.id);
 
             res.sendStatus(200);
+        });
+        this.app.get('/api/game/location', verifyToken, (req, res) => {
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            res.send({location: this.game.getState().getCurrentLocation()});
+        });
+
+        this.app.get('/api/user/role', verifyToken, (req, res) => {
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            const role = req.user.role;
+            res.send({role: role});
         });
     }
 }

@@ -1,0 +1,64 @@
+.character-field {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    height: 100%;
+    background-color: #1f2133;
+    padding: 20px;
+    border: 1px solid #ffffff;
+    overflow-y: auto;
+}
+
+.character-field img {
+    width: 100%;
+    border-radius: 50%;
+    border: 1px solid #ffffff;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.7);
+    margin-bottom: 1em;
+}
+
+.character-field h3 {
+    color: #ffffff;
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+    margin-top: 1em;
+}
+
+.character-stats-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.stats-field {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 15%;
+}
+
+.stat-single {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.character-description {
+    padding: 10px;
+    margin-left: 1em;
+    width: 75%;
+}
+
+.role-stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.weapons-container {
+    width: 40%;
+}
+
+.abilities-container {
+    width: 40%;
+}

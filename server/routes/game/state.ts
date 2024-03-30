@@ -1,24 +1,43 @@
-import Character from "../values/services/characters/character";
 import Bucket from "../../utils/bucket";
 import winston from "winston";
-import { logger } from "../../utils/logger";
+import {logger} from "../../utils/logger";
+import GameLocation from "../values/services/locations/location";
+import locations from "../../data/locations.json";
 
 
 class State {
-    private characters: { [key: string]: Character };
+    private characters: { [key: string]: string };
     private bucket: Bucket;
     private logger: winston.Logger;
+    private status: boolean;
+    private readonly locations: { [key: string]: GameLocation };
+    private currentLocation: GameLocation;
 
     constructor() {
         this.bucket = new Bucket();
         this.logger = logger;
         this.characters = {};
+        this.status = false;
+        this.locations = {};
+        Object.values(locations).forEach((location: any) => {
+            this.locations[location.name] = new GameLocation(
+                location.name,
+                location.description,
+                location.image,
+                location.map,
+                location.musicCalm,
+                location.musicBattle
+            );
+        });
+        this.currentLocation = this.locations["Lobby"];
     }
 
     async save() {
 
         const stateToSave = {
-            characters: this.characters
+            characters: this.characters,
+            status: this.status,
+            location: this.currentLocation,
         }
 
         const response = await this.bucket.uploadFile(JSON.stringify(stateToSave), "state.json")
@@ -40,13 +59,26 @@ class State {
 
         this.characters = {};
 
-        data.characters.forEach((key: string, character: Character) => {
-            this.characters[key] = character;
+        Object.entries(data.characters).forEach(([key, character]) => {
+            this.characters[key] = character as string;
+        });
+        this.status = data.status;
+        this.currentLocation = data.location;
+    }
+
+    public setLocation(locationName: string) {
+        this.currentLocation = this.locations[locationName];
+        this.save().then(() => {
+            this.logger.info("Location set successfully");
         });
     }
 
-    public addCharacter(character: Character) {
-        this.characters[character.name] = character;
+    public getCurrentLocation() {
+        return this.currentLocation;
+    }
+
+    public addCharacter(character: string, userId: string) {
+        this.characters[userId] = character;
         this.save().then(() => {
             this.logger.info("Character added successfully");
         });

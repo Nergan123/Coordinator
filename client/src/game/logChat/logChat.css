@@ -1,0 +1,12 @@
+.log-chat {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border: 1px solid #ffffff;
+    padding: 10px;
+    height: 50%;
+    background-color: #000000;
+    overflow: hidden;
+    color: #00ff00;
+    font-family: "Ubuntu Nerd Font", sans-serif;
+}

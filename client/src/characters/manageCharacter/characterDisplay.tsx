@@ -2,37 +2,13 @@ import {CharacterData} from "@types";
 
 function CharacterDisplay({character}: {character: CharacterData}){
 
-    function processCharacterData(character: CharacterData) {
-        return {
-            name: character.name,
-            description: character.description,
-            role: {
-                name: character.role.name,
-                stats: {
-                    hp: character.role.stats.hp,
-                    ac: character.role.stats.ac,
-                    dex: character.role.stats.dex,
-                    str: character.role.stats.str,
-                    int: character.role.stats.int,
-                    wis: character.role.stats.wis,
-                    con: character.role.stats.con
-                },
-                description: character.role.description,
-                weapons: character.role.weapons,
-                abilities: character.role.abilities,
-            }
-        };
-    }
-
     async function useGameCharacter() {
-        const characterOutput = processCharacterData(character);
-        console.log(characterOutput);
         const response = await fetch('/api/game/add-character', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({character: characterOutput}),
+            body: JSON.stringify({character: character.name}),
         });
         if (response.status === 200) {
             console.log('Character added successfully');

@@ -1,26 +1,14 @@
-[
-  {
+{
+  "lobby": {
     "name": "Lobby",
-    "image": "server/data/enemy.png",
-    "music": {
-      "calm": [
-
-      ],
-      "battle": [
-
-      ]
-    }
-  },
-  {
-    "name": "Lobby2",
-    "image": "server/data/enemy.png",
-    "music": {
-      "calm": [
-
-      ],
-      "battle": [
-
-      ]
-    }
+    "map": "server/data/locationMaps/lobby.png",
+    "image": "server/data/locationImages/lobby.jpg",
+    "description": "Regular lobby",
+    "musicCalm": [
+      ""
+    ],
+    "musicBattle": [
+      ""
+    ]
   }
-]
+}

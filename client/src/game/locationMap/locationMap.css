@@ -1,0 +1,11 @@
+.location-map {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease-in-out;
+}

@@ -3,11 +3,6 @@ export type State = {
     image: String
 };
 
-export type Music = {
-    calm: string[];
-    battle: string[];
-};
-
 export type Stats = {
     hp: Number;
     ac: Number;

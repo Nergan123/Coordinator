@@ -5,8 +5,9 @@ class Locations {
     private readonly locations: GameLocation[];
 
     constructor() {
-        this.locations = data.map((location: any) => {
-            return new GameLocation(location.name, location.image, location.music);
+        this.locations = Object.values(data).map((location: any) => {
+            console.log(data);
+            return new GameLocation(location.name, location.description, location.image, location.map, location.musicCalm, location.musicBattle);
         });
     }
 

@@ -127,8 +127,8 @@
     "weapons": [
       {
         "name": "Plasma saw",
-        "damage": 9999,
-        "capacity": 20
+        "damage": 20,
+        "capacity": 9999
       },
       {
         "name": "Kinetic Glove",

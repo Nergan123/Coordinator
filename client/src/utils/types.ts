@@ -17,16 +17,14 @@ export type EnemyData = {
     abilities: AbilityData[];
 };
 
-export type MusicData = {
-    calm: string[];
-    battle: string[];
-};
-
 export type LocationData = {
     name: string;
+    description: string;
     image: string;
-    music: MusicData;
-}
+    map: string;
+    musicCalm: string[];
+    musicBattle: string[];
+};
 
 export type WeaponData = {
     name: string;

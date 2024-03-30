@@ -1,21 +1,13 @@
-import { State } from "@types";
-import Enemy from "./enemy";
+import {LocationData} from "@types";
+import './gameField.css';
 
-type Props = {
-    gameState: State
-}
+function GameField({location}: {location: LocationData}) {
 
-function GameField({gameState}: Props) {
-
-    function getEnemies() {
-        return (
-            <Enemy image={gameState.image} />
-        )
-    }
+    const sourceImage = `data:image/jpeg;base64,${location.image}`;
 
     return (
-        <div className="gameField">
-            {getEnemies()}
+        <div className="game-field">
+            <img src={sourceImage} alt={location.name} className="gameImage"/>
         </div>
     );
 }

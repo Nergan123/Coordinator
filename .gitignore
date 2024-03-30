@@ -4,3 +4,5 @@ dist
 logs
 .idea
 server/data/*.png
+notes.md
+*.kra

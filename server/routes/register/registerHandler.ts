@@ -12,9 +12,10 @@ class RegisterHandler {
   public async register(login: string, password: string) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+    const role = 'Player';
 
     try {
-      await this.execute(login, hashedPassword, salt);
+      await this.execute(login, hashedPassword, role);
     } catch (err) {
       console.error("error executing query:", err);
       return 500;
@@ -23,9 +24,9 @@ class RegisterHandler {
     return 200;
   }
 
-  private async execute(login: string, password: string, salt: string) {
-    const query = 'INSERT INTO users (name, password, salt) VALUES ($1, $2, $3)';
-    const values = [login, password, salt];
+  private async execute(login: string, password: string, role: string) {
+    const query = 'INSERT INTO users (name, password, role) VALUES ($1, $2, $3)';
+    const values = [login, password, role];
 
     await this.db.query(query, values);
   }
