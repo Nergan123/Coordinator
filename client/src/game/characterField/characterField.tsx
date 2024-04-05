@@ -1,36 +1,9 @@
-import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
 import {CharacterData} from "@types";
 import "./characterField.css";
 import Weapon from "./weapon";
 import Ability from "./ability";
 
-function CharacterField({characterName}: {characterName: string}) {
-
-    const [character, setCharacter] = useState<CharacterData | null>(null);
-    const navigate = useNavigate();
-
-    const getCharacter = async () => {
-        const response = await fetch('/api/values', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({value: "characters"})
-        });
-
-        if (response.status === 401) {
-            console.error('Unauthorized');
-            navigate('/Login');
-        }
-
-        const data = await response.json();
-        setCharacter(data.find((character: CharacterData) => character.name === characterName));
-    }
-
-    useEffect(() => {
-        getCharacter().then(r => console.log(r));
-    }, []);
+function CharacterField({character}: {character: CharacterData}) {
 
     return (
         <div className={"character-field"}>

@@ -1,24 +1,25 @@
 import "./storage.css";
 import Item from "./item";
+import {ItemData} from "@types";
 
-function Storage() {
+function Storage({items}: {items: {[key: string]: ItemData}}) {
 
   return (
       <div className={"storage"}>
           <div className={"storage-row"}>
-              <Item text={"item 1"}/>
-              <Item text={"item 2"}/>
-              <Item text={"item 3"}/>
+              <Item item={items[1]}/>
+              <Item item={items[2]}/>
+              <Item item={items[3]}/>
           </div>
           <div className={"storage-row"}>
-              <Item text={"item 4"}/>
-              <Item text={"item 5"}/>
-              <Item text={"item 6"}/>
+              <Item item={items[4]}/>
+              <Item item={items[5]}/>
+              <Item item={items[6]}/>
           </div>
           <div className={"storage-row"}>
-              <Item text={"item 7"}/>
-              <Item text={"item 8"}/>
-              <Item text={"item 9"}/>
+              <Item item={items[7]}/>
+              <Item item={items[8]}/>
+              <Item item={items[9]}/>
           </div>
       </div>
   );

@@ -18,13 +18,31 @@ class CreateCharacter {
 
     public createCharacter = async (req: any, res: any, name: string, description: string, role: string, image: Express.Multer.File) => {
         const userName = req.user;
+        const items = {
+            1: {
+                name: "ammo",
+                quantity: 15
+            },
+            2: {
+                name: "ammo",
+                quantity: 15
+            },
+            3: {},
+            4: {},
+            5: {},
+            6: {},
+            7: {},
+            8: {},
+            9: {},
+        }
 
         const dataFileName = "data-character-" + name + ".json";
         const dataToStore = {
             name: name,
             description: description,
             role: role,
-            imageName: image.originalname
+            imageName: image.originalname,
+            items: items
         };
 
         this.logger.info(`Creating character for user ${userName}`);

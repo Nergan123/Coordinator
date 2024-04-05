@@ -2,9 +2,10 @@ import { logger } from "../../utils/logger";
 import State from "./state";
 import winston from "winston";
 import DbHandler from "../../utils/db";
+import {Item} from "@types";
 
 class Game {
-    private readonly state: State;
+    public readonly state: State;
     private readonly logger: winston.Logger;
     private db: DbHandler;
 
@@ -23,7 +24,9 @@ class Game {
 
     public addCharacter(character: string, userId: string) {
         this.markCharacterAsActive(character, userId);
-        this.state.addCharacter(character, userId);
+        this.state.addCharacter(character, userId).then(r => {
+            this.logger.info("Character added");
+        });
     }
 
     private markCharacterAsActive(character: string, userId: string) {
@@ -39,7 +42,13 @@ class Game {
     }
 
     public getState() {
-        return this.state;
+        return this.state.getState();
+    }
+
+    public updateCharacterItems(userId: string, cell: number, item: Item) {
+        this.state.updateCharacterItems(userId, cell, item).then(() => {
+            this.logger.info("Items updated");
+        });
     }
 }
 

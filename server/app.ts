@@ -105,7 +105,26 @@ export default class App {
                 res.sendStatus(401);
                 return;
             }
-            res.send({location: this.game.getState().getCurrentLocation()});
+            res.send({location: this.game.state.getCurrentLocation()});
+        });
+        this.app.get('/api/game/state', verifyToken, (req, res) => {
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            res.send(this.game.getState());
+        });
+        this.app.post('/api/game/update-character-item', verifyToken, (req, res) => {
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            const userId = req.user.id;
+            const cell = req.body.cell;
+            const item = req.body.item;
+
+            this.game.updateCharacterItems(userId, cell, item);
+            res.sendStatus(200);
         });
 
         this.app.get('/api/user/role', verifyToken, (req, res) => {
@@ -115,6 +134,14 @@ export default class App {
             }
             const role = req.user.role;
             res.send({role: role});
+        });
+        this.app.get('/api/user/id', verifyToken, (req, res) => {
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            const id = req.user.id;
+            res.send({id: id});
         });
     }
 }

@@ -59,3 +59,8 @@ export type CharacterData = {
     role: RoleData;
     image: string;
 };
+
+export type ItemData = {
+    name: string;
+    quantity: number;
+}

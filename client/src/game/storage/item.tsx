@@ -1,9 +1,11 @@
 import "./item.css"
+import {ItemData} from "@types";
 
-function Item({text}: {text: string}) {
+function Item({item}: {item: ItemData}) {
     return (
         <div className={"item"}>
-            <p>{text}</p>
+            <p>{item.name}</p>
+            <p>{item.quantity}</p>
         </div>
     );
 }

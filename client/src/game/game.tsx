@@ -2,7 +2,6 @@ import "./game.css";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import CharacterField from "./characterField/characterField";
-import {LocationData} from "@types";
 import LocationField from "./locationMap/locationField";
 import LogChat from "./logChat/logChat";
 import GameField from "./gameField/gameField";
@@ -11,14 +10,8 @@ import Storage from "./storage/storage";
 function Game() {
 
     const [userRole, setUserRole] = useState("");
-    const [location, setLocation] = useState<LocationData>({
-        name: "",
-        description: "",
-        image: "",
-        map: "",
-        musicCalm: [],
-        musicBattle: []
-    });
+    const [userId, setUserId] = useState("");
+    const [state, setState] = useState({} as any);
 
     const navigate = useNavigate();
 
@@ -35,8 +28,8 @@ function Game() {
         setUserRole(data.role);
     }
 
-    const getLocation = async () => {
-        const response = await fetch('/api/game/location');
+    const getUserId = async () => {
+        const response = await fetch('/api/user/id');
 
         if (response.status === 401) {
             console.error('Unauthorized');
@@ -45,25 +38,43 @@ function Game() {
 
         const data = await response.json();
 
-        setLocation(data.location);
+        setUserId(data.id);
+    }
+
+    const getState = async () => {
+        const response = await fetch("/api/game/state", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+
+        if (response.status === 401) {
+            navigate("/login");
+        }
+        const data = await response.json();
+        console.log("state")
+        console.log(data)
+        setState(data);
     }
 
     useEffect(() => {
         getRole().then(r => console.log(r));
-        getLocation().then(r => console.log(r));
+        getUserId().then(r => console.log(r));
+        getState().then(r => console.log(r));
     }, []);
 
     return (
         <div className={"game-main"}>
             <div className={"left-border"}>
-                {location !== undefined && <LocationField location={location} />}
+                {state.location && <LocationField location={state.location}/>}
                 <LogChat />
             </div>
             <div className={"middle-border"}>
-                <GameField location={location} />
-                <Storage />
+                {state.location && <GameField location={state.location}/>}
+                {state.characters && <Storage items={state.characters[userId].items}/>}
             </div>
-            <CharacterField characterName={"Nergan"} />
+            {state.characters && <CharacterField character={state.characters[userId]}/>}
         </div>
     );
 }

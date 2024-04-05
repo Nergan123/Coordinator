@@ -3,10 +3,12 @@ import winston from "winston";
 import {logger} from "../../utils/logger";
 import GameLocation from "../values/services/locations/location";
 import locations from "../../data/locations.json";
+import {Item} from "@types";
+import Roles from "../values/services/roles/roles";
 
 
 class State {
-    private characters: { [key: string]: string };
+    private characters: { [key: string]: any };
     private bucket: Bucket;
     private logger: winston.Logger;
     private status: boolean;
@@ -60,7 +62,7 @@ class State {
         this.characters = {};
 
         Object.entries(data.characters).forEach(([key, character]) => {
-            this.characters[key] = character as string;
+            this.characters[key] = character;
         });
         this.status = data.status;
         this.currentLocation = data.location;
@@ -77,11 +79,41 @@ class State {
         return this.currentLocation;
     }
 
-    public addCharacter(character: string, userId: string) {
-        this.characters[userId] = character;
+    async addCharacter(character: string, userId: string) {
+        const fileName = `data-character-${character}.json`;
+        const response = await this.bucket.getFile(fileName);
+        if (!response.Body) {
+            this.logger.error("File body is empty");
+            throw new Error("File body is empty");
+        }
+
+        this.characters[userId] = JSON.parse(response.Body.toString('utf-8'));
+        const roleName = this.characters[userId].role;
+        this.characters[userId].role = new Roles().getRoles().find((role) => role.name === roleName);
+        const image = await this.bucket.getFile(this.characters[userId].imageName);
+        if (!image.Body) {
+            this.logger.error("File body is empty");
+            throw new Error("File body is empty");
+        }
+        this.characters[userId].image = image.Body.toString('base64');
         this.save().then(() => {
             this.logger.info("Character added successfully");
         });
+    }
+
+    async updateCharacterItems(userId: string, cell: number, item: Item) {
+        this.characters[userId].items[cell] = item;
+        this.save().then(() => {
+            this.logger.info("Items updated successfully");
+        });
+    }
+
+    public getState() {
+        return {
+            characters: this.characters,
+            status: this.status,
+            location: this.currentLocation,
+        }
     }
 }
 
