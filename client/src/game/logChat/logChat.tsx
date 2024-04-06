@@ -1,12 +1,21 @@
 import './logChat.css';
+import io from "socket.io-client";
+import {useEffect, useState} from "react";
 
-function LogChat() {
+const socket = io("http://localhost:8001");
+
+function LogChat({initialMessages}: {initialMessages: string[]}) {
+    const [messages, setMessages] = useState<string[]>(initialMessages);
+
+    useEffect(() => {
+        socket.on("message", (messagesNew: string[]) => {
+            setMessages(messagesNew);
+        });
+    }, []);
+
     return(
         <div className={"log-chat"}>
-            <p>Message 1</p>
-            <p>Message 2</p>
-            <p>Message 3</p>
-            <p>Message 4</p>
+            {messages.map((message, index) => <p key={index}>{message}</p>)}
             <p>Logging Terminal:</p>
         </div>
     );

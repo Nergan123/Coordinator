@@ -1,0 +1,48 @@
+.dice-roller-input-frame {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: 10%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    z-index: 2;
+    border: 1px solid #ffffff;
+    background-color: #1f2133;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.7);
+}
+
+.dice-roller-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 1em;
+}
+
+.dice-roller-input input {
+    width: 3em;
+    padding: 0.5em;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    background-color: #1f2133;
+    color: #ffffff;
+    font-size: 1em;
+    text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}

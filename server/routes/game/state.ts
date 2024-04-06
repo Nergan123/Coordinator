@@ -14,6 +14,7 @@ class State {
     private status: boolean;
     private readonly locations: { [key: string]: GameLocation };
     private currentLocation: GameLocation;
+    private messages: string[];
 
     constructor() {
         this.bucket = new Bucket();
@@ -32,6 +33,7 @@ class State {
             );
         });
         this.currentLocation = this.locations["Lobby"];
+        this.messages = [];
     }
 
     async save() {
@@ -40,6 +42,7 @@ class State {
             characters: this.characters,
             status: this.status,
             location: this.currentLocation,
+            messages: this.messages,
         }
 
         const response = await this.bucket.uploadFile(JSON.stringify(stateToSave), "state.json")
@@ -66,6 +69,7 @@ class State {
         });
         this.status = data.status;
         this.currentLocation = data.location;
+        this.messages = data.messages;
     }
 
     public setLocation(locationName: string) {
@@ -113,7 +117,18 @@ class State {
             characters: this.characters,
             status: this.status,
             location: this.currentLocation,
+            messages: this.messages,
         }
+    }
+
+    public addMessage(message: string) {
+        if (this.messages.length > 20) {
+            this.messages.shift();
+        }
+        this.messages.push(message);
+        this.save().then(() => {
+            this.logger.info("Message added successfully");
+        });
     }
 }
 

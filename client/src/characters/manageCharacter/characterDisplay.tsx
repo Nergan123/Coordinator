@@ -46,7 +46,7 @@ function CharacterDisplay({character}: {character: CharacterData}){
             </div>
             <div className={"role-character-display"}>
                 <h2>Role: {character.role.name}</h2>
-                <div className={"role-description"}>
+                <div className={"role-description-character-management"}>
                     <p>{character.role.description}</p>
                     <img src={`data:image/png;base64,${character.role.image}`} alt={character.role.name}/>
                 </div>

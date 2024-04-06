@@ -6,6 +6,7 @@ import LocationField from "./locationMap/locationField";
 import LogChat from "./logChat/logChat";
 import GameField from "./gameField/gameField";
 import Storage from "./storage/storage";
+import TopBar from "./topBar/topBar";
 
 function Game() {
 
@@ -53,8 +54,6 @@ function Game() {
             navigate("/login");
         }
         const data = await response.json();
-        console.log("state")
-        console.log(data)
         setState(data);
     }
 
@@ -68,9 +67,10 @@ function Game() {
         <div className={"game-main"}>
             <div className={"left-border"}>
                 {state.location && <LocationField location={state.location}/>}
-                <LogChat />
+                {state.messages && <LogChat initialMessages={state.messages}/>}
             </div>
             <div className={"middle-border"}>
+                {state.characters && <TopBar userName={state.characters[userId].name}/>}
                 {state.location && <GameField location={state.location}/>}
                 {state.characters && <Storage items={state.characters[userId].items}/>}
             </div>

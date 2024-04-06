@@ -11,17 +11,20 @@ import verifyToken from "./middleWare/verifyToken";
 import CreateCharacter from "./routes/characterCreate/createCharacter";
 import multer from "multer";
 import Game from "./routes/game/game";
+import { Server } from "socket.io";
+import { createServer } from "http";
 
 const upload = multer();
 
 export default class App {
-    private app: Express;
+    private readonly app: Express;
     private resolver: Resolver;
     private registerHandler: RegisterHandler;
     private loginHandler: LoginHandler;
     private createCharacter: CreateCharacter;
     private logger: winston.Logger;
     private game: Game;
+    private socket: Server;
 
     constructor() {
         this.resolver = new Resolver();
@@ -37,14 +40,30 @@ export default class App {
         this.app.use(cors());
         this.app.use(cookieParser());
 
+        const httpServer = createServer(this.app);
+        this.socket = new Server(httpServer, {
+            cors: {
+                origin: "*", // Allow all origins
+                methods: ["GET", "POST"], // Allow GET and POST methods
+            }
+        });
+
         loadEnv();
 
         this.setEndPoints();
+        this.setSocket();
     }
 
     public listen(): void {
+        this.socket.listen(8001);
         this.app.listen(8000, () => {
-            logger.info('Server is running on port 8000');
+            this.logger.info('Server is running on port 8000');
+        });
+    }
+
+    private setSocket(): void {
+        this.socket.on('connection', (socket) => {
+            this.logger.info('a user connected');
         });
     }
 
@@ -125,6 +144,14 @@ export default class App {
 
             this.game.updateCharacterItems(userId, cell, item);
             res.sendStatus(200);
+        });
+        this.app.post('/api/game/add-message', verifyToken, (req, res) => {
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            this.game.state.addMessage(req.body.message);
+            this.socket.emit('message', this.game.state.getState().messages);
         });
 
         this.app.get('/api/user/role', verifyToken, (req, res) => {
