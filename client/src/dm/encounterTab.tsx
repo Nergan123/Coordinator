@@ -1,35 +1,66 @@
 import "./encounterTab.css";
+import {useNavigate} from "react-router-dom";
 
-function EncounterTab() {
+function EncounterTab({encounter, setEncounter}: {encounter: any, setEncounter: any}) {
+
+    const navigate = useNavigate();
+
+    function removeEnemyFromEncounter(index: number) {
+        const newEncounter = {
+            ...encounter,
+            enemies: encounter.enemies.filter((enemy: any, i: number) => i !== index),
+        }
+        setEncounter(newEncounter);
+    }
+
+    const locationImageSource = "data:image/png;base64," + encounter.location.image;
+
+    async function setStateEncounter() {
+
+        const encounterToSend = {
+            enemies: encounter.enemies.map((enemy: any) => {
+                return enemy.id
+            }),
+            location: encounter.location.name,
+        }
+
+        console.log(encounterToSend);
+
+        const response = await fetch("/api/game/update-encounter", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({encounter: encounterToSend}),
+        });
+
+        if (response.status === 401) {
+            navigate("/login");
+        }
+    }
+
     return (
         <div className={"encounter-tab"}>
             <div className={"upper"}>
                 <div className={"image-container"}>
-                    <img src={"https://via.placeholder.com/150"} alt={"enemy"}/>
+                    <img src={locationImageSource} alt={"enemy"}/>
                 </div>
                 <div className={"info"}>
-                    <h2>Location Name</h2>
-                    <p>Description</p>
+                    <h2>{encounter.location.name}</h2>
+                    <p>{encounter.location.description}</p>
                 </div>
             </div>
             <div className={"lower"}>
-                <div className={"list-of-players"}>
-                    <ul>
-                        <li>Player 1</li>
-                        <li>Player 2</li>
-                        <li>Player 3</li>
-                    </ul>
-                </div>
                 <div className={"list-of-enemies"}>
                     <ul>
-                        <li>Enemy 1</li>
-                        <li>Enemy 2</li>
-                        <li>Enemy 3</li>
+                        {encounter.enemies.map((enemy: any, index: number) => (
+                            <li key={index} onClick={() => removeEnemyFromEncounter(index)}>{enemy.name}</li>
+                        ))}
                     </ul>
                 </div>
             </div>
 
-            <button className={"start-encounter-button"}>Start Encounter</button>
+            <button className={"start-encounter-button"} onClick={setStateEncounter}>Start Encounter</button>
         </div>
     );
 }

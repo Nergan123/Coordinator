@@ -3,16 +3,19 @@ import State from "./state";
 import winston from "winston";
 import DbHandler from "../../utils/db";
 import {Item} from "@types";
+import Resolver from "../values/resolver";
 
 class Game {
     public readonly state: State;
     private readonly logger: winston.Logger;
     private db: DbHandler;
+    private resolver: Resolver;
 
     constructor() {
         this.state = new State();
         this.db = new DbHandler();
         this.logger = logger;
+        this.resolver = new Resolver();
         try {
             this.state.load().then(() => {
                 this.logger.info("State loaded successfully");
@@ -43,6 +46,19 @@ class Game {
 
     public getState() {
         return this.state.getState();
+    }
+
+    public updateEncounter(enemies: number[], location: string) {
+        const enemiesToSend = this.resolver.enemies.getEnemies().filter((enemy: any) => {
+            return enemies.includes(enemy.id);
+        });
+        const locationToSend = this.resolver.locations.getLocations().find((loc: any) => {
+            return loc.name === location;
+        });
+        if (!locationToSend) {
+            throw new Error("Location not found");
+        }
+        this.state.updateEncounter(enemiesToSend, locationToSend)
     }
 
     public updateCharacterItems(userId: string, cell: number, item: Item) {

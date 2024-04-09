@@ -133,6 +133,16 @@ export default class App {
             }
             res.send(this.game.getState());
         });
+        this.app.post('/api/game/update-encounter', verifyToken, (req, res) => {
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            const encounter = req.body.encounter;
+            console.log(encounter);
+            this.game.updateEncounter(encounter.enemies, encounter.location);
+            res.sendStatus(200);
+        });
         this.app.post('/api/game/update-character-item', verifyToken, (req, res) => {
             if (!req.user) {
                 res.sendStatus(401);

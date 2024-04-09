@@ -5,10 +5,10 @@ import Roles from "./services/roles/roles";
 import Characters from "./services/characters/characters";
 
 class Resolver {
-    private enemies: Enemies;
-    private locations: Locations;
-    private roles: Roles;
-    private characters: Characters;
+    public enemies: Enemies;
+    public locations: Locations;
+    public roles: Roles;
+    public characters: Characters;
 
     constructor() {
         this.enemies = new Enemies()

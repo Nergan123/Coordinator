@@ -17,6 +17,11 @@ function Dm() {
     const [locationsLibOpened, setLocationsLibOpened] = useState(false);
     const [usersOpened, setUsersOpened] = useState(false);
 
+    const [encounter, setEncounter] = useState({
+        enemies: [],
+        location: {},
+    });
+
     const navigate = useNavigate();
 
     function toggleCollapsed() {
@@ -67,11 +72,11 @@ function Dm() {
                 </Menu>
             </Sidebar>
             <div className={"libs"}>
-                {enemyLibOpened && <EnemyLib />}
-                {locationsLibOpened && <LocationsLib />}
+                {enemyLibOpened && <EnemyLib encounter={encounter} setEncounter={setEncounter}/>}
+                {locationsLibOpened && <LocationsLib encounter={encounter} setEncounter={setEncounter}/>}
                 {usersOpened && <CharacterLib characters={state.characters}/> }
             </div>
-            <EncounterTab />
+            <EncounterTab encounter={encounter} setEncounter={setEncounter}/>
         </div>
     );
 }

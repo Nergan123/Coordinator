@@ -66,12 +66,12 @@ function Game() {
     return (
         <div className={"game-main"}>
             <div className={"left-border"}>
-                {state.location && <LocationField location={state.location}/>}
+                {state.encounter.location && <LocationField location={state.encounter.location}/>}
                 {state.messages && <LogChat initialMessages={state.messages}/>}
             </div>
             <div className={"middle-border"}>
                 {state.characters && <TopBar userName={state.characters[userId].name}/>}
-                {state.location && <GameField location={state.location}/>}
+                {state.encounter.location && <GameField location={state.encounter.location}/>}
                 {state.characters && <Storage items={state.characters[userId].items}/>}
             </div>
             {state.characters && <CharacterField character={state.characters[userId]}/>}

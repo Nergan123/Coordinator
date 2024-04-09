@@ -1,9 +1,17 @@
 import {EnemyData} from "@types";
 import Ability from "./ability";
 
-function Enemy({data}: {data: EnemyData}) {
+function Enemy({data, encounter, setEncounter}: {data: EnemyData, encounter: any, setEncounter: any}) {
 
     const imageSource = "data:image/png;base64," + data.image;
+
+    function addToEncounter() {
+        const newEncounter = {
+            ...encounter,
+            enemies: [...encounter.enemies, data],
+        }
+        setEncounter(newEncounter);
+    }
 
     return (
         <div className={"enemy"}>
@@ -21,7 +29,7 @@ function Enemy({data}: {data: EnemyData}) {
                 <img src={imageSource} alt={data.name}/>
             </div>
             <div className={"actions"}>
-                <button>Add to encounter</button>
+                <button onClick={addToEncounter}>Add to encounter</button>
             </div>
         </div>
     );

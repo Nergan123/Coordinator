@@ -5,6 +5,7 @@ import GameLocation from "../values/services/locations/location";
 import locations from "../../data/locations.json";
 import {Item} from "@types";
 import Roles from "../values/services/roles/roles";
+import Enemy from "../values/services/enemies/enemy";
 
 
 class State {
@@ -13,8 +14,8 @@ class State {
     private logger: winston.Logger;
     private status: boolean;
     private readonly locations: { [key: string]: GameLocation };
-    private currentLocation: GameLocation;
     private messages: string[];
+    private encounter: { enemies: Enemy[], location: GameLocation };
 
     constructor() {
         this.bucket = new Bucket();
@@ -32,8 +33,8 @@ class State {
                 location.musicBattle
             );
         });
-        this.currentLocation = this.locations["Lobby"];
         this.messages = [];
+        this.encounter = { enemies: [], location: this.locations["Lobby"] };
     }
 
     async save() {
@@ -41,8 +42,8 @@ class State {
         const stateToSave = {
             characters: this.characters,
             status: this.status,
-            location: this.currentLocation,
             messages: this.messages,
+            encounter: this.encounter,
         }
 
         const response = await this.bucket.uploadFile(JSON.stringify(stateToSave), "state.json")
@@ -68,19 +69,12 @@ class State {
             this.characters[key] = character;
         });
         this.status = data.status;
-        this.currentLocation = data.location;
         this.messages = data.messages;
-    }
-
-    public setLocation(locationName: string) {
-        this.currentLocation = this.locations[locationName];
-        this.save().then(() => {
-            this.logger.info("Location set successfully");
-        });
+        this.encounter = data.encounter;
     }
 
     public getCurrentLocation() {
-        return this.currentLocation;
+        return this.encounter.location;
     }
 
     async addCharacter(character: string, userId: string) {
@@ -116,8 +110,8 @@ class State {
         return {
             characters: this.characters,
             status: this.status,
-            location: this.currentLocation,
             messages: this.messages,
+            encounter: this.encounter,
         }
     }
 
@@ -128,6 +122,15 @@ class State {
         this.messages.push(message);
         this.save().then(() => {
             this.logger.info("Message added successfully");
+        });
+    }
+
+    public updateEncounter(enemies: Enemy[], location: GameLocation) {
+        this.encounter.enemies = enemies;
+        this.encounter.location = location;
+
+        this.save().then(() => {
+            this.logger.info("Encounter updated successfully");
         });
     }
 }

@@ -3,7 +3,7 @@ import Location from "./location";
 import {LocationData} from "@types";
 import "./locationsLib.css";
 
-function LocationsLib() {
+function LocationsLib({encounter, setEncounter}: {encounter: any, setEncounter: any}) {
     const [locations, setLocations] = useState<LocationData[]>([]);
 
     useEffect(() => {
@@ -28,7 +28,7 @@ function LocationsLib() {
         <div className={"locations-lib"}>
             <ul>
                 {locations.map((location, index) => (
-                    <li key={index}><Location data={location} /></li>
+                    <li key={index}><Location data={location} encounter={encounter} setEncounter={setEncounter}/></li>
                 ))}
             </ul>
         </div>

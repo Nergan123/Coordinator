@@ -3,7 +3,7 @@ import {EnemyData} from "@types";
 import Enemy from "./enemy";
 import "./enemyLib.css";
 
-function EnemyLib() {
+function EnemyLib({encounter, setEncounter}: {encounter: any, setEncounter: any}) {
 
     const [enemiesList, setEnemyList] = useState<EnemyData[]>([]);
 
@@ -36,7 +36,7 @@ function EnemyLib() {
         <div className={"enemy-lib"}>
             <ul>
                 {enemiesList.map((enemy, index) => (
-                    <Enemy data={enemy} key={index}/>
+                    <Enemy data={enemy} encounter={encounter} setEncounter={setEncounter} key={index}/>
                 ))}
             </ul>
         </div>
