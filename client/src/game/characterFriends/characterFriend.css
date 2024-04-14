@@ -1,0 +1,56 @@
+.character-characterFriends {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 10px;
+    width: 100%;
+    background-color: #1f2133;
+}
+
+.character-friend-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 10px;
+    border: 1px solid #FFFFFF;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.7);
+    width: 20%;
+}
+
+.character-friend-name-and-image {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+}
+
+.character-friend-name-and-image img {
+    width: 100%;
+    z-index: -1;
+}
+
+.character-friend-name-and-image h3 {
+    color: #FFFFFF;
+    font-size: 1.5rem;
+    margin: 10px;
+}
+
+.character-friend-name-and-image p {
+    color: #FFFFFF;
+    font-size: 1.1rem;
+}
+
+.character-friend-stats-and-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 10px;
+}

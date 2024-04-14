@@ -1,3 +1,13 @@
+.character-lib-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.7);
+}
+
 .user-character-container {
     display: flex;
     flex-direction: column;
@@ -8,6 +18,10 @@
     border: 1px solid #ffffff;
     border-radius: 5px;
     box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.7);
+}
+
+.user-character-container img {
+    height: 300px;
 }
 
 .user-character-items {

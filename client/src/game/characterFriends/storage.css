@@ -1,0 +1,21 @@
+.user-character-items {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px;
+    padding: 10px;
+    background-color: #1f2133;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.7);
+}
+
+.user-character-item-row-dm {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

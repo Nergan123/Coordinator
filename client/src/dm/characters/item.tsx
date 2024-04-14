@@ -3,7 +3,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import "./item.css";
 
-function Item({item, cell}: {item: ItemData, cell: string}) {
+function Item({item, cell, userId}: {item: ItemData, cell: string, userId: string}) {
 
     const [quantity, setQuantity] = useState(item.quantity);
     const [name, setName] = useState(item.name);
@@ -26,6 +26,7 @@ function Item({item, cell}: {item: ItemData, cell: string}) {
 
     async function handleApply() {
         const data = {
+            userId: userId,
             cell: cell,
             item: {
                 name: name,

@@ -148,7 +148,7 @@ export default class App {
                 res.sendStatus(401);
                 return;
             }
-            const userId = req.user.id;
+            const userId = req.body.userId;
             const cell = req.body.cell;
             const item = req.body.item;
 

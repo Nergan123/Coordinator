@@ -5,3 +5,17 @@
     flex-direction: row;
     width: 100%;
 }
+
+.top-bar-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+}
+
+.top-bar-center {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+}

@@ -7,6 +7,7 @@ import LogChat from "./logChat/logChat";
 import GameField from "./gameField/gameField";
 import Storage from "./storage/storage";
 import TopBar from "./topBar/topBar";
+import CharactersFriends from "./characterFriends/characterFriends";
 
 function Game() {
 
@@ -66,13 +67,16 @@ function Game() {
     return (
         <div className={"game-main"}>
             <div className={"left-border"}>
-                {state.encounter.location && <LocationField location={state.encounter.location}/>}
+                {state.encounter && <LocationField location={state.encounter.location}/>}
                 {state.messages && <LogChat initialMessages={state.messages}/>}
             </div>
             <div className={"middle-border"}>
-                {state.characters && <TopBar userName={state.characters[userId].name}/>}
-                {state.encounter.location && <GameField location={state.encounter.location}/>}
-                {state.characters && <Storage items={state.characters[userId].items}/>}
+                {state.characters && <TopBar character={state.characters[userId]}/>}
+                {state.encounter && <GameField location={state.encounter.location}/>}
+                <div className={"items-and-characters"}>
+                    {state.characters && <Storage items={state.characters[userId].items}/>}
+                    {state.characters && <CharactersFriends characters={state.characters} userRole={userRole}/>}
+                </div>
             </div>
             {state.characters && <CharacterField character={state.characters[userId]}/>}
         </div>
