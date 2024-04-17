@@ -16,7 +16,7 @@ class CreateCharacter {
         this.bucket = new Bucket();
     }
 
-    public createCharacter = async (req: any, res: any, name: string, description: string, role: string, image: Express.Multer.File) => {
+    public createCharacter = async (req: any, res: any, name: string, description: string, role: string, image: Express.Multer.File, hp: number) => {
         const userName = req.user;
         const items = {
             1: {
@@ -39,6 +39,7 @@ class CreateCharacter {
         const dataFileName = "data-character-" + name + ".json";
         const dataToStore = {
             name: name,
+            hp: hp,
             description: description,
             role: role,
             imageName: image.originalname,

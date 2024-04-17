@@ -1,4 +1,4 @@
-.user-character-items {
+.friend-storage-and-health {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -6,12 +6,19 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 10px;
+    align-content: center;
     padding: 10px;
     background-color: #1f2133;
     border: 1px solid #ffffff;
     border-radius: 10px;
     box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.7);
+}
+
+.user-character-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px;
 }
 
 .user-character-item-row-dm {

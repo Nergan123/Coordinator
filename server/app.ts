@@ -11,8 +11,8 @@ import verifyToken from "./middleWare/verifyToken";
 import CreateCharacter from "./routes/characterCreate/createCharacter";
 import multer from "multer";
 import Game from "./routes/game/game";
-import { Server } from "socket.io";
-import { createServer } from "http";
+import {Server} from "socket.io";
+import {createServer} from "http";
 
 const upload = multer();
 
@@ -89,8 +89,8 @@ export default class App {
             res.status(result.status);
             res.send();
         });
-        this.app.post( '/api/character-create', upload.any(), verifyToken, async (req, res) => {
-            const { name, description, role } = req.body;
+        this.app.post('/api/character-create', upload.any(), verifyToken, async (req, res) => {
+            const {name, description, role, hp} = req.body;
             if (!req.files) {
                 res.status(400).send('No files were uploaded.');
                 return;
@@ -102,12 +102,18 @@ export default class App {
                 imageFile = req.files[Object.keys(req.files)[0]][0];
             }
 
-            await this.createCharacter.createCharacter(req, res, name, description, role, imageFile);
+            await this.createCharacter.createCharacter(req, res, name, description, role, imageFile, hp);
         });
         this.app.post('/api/character-delete', verifyToken, async (req, res) => {
             const data = req.body;
 
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+
             await this.createCharacter.deleteCharacter(req, res, data.characterName);
+            this.game.deleteCharacter(req.user.id);
         });
 
         this.app.post('/api/game/add-character', verifyToken, (req, res) => {
@@ -139,9 +145,15 @@ export default class App {
                 return;
             }
             const encounter = req.body.encounter;
-            console.log(encounter);
             this.game.updateEncounter(encounter.enemies, encounter.location);
             res.sendStatus(200);
+            const locationToSend = this.resolver.locations.getLocations().find((loc: any) => {
+                return loc.name === encounter.location;
+            });
+            if (!locationToSend) {
+                throw new Error("Location not found");
+            }
+            this.socket.emit("update-encounter", locationToSend);
         });
         this.app.post('/api/game/update-character-item', verifyToken, (req, res) => {
             if (!req.user) {
@@ -154,6 +166,11 @@ export default class App {
 
             this.game.updateCharacterItems(userId, cell, item);
             res.sendStatus(200);
+
+            this.socket.emit("update-character-items", {
+                id: userId,
+                items: this.game.state.getState().characters[userId].items
+            });
         });
         this.app.post('/api/game/add-message', verifyToken, (req, res) => {
             if (!req.user) {
@@ -162,6 +179,21 @@ export default class App {
             }
             this.game.state.addMessage(req.body.message);
             this.socket.emit('message', this.game.state.getState().messages);
+        });
+        this.app.post('/api/game/update-character-health', verifyToken, (req, res) => {
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            const userId = req.body.userId;
+            const health = req.body.health;
+            this.game.updateCharacterHealth(userId, health);
+            res.sendStatus(200);
+
+            this.socket.emit("update-character-health", {
+                name: this.game.state.getState().characters[userId].name,
+                health: health,
+            });
         });
 
         this.app.get('/api/user/role', verifyToken, (req, res) => {

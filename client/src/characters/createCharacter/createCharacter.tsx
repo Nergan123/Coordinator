@@ -52,6 +52,7 @@ function CreateCharacter() {
         formData.append('name', name);
         formData.append('description', description);
         formData.append('role', chosenRole.name);
+        formData.append('hp', chosenRole.stats.hp.toString());
 
         return formData
     }

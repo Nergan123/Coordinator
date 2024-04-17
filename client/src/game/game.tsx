@@ -71,10 +71,10 @@ function Game() {
                 {state.messages && <LogChat initialMessages={state.messages}/>}
             </div>
             <div className={"middle-border"}>
-                {state.characters && <TopBar character={state.characters[userId]}/>}
+                {state.characters && state.characters[userId] && <TopBar character={state.characters[userId]}/>}
                 {state.encounter && <GameField location={state.encounter.location}/>}
                 <div className={"items-and-characters"}>
-                    {state.characters && <Storage items={state.characters[userId].items}/>}
+                    {state.characters && state.characters[userId] && <Storage items={state.characters[userId].items} userId={userId}/>}
                     {state.characters && <CharactersFriends characters={state.characters} userRole={userRole}/>}
                 </div>
             </div>

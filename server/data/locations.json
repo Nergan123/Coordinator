@@ -10,5 +10,17 @@
     "musicBattle": [
       ""
     ]
+  },
+  "facility": {
+    "name": "Facility",
+    "map": "server/data/locationMaps/lobby.png",
+    "image": "server/data/locationImages/facility.jpg",
+    "description": "Regular facility",
+    "musicCalm": [
+      ""
+    ],
+    "musicBattle": [
+      ""
+    ]
   }
 }

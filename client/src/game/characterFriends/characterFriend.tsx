@@ -1,14 +1,18 @@
-import {useState} from "react";
-import Storage from "./storage";
+import {useEffect, useState} from "react";
+import FriendStorage from "./storage";
+import io from "socket.io-client";
+
+const socket = io("http://localhost:8001");
 
 function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: string, id: string }) {
 
     const imgSource = `data:image/png;base64,${friend.image}`
-    const [storageOppened, setStorageOppened] = useState(false);
+    const [storageOpened, setStorageOpened] = useState(false);
+    const [hp, setHp] = useState(friend.hp);
 
     function handleOnClick() {
         if (userRole==="DM") {
-            setStorageOppened(!storageOppened);
+            setStorageOpened(!storageOpened);
         }
     }
 
@@ -38,14 +42,22 @@ function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: stri
         background: `linear-gradient(to top, ${roleColor()}, transparent)`,
     }
 
+    useEffect(() => {
+        socket.on("update-character-health", (data: {name: string, health: number}) => {
+            if (data.name === friend.name) {
+                setHp(data.health);
+            }
+        });
+    }, []);
+
     return (
         <div className={"character-friend-container"} style={style} key={friend.name}>
-            {storageOppened && <Storage items={friend.items} id={id}/>}
+            {storageOpened && <FriendStorage items={friend.items} id={id} healthMax={friend.role.stats.hp} healthCur={friend.hp}/>}
             <div className={"character-friend-name-and-image"} onClick={handleOnClick}>
                 <div className={"character-friend-stats-and-name"} style={styleInner}>
                     <h3>{friend.name}</h3>
                     <div className={"character-friend-stats"}>
-                        <p>HP: {friend.role.stats.hp} / {friend.role.stats.hp}</p>
+                        <p>HP: {hp} / {friend.role.stats.hp}</p>
                         <p>{friend.role.name}</p>
                     </div>
                 </div>

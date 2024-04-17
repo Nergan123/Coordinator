@@ -61,6 +61,10 @@ function EncounterTab({encounter, setEncounter}: {encounter: any, setEncounter: 
             </div>
 
             <button className={"start-encounter-button"} onClick={setStateEncounter}>Start Encounter</button>
+            <button className={"main-menu-button-encounter"} onClick={() => {
+                navigate("/")
+            }}>To Menu
+            </button>
         </div>
     );
 }

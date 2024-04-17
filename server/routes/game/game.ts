@@ -32,6 +32,10 @@ class Game {
         });
     }
 
+    public deleteCharacter(userId: string) {
+        this.state.deleteCharacter(userId)
+    }
+
     private markCharacterAsActive(character: string, userId: string) {
         const query = `UPDATE characters SET status = $1 WHERE user_id = $2`;
         const values = [false, userId];
@@ -65,6 +69,10 @@ class Game {
         this.state.updateCharacterItems(userId, cell, item).then(() => {
             this.logger.info("Items updated");
         });
+    }
+
+    public updateCharacterHealth(userId: string, health: number) {
+        this.state.updateCharacterHealth(userId, health)
     }
 }
 

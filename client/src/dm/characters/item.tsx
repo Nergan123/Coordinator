@@ -5,8 +5,8 @@ import "./item.css";
 
 function Item({item, cell, userId}: {item: ItemData, cell: string, userId: string}) {
 
-    const [quantity, setQuantity] = useState(item.quantity);
-    const [name, setName] = useState(item.name);
+    const [quantity, setQuantity] = useState(item.quantity || "");
+    const [name, setName] = useState(item.name || "");
     const [clicked, setClicked] = useState(false);
 
     const navigate = useNavigate();
@@ -49,6 +49,7 @@ function Item({item, cell, userId}: {item: ItemData, cell: string, userId: strin
 
     async function handleDelete() {
         const data = {
+            userId: userId,
             cell: cell,
             item: {}
         }
@@ -64,6 +65,8 @@ function Item({item, cell, userId}: {item: ItemData, cell: string, userId: strin
             navigate("/login");
         }
         handleSetClicked();
+        setQuantity("");
+        setQuantity("");
     }
 
     function handleSetClicked() {

@@ -24,7 +24,7 @@
     height: 300px;
 }
 
-.user-character-items {
+.user-character-items-lib {
     display: flex;
     flex-direction: column;
     justify-content: center;

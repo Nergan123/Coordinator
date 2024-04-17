@@ -1,9 +1,20 @@
 import {LocationData} from "@types";
 import './gameField.css';
+import io from "socket.io-client";
+import {useEffect, useState} from "react";
+
+const socket = io("http://localhost:8001");
 
 function GameField({location}: {location: LocationData}) {
 
-    const sourceImage = `data:image/jpeg;base64,${location.image}`;
+    const [locationState, setLocationState] = useState<LocationData>(location);
+    const sourceImage = `data:image/jpeg;base64,${locationState.image}`;
+
+    useEffect(() => {
+        socket.on("update-encounter", (location: LocationData) => {
+            setLocationState(location);
+        });
+    }, []);
 
     return (
         <div className="game-field">

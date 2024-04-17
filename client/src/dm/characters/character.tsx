@@ -9,7 +9,7 @@ function UserCharacter({character, id}: {character: any, id: string}) {
         <div className={"user-character-container"}>
             <h1>{character.name}</h1>
             <img src={imageSource} alt={character.name} />
-            <div className={"user-character-items"}>
+            <div className={"user-character-items-lib"}>
                 <div className={"user-character-item-row-dm"}>
                     <Item item={character.items[1]} cell={"1"} userId={id}/>
                     <Item item={character.items[2]} cell={"2"} userId={id}/>

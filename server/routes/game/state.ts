@@ -133,6 +133,20 @@ class State {
             this.logger.info("Encounter updated successfully");
         });
     }
+
+    public updateCharacterHealth(userId: string, health: number) {
+        this.characters[userId].hp = health;
+        this.save().then(() => {
+            this.logger.info("Health updated successfully");
+        });
+    }
+
+    public deleteCharacter(userId: string) {
+        delete this.characters[userId];
+        this.save().then(() => {
+            this.logger.info("Character deleted successfully");
+        });
+    }
 }
 
 export default State;

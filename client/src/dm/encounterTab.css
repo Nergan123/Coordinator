@@ -59,3 +59,9 @@
     bottom: 1em;
     align-self: center;
 }
+
+.main-menu-button-encounter {
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+}

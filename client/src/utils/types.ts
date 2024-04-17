@@ -55,6 +55,7 @@ export type StatsData = {
 export type CharacterData = {
     id: number;
     name: string;
+    hp: number;
     description: string;
     role: RoleData;
     image: string;
