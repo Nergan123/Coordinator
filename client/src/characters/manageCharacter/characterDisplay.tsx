@@ -1,6 +1,9 @@
 import {CharacterData} from "@types";
+import {useNavigate} from "react-router-dom";
 
 function CharacterDisplay({character}: {character: CharacterData}){
+
+    const navigate = useNavigate();
 
     async function useGameCharacter() {
         const response = await fetch('/api/game/add-character', {
@@ -15,6 +18,7 @@ function CharacterDisplay({character}: {character: CharacterData}){
         } else {
             console.error('Failed to add character');
         }
+        navigate("/");
     }
 
     async function deleteCharacter() {

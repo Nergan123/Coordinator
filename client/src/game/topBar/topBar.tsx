@@ -4,6 +4,7 @@ import DiceRoller from "./diceRoller";
 import "./topBar.css";
 import {CharacterData} from "@types";
 import io from "socket.io-client";
+import AudioStream from "../audio/audioStream";
 
 const socket = io("http://localhost:8001");
 
@@ -31,6 +32,7 @@ function TopBar({character}: {character: CharacterData}) {
             <div className="top-bar-left">
                 <div className="top-bar-nav">
                     <button onClick={() => navigate("/")}>Main menu</button>
+                    <AudioStream/>
                 </div>
             </div>
             <div className="top-bar-center">

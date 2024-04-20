@@ -13,6 +13,8 @@ import multer from "multer";
 import Game from "./routes/game/game";
 import {Server} from "socket.io";
 import {createServer} from "http";
+import Audio from "./routes/audio/audio";
+import path from "path";
 
 const upload = multer();
 
@@ -25,6 +27,7 @@ export default class App {
     private logger: winston.Logger;
     private game: Game;
     private socket: Server;
+    private audio: Audio;
 
     constructor() {
         this.resolver = new Resolver();
@@ -32,6 +35,7 @@ export default class App {
         this.loginHandler = new LoginHandler();
         this.createCharacter = new CreateCharacter();
         this.game = new Game();
+        this.audio = new Audio();
 
         this.logger = logger;
 
@@ -39,6 +43,7 @@ export default class App {
         this.app.use(express.json());
         this.app.use(cors());
         this.app.use(cookieParser());
+        this.app.use(express.static('dist/build'));
 
         const httpServer = createServer(this.app);
         this.socket = new Server(httpServer, {
@@ -69,7 +74,7 @@ export default class App {
 
     private setEndPoints(): void {
         this.app.get('/', (req, res) => {
-            res.send('Hello World From the Typescript Server!');
+            res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
         });
         this.app.post('/api/values', verifyToken, (req, res) => {
             this.resolver.getValue(req).then((data) => {
@@ -211,6 +216,24 @@ export default class App {
             }
             const id = req.user.id;
             res.send({id: id});
+        });
+
+        this.app.get('/api/audio/stream', verifyToken, (req, res) => {
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            try {
+                res.set('Content-Type', 'audio/webm');
+                const stream = this.audio.getStream();
+                stream.pipe(res);
+            } catch (error) {
+                res.status(500).send('Failed to stream audio');
+            }
+        });
+
+        this.app.get('*', (req, res) => {
+            res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
         });
     }
 }

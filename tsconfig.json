@@ -11,7 +11,7 @@
     "strict": true,
     "skipLibCheck": true,
     "paths": {
-      "@types": ["server/utils/types"],
+      "@types": ["./server/utils/types"],
     }
   },
   "exclude": [

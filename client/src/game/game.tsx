@@ -8,6 +8,7 @@ import GameField from "./gameField/gameField";
 import Storage from "./storage/storage";
 import TopBar from "./topBar/topBar";
 import CharactersFriends from "./characterFriends/characterFriends";
+import AudioStream from "./audio/audioStream";
 
 function Game() {
 

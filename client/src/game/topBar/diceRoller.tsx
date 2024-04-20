@@ -48,7 +48,7 @@ function DiceRoller({setState, userName}: {setState: any, userName: string}) {
   function rollDice(){
     const result = [];
     for (let i = 0; i < diceNumber; i++) {
-        const roll = Math.floor(Math.random() * diceSides);
+        const roll = Math.floor(Math.random() * diceSides + 1);
         if (roll === 0) {
             result.push(1);
             continue;
