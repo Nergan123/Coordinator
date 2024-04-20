@@ -1,6 +1,7 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import FriendStorage from "./storage";
 import io from "socket.io-client";
+import FriendPopup from "./friendPopup";
 
 const socket = io("http://localhost:8001");
 
@@ -9,10 +10,18 @@ function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: stri
     const imgSource = `data:image/png;base64,${friend.image}`
     const [storageOpened, setStorageOpened] = useState(false);
     const [hp, setHp] = useState(friend.hp);
+    const [popupOpened , setPopupOpened] = useState(false);
+    const [popupCoordinates, setPopupCoordinates] = useState({x: 0, y: 0});
 
-    function handleOnClick() {
+    function handleOnClick(event: React.MouseEvent) {
+        const xPercentage = (event.clientX / window.innerWidth) * 100;
+        const yPercentage = (event.clientY / window.innerHeight) * 100;
+
         if (userRole==="DM") {
             setStorageOpened(!storageOpened);
+        } else {
+            setPopupOpened(true);
+            setPopupCoordinates({x: xPercentage, y: yPercentage});
         }
     }
 
@@ -51,18 +60,23 @@ function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: stri
     }, []);
 
     return (
-        <div className={"character-friend-container"} style={style} key={friend.name}>
-            {storageOpened && <FriendStorage items={friend.items} id={id} healthMax={friend.role.stats.hp} healthCur={friend.hp}/>}
-            <div className={"character-friend-name-and-image"} onClick={handleOnClick}>
-                <div className={"character-friend-stats-and-name"} style={styleInner}>
-                    <h3>{friend.name}</h3>
-                    <div className={"character-friend-stats"}>
-                        <p>HP: {hp} / {friend.role.stats.hp}</p>
-                        <p>{friend.role.name}</p>
+        <>
+            {storageOpened && <FriendStorage items={friend.items} id={id} healthMax={friend.role.stats.hp}
+                                             healthCur={friend.hp}/>}
+            {popupOpened &&
+                <FriendPopup friend={friend} onClose={() => setPopupOpened(false)} coordinates={popupCoordinates}/>}
+            <div className={"character-friend-container"} style={style} key={friend.name} onClick={handleOnClick}>
+                <div className={"character-friend-name-and-image"}>
+                    <div className={"character-friend-stats-and-name"} style={styleInner}>
+                        <h3>{friend.name}</h3>
+                        <div className={"character-friend-stats"}>
+                            <p>HP: {hp} / {friend.role.stats.hp}</p>
+                            <p>{friend.role.name}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 
