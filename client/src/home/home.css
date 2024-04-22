@@ -1,0 +1,23 @@
+.home{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-image: url('marker-logo.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.button-container-home {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 20px;
+    flex-direction: column;
+    height: 50%;
+}
+
+.home .logout {
+    position: fixed;
+    left: 1%;
+    bottom: 1%;
+}
