@@ -1,4 +1,5 @@
 import {useNavigate} from "react-router-dom";
+import AudioStream from "../audio/audioStream";
 
 function DmRightBorder({encounter}: {encounter: any}) {
 
@@ -10,6 +11,7 @@ function DmRightBorder({encounter}: {encounter: any}) {
                 <button onClick={() => navigate("/")}>Main Menu</button>
                 <button onClick={() => navigate("/DM")}>DM Panel</button>
                 <button>Start Battle</button>
+                <AudioStream />
             </div>
             <div className={"dm-right-border-content"}>
                 <div className={"dm-right-border-content-encounter-info"}>
