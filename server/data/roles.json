@@ -132,8 +132,8 @@
       },
       {
         "name": "Kinetic Glove",
-        "damage": 1,
-        "capacity": 40
+        "damage": 40,
+        "capacity": 1
       }
     ],
     "abilities":  [

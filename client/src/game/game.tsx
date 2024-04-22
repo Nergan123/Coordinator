@@ -8,7 +8,7 @@ import GameField from "./gameField/gameField";
 import Storage from "./storage/storage";
 import TopBar from "./topBar/topBar";
 import CharactersFriends from "./characterFriends/characterFriends";
-import AudioStream from "./audio/audioStream";
+import DmRightBorder from "./dmRightBorder/dmRightBorder";
 
 function Game() {
 
@@ -59,6 +59,14 @@ function Game() {
         setState(data);
     }
 
+    function getRightBorder() {
+        if (userRole === "DM") {
+            return (state && <DmRightBorder encounter={state.encounter} />);
+        } else {
+            return (state.characters && <CharacterField character={state.characters[userId]}/>);
+        }
+    }
+
     useEffect(() => {
         getRole().then(r => console.log(r));
         getUserId().then(r => console.log(r));
@@ -79,7 +87,7 @@ function Game() {
                     {state.characters && <CharactersFriends characters={state.characters} userRole={userRole}/>}
                 </div>
             </div>
-            {state.characters && <CharacterField character={state.characters[userId]}/>}
+            {getRightBorder()}
         </div>
     );
 }

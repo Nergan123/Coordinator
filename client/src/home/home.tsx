@@ -1,6 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {Cookies} from "react-cookie";
 import {useEffect, useState} from "react";
+import "./home.css";
 
 function Home() {
 
@@ -33,7 +34,7 @@ function Home() {
 
     return (
         <div className={"home"}>
-            <div className={"button-container"}>
+            <div className={"button-container-home"}>
                 <button onClick={() => navigate("/Game")}>To campaign</button>
                 <button onClick={() => navigate("/CreateCharacter")}>Create character</button>
                 <button onClick={() => navigate("/ManageCharacters")}>Manage characters</button>

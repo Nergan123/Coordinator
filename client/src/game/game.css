@@ -1,6 +1,6 @@
 .game-main {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-direction: row;
     height: 100%;
     width: 100%;
@@ -20,7 +20,6 @@
     flex-direction: column;
     height: 100%;
     width: 60%;
-    border: 1px solid #ffffff;
     overflow: hidden;
 }
 

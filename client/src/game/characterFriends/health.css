@@ -19,7 +19,7 @@
 
 .health-bar input {
     width: 15%;
-    height: 30px;
+    height: 1.5rem;
     background-color: #1f2133;
     border: 1px solid #FFFFFF;
     border-radius: 5px;

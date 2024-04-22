@@ -3,7 +3,7 @@ import FriendStorage from "./storage";
 import io from "socket.io-client";
 import FriendPopup from "./friendPopup";
 
-const socket = io("http://localhost:8001");
+const socket = io("https://mantis-up-lively.ngrok-free.app");
 
 function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: string, id: string }) {
 
@@ -65,7 +65,7 @@ function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: stri
                                              healthCur={friend.hp}/>}
             {popupOpened &&
                 <FriendPopup friend={friend} onClose={() => setPopupOpened(false)} coordinates={popupCoordinates}/>}
-            <div className={"character-friend-container"} style={style} key={friend.name} onClick={handleOnClick}>
+            <div className={"character-friend-container-game"} style={style} key={friend.name} onClick={handleOnClick}>
                 <div className={"character-friend-name-and-image"}>
                     <div className={"character-friend-stats-and-name"} style={styleInner}>
                         <h3>{friend.name}</h3>

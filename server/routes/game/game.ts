@@ -4,6 +4,7 @@ import winston from "winston";
 import DbHandler from "../../utils/db";
 import {Item} from "@types";
 import Resolver from "../values/resolver";
+import Enemy from "../values/services/enemies/enemy";
 
 class Game {
     public readonly state: State;
@@ -53,9 +54,17 @@ class Game {
     }
 
     public updateEncounter(enemies: number[], location: string) {
-        const enemiesToSend = this.resolver.enemies.getEnemies().filter((enemy: any) => {
-            return enemies.includes(enemy.id);
-        });
+        const allEnemies = this.resolver.enemies.getEnemies()
+        const enemiesToSend = enemies.map((enemy: number) => {
+            return allEnemies.find((en: any) => {
+                return en.id === enemy;
+            });
+        }).filter((enemy): enemy is Enemy => Boolean(enemy));
+
+        if (!enemiesToSend) {
+            throw new Error("Enemies not found");
+        }
+
         const locationToSend = this.resolver.locations.getLocations().find((loc: any) => {
             return loc.name === location;
         });

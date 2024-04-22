@@ -6,7 +6,7 @@ import {CharacterData} from "@types";
 import io from "socket.io-client";
 import AudioStream from "../audio/audioStream";
 
-const socket = io("http://localhost:8001");
+const socket = io("https://mantis-up-lively.ngrok-free.app");
 
 function TopBar({character}: {character: CharacterData}) {
 

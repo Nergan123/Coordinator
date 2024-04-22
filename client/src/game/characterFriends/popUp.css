@@ -9,11 +9,14 @@
     padding: 1em;
     border: 1px solid #fff;
     border-radius: 5px;
-    width: 600px;
+    width: 35rem;
+    z-index: 3;
 }
 
 .character-friend-popup-image img {
-    width: 500px;
+    height: 30rem;
+    max-width: 30rem;
+    object-fit: cover;
     margin-bottom: 1em;
     border: 1px solid #fff;
     border-radius: 5px;

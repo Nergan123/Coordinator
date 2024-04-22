@@ -28,6 +28,7 @@ export default class App {
     private game: Game;
     private socket: Server;
     private audio: Audio;
+    private server: any;
 
     constructor() {
         this.resolver = new Resolver();
@@ -45,8 +46,8 @@ export default class App {
         this.app.use(cookieParser());
         this.app.use(express.static('dist/build'));
 
-        const httpServer = createServer(this.app);
-        this.socket = new Server(httpServer, {
+        this.server = createServer(this.app);
+        this.socket = new Server(this.server, {
             cors: {
                 origin: "*", // Allow all origins
                 methods: ["GET", "POST"], // Allow GET and POST methods
@@ -60,8 +61,7 @@ export default class App {
     }
 
     public listen(): void {
-        this.socket.listen(8001);
-        this.app.listen(8000, () => {
+        this.server.listen(8000, () => {
             this.logger.info('Server is running on port 8000');
         });
     }

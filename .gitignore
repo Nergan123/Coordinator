@@ -6,3 +6,4 @@ logs
 server/data/*.png
 notes.md
 *.kra
+ngrok.yml
