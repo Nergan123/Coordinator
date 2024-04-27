@@ -1,17 +1,43 @@
 import {CharacterData} from "@types";
 import "./popUp.css";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import io from "socket.io-client";
 
-function FriendPopup({friend, onClose, coordinates }: { friend: CharacterData, onClose: any, coordinates: { x: number, y: number }}) {
+const socket = io("http://localhost:8000");
+
+function FriendPopup({friend, onClose, coordinates, invert}: {
+    friend: CharacterData,
+    onClose: any,
+    coordinates: { x: number, y: number },
+    invert: boolean
+}) {
 
     const source = `data:image/png;base64,${friend.image}`;
+    const [hp, setHp] = useState(friend.hp);
 
     function handleClick() {
         onClose(false);
     }
 
+    function processCoordinates() {
+        if (invert) {
+            return {x: coordinates.x, y: coordinates.y + 100};
+        } else {
+            return {x: coordinates.x, y: coordinates.y};
+        }
+    }
+
+    useEffect(() => {
+        socket.on("update-character-health", (data: {name: string, health: number}) => {
+            if (data.name === friend.name) {
+                setHp(data.health);
+            }
+        });
+    }, []);
+
     return (
-        <div className={"character-friend-popup"} onClick={handleClick} style={{top: `${coordinates.y}%`, left: `${coordinates.x}%`}}>
+        <div className={"character-friend-popup"} onClick={handleClick}
+             style={{top: `${processCoordinates().y}%`, left: `${processCoordinates().x}%`}}>
             <div className={"character-friend-popup-image"}>
                 <img src={source} alt={friend.role.name}/>
             </div>
@@ -21,7 +47,7 @@ function FriendPopup({friend, onClose, coordinates }: { friend: CharacterData, o
                         <h3>{friend.name}:</h3>
                         <p>{friend.role.name}</p>
                     </div>
-                    <p>HP: {friend.hp} / {friend.role.stats.hp}</p>
+                    <p>HP: {hp} / {friend.role.stats.hp}</p>
                 </div>
                 <div className={"character-friend-popup-description-bottom"}>
                     <div className={"character-friend-popup-left"}>

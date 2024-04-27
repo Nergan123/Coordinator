@@ -13,7 +13,6 @@ import multer from "multer";
 import Game from "./routes/game/game";
 import {Server} from "socket.io";
 import {createServer} from "http";
-import Audio from "./routes/audio/audio";
 import path from "path";
 
 const upload = multer();
@@ -27,7 +26,6 @@ export default class App {
     private logger: winston.Logger;
     private game: Game;
     private socket: Server;
-    private audio: Audio;
     private server: any;
 
     constructor() {
@@ -36,7 +34,6 @@ export default class App {
         this.loginHandler = new LoginHandler();
         this.createCharacter = new CreateCharacter();
         this.game = new Game();
-        this.audio = new Audio();
 
         this.logger = logger;
 
@@ -150,6 +147,7 @@ export default class App {
                 return;
             }
             const encounter = req.body.encounter;
+            const prevLocation = this.game.state.getCurrentLocation();
             this.game.updateEncounter(encounter.enemies, encounter.location);
             res.sendStatus(200);
             const locationToSend = this.resolver.locations.getLocations().find((loc: any) => {
@@ -157,6 +155,9 @@ export default class App {
             });
             if (!locationToSend) {
                 throw new Error("Location not found");
+            }
+            if (prevLocation !== encounter.location) {
+                this.socket.emit("audio-updated");
             }
             this.socket.emit("update-encounter", locationToSend);
         });
@@ -200,6 +201,45 @@ export default class App {
                 health: health,
             });
         });
+        this.app.post('/api/game/battle', verifyToken, (req, res) => {
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            const prevStatus = (this.game.state.battle != null);
+            const status = req.body.status;
+            const output = this.game.setBattle(status);
+
+            res.send({battle: output});
+            this.socket.emit("battle", output);
+
+            if (prevStatus !== status) {
+                console.log("Audio updated");
+                this.socket.emit("audio-updated");
+            }
+
+        });
+        this.app.get('/api/game/battle', verifyToken, (req, res) => {
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            const battle = this.game.state.battle;
+            res.send({battle: battle});
+        });
+        this.app.get('/api/game/next-turn', verifyToken, (req, res) => {
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            try {
+                const turn = this.game.state.makeTurn();
+                res.send({turn: turn});
+                this.socket.emit("next-turn", turn);
+            } catch (error) {
+                res.status(400).send('Failed to make turn');
+            }
+        });
 
         this.app.get('/api/user/role', verifyToken, (req, res) => {
             if (!req.user) {
@@ -225,7 +265,7 @@ export default class App {
             }
             try {
                 res.set('Content-Type', 'audio/webm');
-                const stream = this.audio.getStream();
+                const stream = this.game.audio.getStream();
                 stream.pipe(res);
             } catch (error) {
                 res.status(500).send('Failed to stream audio');

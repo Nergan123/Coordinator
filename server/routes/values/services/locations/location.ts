@@ -5,8 +5,8 @@ class GameLocation {
     private image: string;
     private map: string;
     private description: string;
-    private musicCalm: string[];
-    private musicBattle: string[];
+    musicCalm: string[];
+    musicBattle: string[];
 
     constructor(name: string, description: string, imagePath: string, mapPath: string, musicCalm: string[], musicBattle: string[]) {
         this.name = name;

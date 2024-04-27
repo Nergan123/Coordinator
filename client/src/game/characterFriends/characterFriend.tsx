@@ -64,7 +64,7 @@ function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: stri
             {storageOpened && <FriendStorage items={friend.items} id={id} healthMax={friend.role.stats.hp}
                                              healthCur={friend.hp}/>}
             {popupOpened &&
-                <FriendPopup friend={friend} onClose={() => setPopupOpened(false)} coordinates={popupCoordinates}/>}
+                <FriendPopup friend={friend} onClose={() => setPopupOpened(false)} coordinates={popupCoordinates} invert={false}/>}
             <div className={"character-friend-container-game"} style={style} key={friend.name} onClick={handleOnClick}>
                 <div className={"character-friend-name-and-image"}>
                     <div className={"character-friend-stats-and-name"} style={styleInner}>

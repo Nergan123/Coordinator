@@ -19,7 +19,7 @@ function LocationMap({map}: {map: string}) {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        zIndex: 2,
+        zIndex: 3,
         height: "100%"
     }
 

@@ -14,7 +14,8 @@
         "name": "Missile",
         "description": "test"
       }
-    ]
+    ],
+    "description": "Machine created for test purposes"
   },
   {
     "name": "Slasher",
@@ -31,74 +32,7 @@
         "name": "Shield",
         "description": "test"
       }
-    ]
-  },
-  {
-    "name": "Slasher",
-    "id": 2,
-    "hp": 150,
-    "armor": 5,
-    "image": "server/data/enemy.png",
-    "abilities": [
-      {
-        "name": "Sword",
-        "description": "test"
-      },
-      {
-        "name": "Shield",
-        "description": "test"
-      }
-    ]
-  },
-  {
-    "name": "Slasher",
-    "id": 2,
-    "hp": 150,
-    "armor": 5,
-    "image": "server/data/enemy.png",
-    "abilities": [
-      {
-        "name": "Sword",
-        "description": "test"
-      },
-      {
-        "name": "Shield",
-        "description": "test"
-      }
-    ]
-  },
-  {
-    "name": "Slasher",
-    "id": 2,
-    "hp": 150,
-    "armor": 5,
-    "image": "server/data/enemy.png",
-    "abilities": [
-      {
-        "name": "Sword",
-        "description": "test"
-      },
-      {
-        "name": "Shield",
-        "description": "test"
-      }
-    ]
-  },
-  {
-    "name": "Slasher",
-    "id": 2,
-    "hp": 150,
-    "armor": 5,
-    "image": "server/data/enemy.png",
-    "abilities": [
-      {
-        "name": "Sword",
-        "description": "test"
-      },
-      {
-        "name": "Shield",
-        "description": "test"
-      }
-    ]
+    ],
+    "description": "Slasher necromorph. Once was a human"
   }
 ]

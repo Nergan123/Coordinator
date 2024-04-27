@@ -6,6 +6,7 @@ import locations from "../../data/locations.json";
 import {Item} from "@types";
 import Roles from "../values/services/roles/roles";
 import Enemy from "../values/services/enemies/enemy";
+import Battle from "./battle";
 
 
 class State {
@@ -15,7 +16,8 @@ class State {
     private status: boolean;
     private readonly locations: { [key: string]: GameLocation };
     private messages: string[];
-    private encounter: { enemies: Enemy[], location: GameLocation };
+    public encounter: { enemies: Enemy[], location: GameLocation };
+    public battle: Battle | null;
 
     constructor() {
         this.bucket = new Bucket();
@@ -35,6 +37,7 @@ class State {
         });
         this.messages = [];
         this.encounter = { enemies: [], location: this.locations["Lobby"] };
+        this.battle = null;
     }
 
     async save() {
@@ -44,6 +47,7 @@ class State {
             status: this.status,
             messages: this.messages,
             encounter: this.encounter,
+            battle: this.battle,
         }
 
         const response = await this.bucket.uploadFile(JSON.stringify(stateToSave), "state.json")
@@ -71,6 +75,7 @@ class State {
         this.status = data.status;
         this.messages = data.messages;
         this.encounter = data.encounter;
+        this.battle = data.battle;
     }
 
     public getCurrentLocation() {
@@ -147,6 +152,47 @@ class State {
             this.logger.info("Character deleted successfully");
         });
     }
+
+    public setBattle(status: boolean) {
+        this.status = status;
+        if (!status) {
+            this.battle = null;
+        } else {
+            this.battle = this.createBattle();
+        }
+        this.save().then(() => {
+            this.logger.info("Battle status updated successfully");
+        });
+
+        console.log(this.battle);
+        return this.battle;
+    }
+
+    public createBattle() {
+        const keys = Object.keys(this.characters);
+        console.log(keys);
+        const queue = keys.map((key: string) => {
+            return {id: key, player: true};
+        });
+        this.encounter.enemies.forEach((enemy) => {
+            queue.push({id: enemy.id.toString(), player: false});
+        });
+
+        return new Battle(0, queue);
+    }
+
+    public makeTurn() {
+        if (!this.battle) {
+            this.logger.error("Battle is not started");
+            throw new Error("Battle is not started");
+        }
+        const turn = this.battle.makeTurn();
+        this.save().then(() => {
+            this.logger.info("Turn made successfully");
+        });
+        return turn;
+    }
+
 }
 
 export default State;

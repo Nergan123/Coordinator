@@ -15,6 +15,7 @@ export type EnemyData = {
     armor: number;
     image: string;
     abilities: AbilityData[];
+    description: string;
 };
 
 export type LocationData = {
@@ -64,4 +65,9 @@ export type CharacterData = {
 export type ItemData = {
     name: string;
     quantity: number;
+}
+
+export type BattleData = {
+    turn: number;
+    queue: {id: string, player: boolean}[];
 }

@@ -1,0 +1,12 @@
+.battle-container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    margin: 2rem;
+    padding: 2rem;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+    background-color: #1f213399;
+}

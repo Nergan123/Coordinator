@@ -7,7 +7,7 @@ class Enemies {
 
     constructor() {
         this.enemies = data.map((enemy: any) => {
-            return new Enemy(enemy.name, enemy.hp, enemy.abilities, enemy.id, enemy.armor, enemy.image);
+            return new Enemy(enemy.name, enemy.hp, enemy.abilities, enemy.id, enemy.armor, enemy.image, enemy.description);
         });
     }
     public getEnemies(): Enemy[] {

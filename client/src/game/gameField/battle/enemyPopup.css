@@ -1,0 +1,30 @@
+.enemy-popup {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+    background-color: #272a41;
+    padding: 1rem;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    z-index: 3;
+}
+
+.enemy-popup img {
+    height: 20rem;
+    max-width: 20rem;
+    object-fit: cover;
+    margin-bottom: 1em;
+    border: 1px solid #fff;
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+}
+
+.enemy-popup-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

@@ -14,6 +14,7 @@ class Audio {
 
     public setUrl(url: string): void {
         this.url = url;
+        console.log(`Audio url set to ${url}`);
     }
 }
 

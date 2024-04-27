@@ -60,6 +60,9 @@ function EncounterTab({encounter, setEncounter}: {encounter: any, setEncounter: 
                 </div>
             </div>
 
+            <button className={"game-nav-button"} onClick={() => {
+                navigate("/Game")
+            }}>To Campaign</button>
             <button className={"start-encounter-button"} onClick={setStateEncounter}>Start Encounter</button>
             <button className={"main-menu-button-encounter"} onClick={() => {
                 navigate("/")

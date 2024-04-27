@@ -65,3 +65,9 @@
     bottom: 1em;
     right: 1em;
 }
+
+.game-nav-button {
+    position: fixed;
+    bottom: 1em;
+    right: 26em;
+}

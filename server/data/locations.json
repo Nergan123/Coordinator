@@ -5,10 +5,11 @@
     "image": "server/data/locationImages/lobby.jpg",
     "description": "Regular lobby",
     "musicCalm": [
-      ""
+      "https://www.youtube.com/watch?v=7eq5AXXrLUk&t=3s",
+      "https://www.youtube.com/watch?v=8ROFr7knx5Y"
     ],
     "musicBattle": [
-      ""
+      "https://www.youtube.com/watch?v=LvjO-UhCyHw"
     ]
   },
   "facility": {
@@ -17,10 +18,10 @@
     "image": "server/data/locationImages/facility.jpg",
     "description": "Regular facility",
     "musicCalm": [
-      ""
+      "https://www.youtube.com/watch?v=ICTN3nTE204&t=39s"
     ],
     "musicBattle": [
-      ""
+      "https://www.youtube.com/watch?v=LvjO-UhCyHw"
     ]
   }
 }
