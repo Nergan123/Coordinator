@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 
 const socket = io("http://localhost:8000");
 
-function GameField({state}: {state: any}) {
+function GameField({state, userRole}: {state: any, userRole: string}) {
 
     const [locationState, setLocationState] = useState<LocationData>(state.encounter.location);
     const [battle, setBattle] = useState<BattleData | null>(state.battle);
@@ -68,7 +68,7 @@ function GameField({state}: {state: any}) {
     return (
         <div className="game-field">
             <img src={sourceImage} alt={state.encounter.location.name} className="gameImage"/>
-            {battle != null && <Battle battle={battle}/>}
+            {battle != null && <Battle battle={battle} userRole={userRole}/>}
         </div>
     );
 }

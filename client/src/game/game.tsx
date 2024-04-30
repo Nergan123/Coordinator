@@ -81,7 +81,7 @@ function Game() {
             </div>
             <div className={"middle-border"}>
                 {state.characters && state.characters[userId] && <TopBar character={state.characters[userId]}/>}
-                {state.encounter && <GameField state={state}/>}
+                {state.encounter && <GameField state={state} userRole={userRole}/>}
                 <div className={"items-and-characters"}>
                     {state.characters && state.characters[userId] && <Storage items={state.characters[userId].items} userId={userId}/>}
                     {state.characters && <CharactersFriends characters={state.characters} userRole={userRole}/>}

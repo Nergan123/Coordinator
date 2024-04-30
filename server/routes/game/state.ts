@@ -75,7 +75,14 @@ class State {
         this.status = data.status;
         this.messages = data.messages;
         this.encounter = data.encounter;
-        this.battle = data.battle;
+        this.battle = this.initBattle(data.battle);
+    }
+
+    private initBattle(battleData: any) {
+        const battle = new Battle(0, []);
+        battle.setQueue(battleData.queue);
+        battle.setTurn(battleData.turn);
+        return battle;
     }
 
     public getCurrentLocation() {

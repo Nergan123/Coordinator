@@ -240,6 +240,22 @@ export default class App {
                 res.status(400).send('Failed to make turn');
             }
         });
+        this.app.post('/api/game/battle-remove-from-queue', verifyToken, (req, res) => {
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            const index = req.body.index;
+            console.log(index);
+            console.log(this.game.state.battle);
+            if (this.game.state.battle == null) {
+                res.sendStatus(400);
+                return;
+            }
+            this.game.state.battle.removeFromQueue(index);
+            console.log(this.game.state.battle);
+            this.socket.emit("battle", this.game.state.battle);
+        });
 
         this.app.get('/api/user/role', verifyToken, (req, res) => {
             if (!req.user) {

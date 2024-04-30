@@ -3,7 +3,12 @@ import './enemyBattle.css';
 import React, {useState} from "react";
 import EnemyPopUp from "./enemyPopUp";
 
-function EnemyBattle({ enemy, selected }: { enemy: EnemyData, selected: boolean }) {
+function EnemyBattle({enemy, selected, userRole, index}: {
+    enemy: EnemyData,
+    selected: boolean,
+    userRole: string,
+    index: number
+}) {
 
     const imgSource = `data:image/png;base64,${enemy.image}`
     const [popupOpened, setPopupOpened] = useState(false);
@@ -31,9 +36,11 @@ function EnemyBattle({ enemy, selected }: { enemy: EnemyData, selected: boolean 
         }
     }
 
-    return(
+    return (
         <>
-            {popupOpened && <EnemyPopUp enemy={enemy} setOpen={setPopupOpened} coordinates={popupCoordinates} />}
+            {popupOpened &&
+                <EnemyPopUp enemy={enemy} setOpen={setPopupOpened} coordinates={popupCoordinates} index={index}
+                            userRole={userRole}/>}
             <div className={"enemy-battle"} style={getSelectedStyle()} onClick={handleOnClick}>
                 <div className={"enemy-battle-name"}>
                     <h3>{enemy.name}</h3>

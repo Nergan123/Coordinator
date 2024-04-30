@@ -7,8 +7,12 @@ class Battle {
         this.queue = this.shuffleArray(queue);
     }
 
+    public setQueue(queue: any[]) {
+        this.queue = queue
+    }
+
     public setTurn(turn: number) {
-        this.turn = turn;
+        this.turn = turn
     }
 
     public makeTurn() {
@@ -27,8 +31,11 @@ class Battle {
         }
     }
 
-    public removeFromQueue(id: string) {
-        this.queue = this.queue.filter((el) => el.id !== id);
+    public removeFromQueue(index: number) {
+        this.queue = this.queue.filter((_, i) => i !== index);
+        if (this.turn >= this.queue.length) {
+            this.turn = 0;
+        }
     }
 
     public addToQueue(id: string, player: boolean) {

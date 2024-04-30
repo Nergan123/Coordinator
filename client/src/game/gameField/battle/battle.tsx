@@ -6,15 +6,15 @@ import {useEffect, useState} from "react";
 
 const socket = io("http://localhost:8000");
 
-function Battle({battle}: {battle: {turn: number, queue: any[]}}) {
+function Battle({battle, userRole}: {battle: {turn: number, queue: any[]}, userRole: string}) {
 
     const [turn, setTurn] = useState<number>(battle.turn);
 
-    function getCharacterOrEnemy(item: any, selected: boolean) {
+    function getCharacterOrEnemy(item: any, selected: boolean, index: number) {
         if (item.role) {
             return <CharacterBattle character={item} selected={selected}/>;
         } else {
-            return <EnemyBattle enemy={item} selected={selected} />;
+            return <EnemyBattle enemy={item} selected={selected} userRole={userRole} index={index}/>;
         }
     }
 
@@ -31,7 +31,7 @@ function Battle({battle}: {battle: {turn: number, queue: any[]}}) {
                     battle.queue.map((item, index) => {
                         return (
                             <li key={index}>
-                                {getCharacterOrEnemy(item, index === turn)}
+                                {getCharacterOrEnemy(item, index === turn, index)}
                             </li>
                         );
                     })
