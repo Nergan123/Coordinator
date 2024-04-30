@@ -4,8 +4,6 @@ import React, {useEffect, useState} from "react";
 import FriendPopup from "../../characterFriends/friendPopup";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:8000");
-
 function CharacterBattle({character, selected}: {character: CharacterData, selected: boolean}) {
 
     const imgSource = `data:image/png;base64,${character.image}`
@@ -56,11 +54,18 @@ function CharacterBattle({character, selected}: {character: CharacterData, selec
     }
 
     useEffect(() => {
+        const socket = io("http://localhost:8000");
         socket.on("update-character-health", (data: {name: string, health: number}) => {
             if (data.name === character.name) {
                 setHp(data.health);
             }
         });
+
+        return () => {
+            socket.emit('manual-disconnect');
+            socket.off("update-character-health");
+            socket.close();
+        }
     }, []);
 
     return(

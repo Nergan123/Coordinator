@@ -10,3 +10,14 @@
     color: #00ff00;
     font-family: "Ubuntu Nerd Font", sans-serif;
 }
+
+.last-line-terminal {
+    width: 9em;
+    border-right: .15em solid #00ff00;
+    animation: blink-caret .75s step-end infinite;
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #00ff00; }
+}

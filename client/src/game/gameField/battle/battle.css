@@ -10,3 +10,10 @@
     border-radius: 10px;
     background-color: #1f213399;
 }
+
+.battle-container ul {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 47rem; /* Adjust this value based on your needs */
+}

@@ -66,14 +66,25 @@ export default class App {
     private setSocket(): void {
         this.socket.on('connection', (socket) => {
             this.logger.info('a user connected');
+
+            socket.on('manual-disconnect', () => {
+                this.logger.info('a user manually disconnected');
+                socket.disconnect();
+            });
+
+            socket.on('disconnect', () => {
+                this.logger.info('a user disconnected');
+            });
         });
     }
 
     private setEndPoints(): void {
         this.app.get('/', (req, res) => {
+            this.logger.info('GET /');
             res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
         });
         this.app.post('/api/values', verifyToken, (req, res) => {
+            this.logger.info('POST /api/values');
             this.resolver.getValue(req).then((data) => {
                 res.header('Content-Type', 'application/json');
                 res.send(JSON.stringify(data));
@@ -81,17 +92,20 @@ export default class App {
         });
 
         this.app.post('/api/register', async (req, res) => {
+            this.logger.info('POST /api/register');
             const result = await this.registerHandler.register(req.body.login, req.body.password);
             res.sendStatus(result);
             res.send();
         });
         this.app.post('/api/login', async (req, res) => {
+            this.logger.info('POST /api/login');
             const result = await this.loginHandler.login(req.body.login, req.body.password);
             res.cookie('token', result.token)
             res.status(result.status);
             res.send();
         });
         this.app.post('/api/character-create', upload.any(), verifyToken, async (req, res) => {
+            this.logger.info('POST /api/character-create');
             const {name, description, role, hp} = req.body;
             if (!req.files) {
                 res.status(400).send('No files were uploaded.');
@@ -107,6 +121,7 @@ export default class App {
             await this.createCharacter.createCharacter(req, res, name, description, role, imageFile, hp);
         });
         this.app.post('/api/character-delete', verifyToken, async (req, res) => {
+            this.logger.info('POST /api/character-delete');
             const data = req.body;
 
             if (!req.user) {
@@ -119,6 +134,7 @@ export default class App {
         });
 
         this.app.post('/api/game/add-character', verifyToken, (req, res) => {
+            this.logger.info('POST /api/add-character');
             if (!req.user) {
                 res.sendStatus(401);
                 return;
@@ -128,6 +144,7 @@ export default class App {
             res.sendStatus(200);
         });
         this.app.get('/api/game/location', verifyToken, (req, res) => {
+            this.logger.info('GET /api/game/location');
             if (!req.user) {
                 res.sendStatus(401);
                 return;
@@ -135,6 +152,7 @@ export default class App {
             res.send({location: this.game.state.getCurrentLocation()});
         });
         this.app.get('/api/game/state', verifyToken, (req, res) => {
+            this.logger.info('GET /api/state');
             if (!req.user) {
                 res.sendStatus(401);
                 return;
@@ -142,12 +160,13 @@ export default class App {
             res.send(this.game.getState());
         });
         this.app.post('/api/game/update-encounter', verifyToken, (req, res) => {
+            this.logger.info('POST /api/update-encounter');
             if (!req.user) {
                 res.sendStatus(401);
                 return;
             }
             const encounter = req.body.encounter;
-            const prevLocation = this.game.state.getCurrentLocation();
+            const prevLocation = this.game.state.getCurrentLocation().name;
             this.game.updateEncounter(encounter.enemies, encounter.location);
             res.sendStatus(200);
             const locationToSend = this.resolver.locations.getLocations().find((loc: any) => {
@@ -162,6 +181,7 @@ export default class App {
             this.socket.emit("update-encounter", locationToSend);
         });
         this.app.post('/api/game/update-character-item', verifyToken, (req, res) => {
+            this.logger.info('POST /api/game/update-character-item');
             if (!req.user) {
                 res.sendStatus(401);
                 return;
@@ -179,6 +199,7 @@ export default class App {
             });
         });
         this.app.post('/api/game/add-message', verifyToken, (req, res) => {
+            this.logger.info('POST /api/add-message');
             if (!req.user) {
                 res.sendStatus(401);
                 return;
@@ -187,6 +208,7 @@ export default class App {
             this.socket.emit('message', this.game.state.getState().messages);
         });
         this.app.post('/api/game/update-character-health', verifyToken, (req, res) => {
+            this.logger.info('POST /api/update-character-health');
             if (!req.user) {
                 res.sendStatus(401);
                 return;
@@ -202,6 +224,7 @@ export default class App {
             });
         });
         this.app.post('/api/game/battle', verifyToken, (req, res) => {
+            this.logger.info('POST /api/game/battle');
             if (!req.user) {
                 res.sendStatus(401);
                 return;
@@ -220,6 +243,7 @@ export default class App {
 
         });
         this.app.get('/api/game/battle', verifyToken, (req, res) => {
+            this.logger.info('GET /api/game/battle');
             if (!req.user) {
                 res.sendStatus(401);
                 return;
@@ -228,6 +252,7 @@ export default class App {
             res.send({battle: battle});
         });
         this.app.get('/api/game/next-turn', verifyToken, (req, res) => {
+            this.logger.info('GET /api/game/next-turn');
             if (!req.user) {
                 res.sendStatus(401);
                 return;
@@ -241,23 +266,54 @@ export default class App {
             }
         });
         this.app.post('/api/game/battle-remove-from-queue', verifyToken, (req, res) => {
+            this.logger.info('POST /api/game/battle-remove-from-queue');
             if (!req.user) {
                 res.sendStatus(401);
                 return;
             }
             const index = req.body.index;
-            console.log(index);
-            console.log(this.game.state.battle);
             if (this.game.state.battle == null) {
                 res.sendStatus(400);
                 return;
             }
             this.game.state.battle.removeFromQueue(index);
-            console.log(this.game.state.battle);
             this.socket.emit("battle", this.game.state.battle);
+        });
+        this.app.post('/api/game/battle-add-to-queue', verifyToken, (req, res) => {
+            this.logger.info('POST /api/game/add-to-queue');
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            const id = req.body.id;
+            if (this.game.state.battle == null) {
+                res.sendStatus(400);
+                return;
+            }
+            this.game.state.battle.addToQueue(id.toString(), false);
+            this.socket.emit("battle", this.game.state.battle);
+        });
+        this.app.post('/api/game/show-character', verifyToken, (req, res) => {
+            this.logger.info('POST /api/game/show-character');
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            const id = req.body.id;
+            this.socket.emit("show-character", id);
+        });
+        this.app.post('/api/game/hide-character', verifyToken, (req, res) => {
+            this.logger.info('POST /api/game/hide-character');
+            if (!req.user) {
+                res.sendStatus(401);
+                return;
+            }
+            const id = req.body.id;
+            this.socket.emit("hide-character", id);
         });
 
         this.app.get('/api/user/role', verifyToken, (req, res) => {
+            this.logger.info('GET /api/user/role');
             if (!req.user) {
                 res.sendStatus(401);
                 return;
@@ -266,6 +322,7 @@ export default class App {
             res.send({role: role});
         });
         this.app.get('/api/user/id', verifyToken, (req, res) => {
+            this.logger.info('GET /api/user/id');
             if (!req.user) {
                 res.sendStatus(401);
                 return;
@@ -275,6 +332,7 @@ export default class App {
         });
 
         this.app.get('/api/audio/stream', verifyToken, (req, res) => {
+            this.logger.info('GET /api/audio/stream');
             if (!req.user) {
                 res.sendStatus(401);
                 return;

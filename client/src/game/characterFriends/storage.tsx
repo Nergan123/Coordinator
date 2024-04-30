@@ -5,20 +5,25 @@ import {useEffect, useState} from "react";
 import io from "socket.io-client";
 import Health from "./health";
 
-const socket = io("https://mantis-up-lively.ngrok-free.app");
-
 function FriendStorage({items, id, healthMax, healthCur}: {items: {[key: string]: ItemData}, id: string, healthMax: number, healthCur: number}) {
 
     const [characterItems, setCharacterItems] = useState(items);
 
     useEffect(() => {
+        const socket = io("http://localhost:8000");
         socket.on(
             'update-character-items', ({items, userId}: {items: {[key: string]: ItemData}, userId: string}) => {
                 if (userId === id) {
                     setCharacterItems(items);
                 }
             }
-        )
+        );
+
+        return () => {
+            socket.emit('manual-disconnect');
+            socket.off('update-character-items');
+            socket.close();
+        }
     }, []);
 
     return (

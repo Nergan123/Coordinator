@@ -3,8 +3,6 @@ import FriendStorage from "./storage";
 import io from "socket.io-client";
 import FriendPopup from "./friendPopup";
 
-const socket = io("https://mantis-up-lively.ngrok-free.app");
-
 function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: string, id: string }) {
 
     const imgSource = `data:image/png;base64,${friend.image}`
@@ -52,11 +50,18 @@ function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: stri
     }
 
     useEffect(() => {
+        const socket = io("http://localhost:8000");
         socket.on("update-character-health", (data: {name: string, health: number}) => {
             if (data.name === friend.name) {
                 setHp(data.health);
             }
         });
+
+        return () => {
+            socket.emit('manual-disconnect');
+            socket.off("update-character-health");
+            socket.close();
+        }
     }, []);
 
     return (

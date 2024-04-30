@@ -4,10 +4,9 @@ import {ItemData} from "@types";
 import {useEffect, useState} from "react";
 import io from "socket.io-client";
 
-const socket = io("https://mantis-up-lively.ngrok-free.app");
-
 function Storage({items, userId}: {items: {[key: string]: ItemData}, userId: string}) {
 
+    const socket = io("http://localhost:8000");
     const [characterItems, setCharacterItems] = useState(items);
 
     useEffect(() => {
@@ -17,7 +16,12 @@ function Storage({items, userId}: {items: {[key: string]: ItemData}, userId: str
                     setCharacterItems(items);
                 }
             }
-        )
+        );
+
+        return () => {
+            socket.off('update-character-items');
+            socket.close();
+        };
     }, []);
 
   return (

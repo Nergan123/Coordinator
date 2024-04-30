@@ -1,0 +1,28 @@
+.character-to-show {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background-color: #00000090;
+}
+
+.character-to-show-info {
+    height: 20rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to top, rgba(185,0,0,0.9), rgba(0,0,0,0));
+}
+
+.character-to-show-info h3 {
+    color: #ffffff;
+    font-size: 4rem;
+    text-align: center;
+    margin-top: 5rem;
+}

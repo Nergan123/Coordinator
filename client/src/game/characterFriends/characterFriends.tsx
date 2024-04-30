@@ -1,6 +1,7 @@
 import {CharacterData} from "@types";
 import CharacterFriend from "./characterFriend";
 import "./characterFriend.css";
+import React from "react";
 
 function CharactersFriends({characters, userRole}: {characters: {[key: string]: CharacterData}, userRole: string}){
 
@@ -16,7 +17,7 @@ function CharactersFriends({characters, userRole}: {characters: {[key: string]: 
 
     return (
         <div className={"character-characterFriends"}>
-            {charactersToList().map((character) => character)}
+            {charactersToList().map((character, index) => React.cloneElement(character, { key: index }))}
         </div>
     );
 }

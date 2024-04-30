@@ -79,6 +79,9 @@ class State {
     }
 
     private initBattle(battleData: any) {
+        if (!battleData) {
+            return null;
+        }
         const battle = new Battle(0, []);
         battle.setQueue(battleData.queue);
         battle.setTurn(battleData.turn);

@@ -59,6 +59,56 @@ function DmRightBorder({encounter}: {encounter: any}) {
         console.log(data);
     }
 
+    async function addToBattle(id: string) {
+        const response = await fetch("/api/game/battle-add-to-queue", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({id: id}),
+        });
+
+        if (response.status === 200) {
+            console.log("Added to battle");
+        } else {
+            console.error("Failed to add to battle");
+        }
+    }
+
+    async function showCharacter(id: string) {
+        console.log("Calling api show")
+        const response = await fetch("/api/game/show-character", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({id: id}),
+        });
+
+        if (response.status === 200) {
+            console.log("Character shown");
+        } else {
+            console.error("Failed to show character");
+        }
+    }
+
+    async function hideCharacter(id: string) {
+        console.log("Calling api hide")
+        const response = await fetch("/api/game/hide-character", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({id: id}),
+        });
+
+        if (response.status === 200) {
+            console.log("Character hidden");
+        } else {
+            console.error("Failed to hide character");
+        }
+    }
+
     return (
         <div className={"dm-right-border"}>
             <div className={"dm-right-border-navigation"}>
@@ -76,9 +126,14 @@ function DmRightBorder({encounter}: {encounter: any}) {
                             encounter && encounter.enemies.map((enemy: any, index: number) => {
                                 return (
                                     <li key={index}>
-                                        <h3>{enemy.name}</h3>
-                                        <p>HP: {enemy.hp}</p>
-                                        <p>AC: {enemy.armor}</p>
+                                        <div className={"enemy-info-dm-border"}>
+                                            <h3>{enemy.name}</h3>
+                                            <p>HP: {enemy.hp}</p>
+                                            <p>AC: {enemy.armor}</p>
+                                        </div>
+                                        <button onClick={async () => await addToBattle(enemy.id)}>Add to battle</button>
+                                        <button onClick={async () => await showCharacter(enemy.id.toString())}>Show</button>
+                                        <button onClick={async () => await hideCharacter(enemy.id.toString())}>Hide</button>
                                     </li>
                                 );
                             })

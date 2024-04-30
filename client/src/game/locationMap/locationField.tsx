@@ -4,16 +4,21 @@ import "./locationField.css";
 import io from "socket.io-client";
 import {useEffect, useState} from "react";
 
-const socket = io("https://mantis-up-lively.ngrok-free.app");
-
 function LocationField({location}: {location: LocationData}) {
 
     const [locationState, setLocationState] = useState<LocationData>(location);
 
     useEffect(() => {
+        const socket = io("http://localhost:8000");
         socket.on("update-encounter", (location: LocationData) => {
             setLocationState(location);
         });
+
+        return () => {
+            socket.emit('manual-disconnect');
+            socket.off("update-encounter");
+            socket.close();
+        };
     }, []);
 
     return (

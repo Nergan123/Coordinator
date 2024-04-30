@@ -6,8 +6,6 @@ import {CharacterData} from "@types";
 import io from "socket.io-client";
 import AudioStream from "../audio/audioStream";
 
-const socket = io("https://mantis-up-lively.ngrok-free.app");
-
 function TopBar({character}: {character: CharacterData}) {
 
     const [diceRollerVisible, setDiceRollerVisible] = useState(false);
@@ -19,11 +17,18 @@ function TopBar({character}: {character: CharacterData}) {
     }
 
     useEffect(() => {
+        const socket = io("http://localhost:8000");
         socket.on("update-character-health", (data: {name: string, health: number}) => {
             if (data.name === character.name) {
                 setHp(data.health);
             }
         });
+
+        return () => {
+            socket.emit('manual-disconnect');
+            socket.off("update-character-health");
+            socket.close();
+        };
     }, []);
 
     return (
@@ -32,8 +37,8 @@ function TopBar({character}: {character: CharacterData}) {
             <div className="top-bar-left">
                 <div className="top-bar-nav">
                     <button onClick={() => navigate("/")}>Main menu</button>
-                    <AudioStream/>
                 </div>
+                <AudioStream />
             </div>
             <div className="top-bar-center">
                 <h1>{character.name}</h1>

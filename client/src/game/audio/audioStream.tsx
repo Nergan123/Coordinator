@@ -1,10 +1,11 @@
-import {useEffect, useRef} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import io from "socket.io-client";
-
-const socket = io("http://localhost:8000");
+import {VolumeMute, VolumeUpRounded} from "@mui/icons-material";
+import './audioStream.css';
 
 function AudioStream() {
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const [muted, setMuted] = useState<boolean>(false);
 
     function setAudio() {
         audioRef.current = new Audio('/api/audio/stream');
@@ -19,6 +20,12 @@ function AudioStream() {
                 });
             }
         });
+    }
+
+    function setVolume(volume: number) {
+        if (audioRef.current) {
+            audioRef.current.volume = volume;
+        }
     }
 
     function updateAudio() {
@@ -37,10 +44,12 @@ function AudioStream() {
     function toggleMute() {
         if (audioRef.current) {
             audioRef.current.muted = !audioRef.current.muted;
+            setMuted(audioRef.current.muted);
         }
     }
 
     useEffect(() => {
+        const socket = io("http://localhost:8000");
         socket.on('audio-updated', () => {
             console.log('Audio updated');
             updateAudio();
@@ -57,11 +66,18 @@ function AudioStream() {
                 audioRef.current.pause();
                 audioRef.current = null;
             }
+
+            socket.emit('manual-disconnect');
+            socket.off('audio-updated');
+            socket.close();
         };
     }, []);
 
     return (
-        <button onClick={toggleMute}>Toggle mute</button>
+        <div className={"volume-mixer"}>
+            {muted ? <VolumeMute onClick={toggleMute} style={{cursor: "pointer"}}/> : <VolumeUpRounded onClick={toggleMute} style={{cursor: "pointer"}}/>}
+            <input type="range" min="0" max="1" step="0.1" onChange={(e) => setVolume(Number(e.target.value))} />
+        </div>
     )
 }
 
