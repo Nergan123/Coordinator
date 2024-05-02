@@ -58,8 +58,9 @@ function GameField({state, userRole}: {state: any, userRole: string}) {
 
     useEffect(() => {
         const socket = io("http://localhost:8000");
-        socket.on("update-encounter", (location: LocationData) => {
-            setLocationState(location);
+        socket.on("update-encounter", (data: {location: LocationData, enemies: any}) => {
+            state.encounter.enemies = data.enemies;
+            setLocationState(data.location);
         });
         socket.on("battle", (battle: BattleData) => {
             console.log("Received: ", battle);
