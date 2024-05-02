@@ -39,11 +39,7 @@ function GameField({state, userRole}: {state: any, userRole: string}) {
             if (item.player) {
                 return state.characters[item.id];
             } else {
-                console.log("Item: ", item);
-                console.log("State: ", state);
                 return state.encounter.enemies.find((enemy: any) => {
-                    console.log("Enemy: ", enemy);
-                    console.log("ID: ", enemy.id.toString());
                     return enemy.id.toString() === item.id
                 });
             }
