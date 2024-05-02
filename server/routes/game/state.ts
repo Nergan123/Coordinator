@@ -7,11 +7,15 @@ import {Item} from "@types";
 import Roles from "../values/services/roles/roles";
 import Enemy from "../values/services/enemies/enemy";
 import Battle from "./battle";
+import DbHandler from "../../utils/db";
+import characters from "../values/services/characters/characters";
+import fs from "fs";
 
 
 class State {
     private characters: { [key: string]: any };
     private bucket: Bucket;
+    private db: DbHandler;
     private logger: winston.Logger;
     private status: boolean;
     private readonly locations: { [key: string]: GameLocation };
@@ -21,6 +25,7 @@ class State {
 
     constructor() {
         this.bucket = new Bucket();
+        this.db = new DbHandler();
         this.logger = logger;
         this.characters = {};
         this.status = false;
@@ -36,14 +41,25 @@ class State {
             );
         });
         this.messages = [];
-        this.encounter = { enemies: [], location: this.locations["Lobby"] };
+        this.encounter = {enemies: [], location: this.locations["Lobby"]};
         this.battle = null;
     }
 
     async save() {
 
+        Object.keys(this.characters).forEach((key) => {
+            const query = `UPDATE characters
+                           SET hp = $1,
+                               items = $2
+                           WHERE user_id = $3`;
+            const values = [this.characters[key].hp, JSON.stringify(this.characters[key].items), key];
+            this.db.query(query, values).then(() => {
+                this.logger.debug("Character updated successfully", {userId: key});
+            });
+        });
+
+
         const stateToSave = {
-            characters: this.characters,
             status: this.status,
             messages: this.messages,
             encounter: this.encounter,
@@ -67,11 +83,36 @@ class State {
         }
         const data = JSON.parse(response.Body.toString('utf-8'))
 
+        const query = `SELECT *
+                       FROM characters
+                       WHERE status = $1`;
+        const values = [true];
+        const result = await this.db.query(query, values);
+
         this.characters = {};
 
-        Object.entries(data.characters).forEach(([key, character]) => {
-            this.characters[key] = character;
+        if (!result) {
+            this.logger.error("Failed to get character data");
+            throw new Error("Failed to get character data");
+        }
+
+        if (result.rows.length == 0) {
+            this.logger.error("User not found");
+            throw new Error("User not found");
+        }
+
+        result.rows.forEach((characterData: any) => {
+            console.log(characterData);
+            this.characters[characterData.user_id] = {
+                name: characterData.name,
+                hp: characterData.hp,
+                description: characterData.description,
+                role: new Roles().getRoles().find((role: any) => role.name === characterData.role),
+                imageName: characterData.image,
+                items: JSON.parse(characterData.items)
+            }
         });
+
         this.status = data.status;
         this.messages = data.messages;
         this.encounter = data.encounter;
@@ -93,25 +134,32 @@ class State {
     }
 
     async addCharacter(character: string, userId: string) {
-        const fileName = `data-character-${character}.json`;
-        const response = await this.bucket.getFile(fileName);
-        if (!response.Body) {
-            this.logger.error("File body is empty");
-            throw new Error("File body is empty");
+
+        const query = `SELECT *
+                       FROM characters
+                       WHERE user_id = $1`;
+        const values = [userId];
+        const result = await this.db.query(query, values);
+
+        if (!result) {
+            this.logger.error("Failed to get character data");
+            throw new Error("Failed to get character data");
         }
 
-        this.characters[userId] = JSON.parse(response.Body.toString('utf-8'));
-        const roleName = this.characters[userId].role;
-        this.characters[userId].role = new Roles().getRoles().find((role) => role.name === roleName);
-        const image = await this.bucket.getFile(this.characters[userId].imageName);
-        if (!image.Body) {
-            this.logger.error("File body is empty");
-            throw new Error("File body is empty");
+        if (result.rows.length == 0) {
+            this.logger.error("User not found");
+            throw new Error("User not found");
         }
-        this.characters[userId].image = image.Body.toString('base64');
-        this.save().then(() => {
-            this.logger.info("Character added successfully");
-        });
+        const characterData = result.rows[0];
+        this.characters[userId] = {
+            name: characterData.name,
+            hp: characterData.hp,
+            description: characterData.description,
+            role: new Roles().getRoles().find((role: any) => role.name === characterData.role),
+            imageName: characterData.imageName,
+            items: JSON.parse(characterData.items)
+        }
+
     }
 
     async updateCharacterItems(userId: string, cell: number, item: Item) {
@@ -121,13 +169,67 @@ class State {
         });
     }
 
-    public getState() {
+    public async getState() {
+
+        const charactersToSend: {
+            [key: string]: { name: string, hp: number, description: string, role: any, image: string, items: any[] }
+        } = {}
+        for (const key of Object.keys(this.characters)) {
+
+            const signedUrl = await this.bucket.getSignedUrl(this.characters[key].imageName);
+
+            charactersToSend[key] = {
+                name: this.characters[key].name,
+                hp: this.characters[key].hp,
+                description: this.characters[key].description,
+                role: this.characters[key].role,
+                image: signedUrl,
+                items: this.characters[key].items,
+            }
+        }
+
+        const enemiesToSend = this.encounter.enemies.map((enemy) => {
+            return {
+                id: enemy.id,
+                name: enemy.name,
+                hp: enemy.hp,
+                description: enemy.description,
+                image: fs.readFileSync(enemy.image, 'base64'),
+            }
+        });
+
+        const locationToSend = {
+            name: this.encounter.location.name,
+            description: this.encounter.location.description,
+            image: fs.readFileSync(this.encounter.location.image, 'base64'),
+            map: fs.readFileSync(this.encounter.location.map, 'base64'),
+            musicCalm: this.encounter.location.musicCalm,
+            musicBattle: this.encounter.location.musicBattle,
+        }
+
+        const encounterToSend = {
+            enemies: enemiesToSend,
+            location: locationToSend,
+        }
+
         return {
-            characters: this.characters,
+            characters: charactersToSend,
             status: this.status,
             messages: this.messages,
-            encounter: this.encounter,
+            encounter: encounterToSend,
         }
+    }
+
+    public getItems(userId: string) {
+        return this.characters[userId].items;
+    }
+
+    public getMessages() {
+        return this.messages;
+    }
+
+    public getCharacterName(userId: string) {
+        return this.characters[userId].name;
     }
 
     public addMessage(message: string) {

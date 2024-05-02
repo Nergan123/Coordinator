@@ -3,15 +3,15 @@ import State from "./state";
 import winston from "winston";
 import DbHandler from "../../utils/db";
 import {Item} from "@types";
-import Resolver from "../values/resolver";
 import Enemy from "../values/services/enemies/enemy";
 import Audio from "./audio";
+import Locations from "../values/services/locations/locations";
+import Enemies from "../values/services/enemies/enemies";
 
 class Game {
     public readonly state: State;
     private readonly logger: winston.Logger;
     private db: DbHandler;
-    private resolver: Resolver;
     public audio: Audio;
 
     constructor() {
@@ -19,7 +19,6 @@ class Game {
         this.state = new State();
         this.db = new DbHandler();
         this.logger = logger;
-        this.resolver = new Resolver();
         try {
             this.state.load().then(() => {
                 this.logger.info("State loaded successfully");
@@ -71,7 +70,7 @@ class Game {
     }
 
     public updateEncounter(enemies: number[], location: string) {
-        const allEnemies = this.resolver.enemies.getEnemies()
+        const allEnemies = new Enemies().getEnemies()
         const enemiesToSend = enemies.map((enemy: number) => {
             return allEnemies.find((en: any) => {
                 return en.id === enemy;
@@ -83,12 +82,13 @@ class Game {
         }
 
         const prevLocation = this.state.encounter.location.name;
-        const locationToSend = this.resolver.locations.getLocations().find((loc: any) => {
+        const locationToSend = new Locations().getLocations().find((loc: any) => {
             return loc.name === location;
         });
         if (!locationToSend) {
             throw new Error("Location not found");
         }
+        console.log(enemiesToSend, locationToSend);
         this.state.updateEncounter(enemiesToSend, locationToSend)
         if (prevLocation !== locationToSend.name) {
             this.getMusic(this.state.battle !== null)

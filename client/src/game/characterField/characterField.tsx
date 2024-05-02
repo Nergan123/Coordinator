@@ -9,7 +9,7 @@ function CharacterField({character}: {character: CharacterData}) {
         <div className={"character-field"}>
             {character && <div>
                 <h2>{character.name}</h2>
-                <img src={`data:image/png;base64,${character.image}`} alt={character.name}/>
+                <img src={character.image} alt={character.name}/>
                 <div className={"character-stats-container"}>
                     <div className={"stats-field"}>
                         <div className={"stat-single"}>

@@ -10,7 +10,6 @@ function FriendPopup({friend, onClose, coordinates, invert}: {
     invert: boolean
 }) {
 
-    const source = `data:image/png;base64,${friend.image}`;
     const [hp, setHp] = useState(friend.hp);
 
     function handleClick() {
@@ -44,7 +43,7 @@ function FriendPopup({friend, onClose, coordinates, invert}: {
         <div className={"character-friend-popup"} onClick={handleClick}
              style={{top: `${processCoordinates().y}%`, left: `${processCoordinates().x}%`}}>
             <div className={"character-friend-popup-image"}>
-                <img src={source} alt={friend.role.name}/>
+                <img src={friend.image} alt={friend.role.name}/>
             </div>
             <div className={"character-friend-popup-description"}>
                 <div className={"character-friend-popup-name"}>

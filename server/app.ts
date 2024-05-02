@@ -157,7 +157,7 @@ export default class App {
                 res.sendStatus(401);
                 return;
             }
-            res.send(this.game.getState());
+            this.game.getState().then(state => res.send(state));
         });
         this.app.post('/api/game/update-encounter', verifyToken, (req, res) => {
             this.logger.info('POST /api/update-encounter');
@@ -166,6 +166,7 @@ export default class App {
                 return;
             }
             const encounter = req.body.encounter;
+            console.log(encounter);
             const prevLocation = this.game.state.getCurrentLocation().name;
             this.game.updateEncounter(encounter.enemies, encounter.location);
             res.sendStatus(200);
@@ -195,7 +196,7 @@ export default class App {
 
             this.socket.emit("update-character-items", {
                 id: userId,
-                items: this.game.state.getState().characters[userId].items
+                items: this.game.state.getItems(userId)
             });
         });
         this.app.post('/api/game/add-message', verifyToken, (req, res) => {
@@ -205,7 +206,7 @@ export default class App {
                 return;
             }
             this.game.state.addMessage(req.body.message);
-            this.socket.emit('message', this.game.state.getState().messages);
+            this.socket.emit('message', this.game.state.getMessages());
         });
         this.app.post('/api/game/update-character-health', verifyToken, (req, res) => {
             this.logger.info('POST /api/update-character-health');
@@ -219,7 +220,7 @@ export default class App {
             res.sendStatus(200);
 
             this.socket.emit("update-character-health", {
-                name: this.game.state.getState().characters[userId].name,
+                name: this.game.state.getCharacterName(userId),
                 health: health,
             });
         });

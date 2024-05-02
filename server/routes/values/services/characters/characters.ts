@@ -4,6 +4,7 @@ import Bucket from "../../../../utils/bucket";
 import {CharacterData} from "@types";
 import Role from "../roles/role";
 import dataRoles from "../../../../data/roles.json";
+import fs from "fs";
 
 class Characters {
 
@@ -35,13 +36,21 @@ class Characters {
                 throw new Error('File body is empty');
             }
             const data = JSON.parse(response.Body.toString('utf-8')) as CharacterData;
-            console.log(data)
             const imageResponse = await this.bucket.getFile(data.imageName)
             const image = imageResponse.Body as Buffer;
 
             const role = this.roles.find(role => role.name === data.role) || this.roles[0];
+            const roleToSend = {
+                id: role.id,
+                name: role.name,
+                stats: role.stats,
+                image: fs.readFileSync(role.image, 'base64'),
+                description: role.description,
+                weapons: role.weapons,
+                abilities: role.abilities,
+            };
 
-            return new Character(data.name, data.description, role, image.toString('base64'));
+            return new Character(data.name, data.description, roleToSend, image.toString('base64'));
         }));
     }
 

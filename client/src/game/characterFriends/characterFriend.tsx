@@ -5,7 +5,6 @@ import FriendPopup from "./friendPopup";
 
 function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: string, id: string }) {
 
-    const imgSource = `data:image/png;base64,${friend.image}`
     const [storageOpened, setStorageOpened] = useState(false);
     const [hp, setHp] = useState(friend.hp);
     const [popupOpened , setPopupOpened] = useState(false);
@@ -40,7 +39,7 @@ function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: stri
     }
 
     const style = {
-        backgroundImage: `url(${imgSource})`,
+        backgroundImage: `url(${friend.image})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
     }

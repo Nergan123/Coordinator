@@ -15,11 +15,28 @@ class Bucket {
     this.s3 = new AWS.S3({
         accessKeyId: process.env.AWS_ACCESS_KEY,
         secretAccessKey: process.env.AWS_SECRET_KEY,
+        signatureVersion: 'v4',
     });
   }
 
   public getBucketName() {
     return this.bucketName;
+  }
+
+  public async getSignedUrl(name: string) {
+
+    const params = {
+      Bucket: this.bucketName,
+      Key: name,
+      Expires: 60,
+    };
+
+    const url = await this.s3.getSignedUrlPromise('getObject', params);
+    logger.info('URL generated successfully', url);
+    if(!url) {
+        throw new Error('URL not found');
+    }
+    return url;
   }
 
   public async uploadFile(file: any, name: string) {

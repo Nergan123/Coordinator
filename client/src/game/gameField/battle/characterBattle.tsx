@@ -6,7 +6,6 @@ import io from "socket.io-client";
 
 function CharacterBattle({character, selected}: {character: CharacterData, selected: boolean}) {
 
-    const imgSource = `data:image/png;base64,${character.image}`
     const [popupOpened , setPopupOpened] = useState(false);
     const [popupCoordinates, setPopupCoordinates] = useState({x: 0, y: 0});
     const [hp, setHp] = useState(character.hp);
@@ -39,12 +38,12 @@ function CharacterBattle({character, selected}: {character: CharacterData, selec
 
         if (selected) {
             return {
-                backgroundImage: `url(${imgSource})`,
+                backgroundImage: `url(${character.image})`,
                 boxShadow: "0 0 10px 5px rgba(255,255,255,0.8)",
             };
         } else {
             return {
-                backgroundImage: `url(${imgSource})`,
+                backgroundImage: `url(${character.image})`,
             };
         }
     }
