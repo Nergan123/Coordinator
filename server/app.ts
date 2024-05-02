@@ -14,6 +14,7 @@ import Game from "./routes/game/game";
 import {Server} from "socket.io";
 import {createServer} from "http";
 import path from "path";
+import fs from "fs";
 
 const upload = multer();
 
@@ -170,15 +171,23 @@ export default class App {
             const prevLocation = this.game.state.getCurrentLocation().name;
             this.game.updateEncounter(encounter.enemies, encounter.location);
             res.sendStatus(200);
-            const locationToSend = this.resolver.locations.getLocations().find((loc: any) => {
+            const locationFound = this.resolver.locations.getLocations().find((loc: any) => {
                 return loc.name === encounter.location;
             });
-            if (!locationToSend) {
+            if (!locationFound) {
                 throw new Error("Location not found");
             }
             if (prevLocation !== encounter.location) {
                 this.socket.emit("audio-updated");
             }
+            const locationToSend = {
+                name: locationFound.name,
+                description: locationFound.description,
+                image: fs.readFileSync(locationFound.image, 'base64'),
+                map: fs.readFileSync(locationFound.map, 'base64'),
+                musicCalm: locationFound.musicCalm,
+                musicBattle: locationFound.musicBattle,
+            };
             this.socket.emit("update-encounter", locationToSend);
         });
         this.app.post('/api/game/update-character-item', verifyToken, (req, res) => {
