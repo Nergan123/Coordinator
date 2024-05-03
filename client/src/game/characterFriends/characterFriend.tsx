@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import FriendStorage from "./storage";
-import io from "socket.io-client";
 import FriendPopup from "./friendPopup";
+import {SocketContext} from "../../utils/socketContext";
 
 function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: string, id: string }) {
 
@@ -9,6 +9,7 @@ function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: stri
     const [hp, setHp] = useState(friend.hp);
     const [popupOpened , setPopupOpened] = useState(false);
     const [popupCoordinates, setPopupCoordinates] = useState({x: 0, y: 0});
+    const socket = useContext(SocketContext);
 
     function handleOnClick(event: React.MouseEvent) {
         const xPercentage = (event.clientX / window.innerWidth) * 100;
@@ -49,7 +50,6 @@ function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: stri
     }
 
     useEffect(() => {
-        const socket = io("http://localhost:8000");
         socket.on("update-character-health", (data: {name: string, health: number}) => {
             if (data.name === friend.name) {
                 setHp(data.health);
@@ -57,9 +57,7 @@ function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: stri
         });
 
         return () => {
-            socket.emit('manual-disconnect');
             socket.off("update-character-health");
-            socket.close();
         }
     }, []);
 

@@ -1,10 +1,15 @@
 import {useNavigate} from "react-router-dom";
 import AudioStream from "../audio/audioStream";
 import "./dmRightBorder.css";
+import {useContext, useEffect, useState} from "react";
+import {SocketContext} from "../../utils/socketContext";
 
 function DmRightBorder({encounter}: {encounter: any}) {
 
     const navigate = useNavigate();
+    console.log("Encounter: ", encounter);
+    const [enemies, setEnemies] = useState<any>([...encounter.enemies]);
+    const socket = useContext(SocketContext);
 
     async function startBattle() {
         const setBattle = await getBattle();
@@ -109,6 +114,16 @@ function DmRightBorder({encounter}: {encounter: any}) {
         }
     }
 
+    useEffect(() => {
+        socket.on("update-enemies", (enemies: any) => {
+            setEnemies(enemies);
+        });
+
+        return () => {
+            socket.off("update-enemies");
+        }
+    }, []);
+
     return (
         <div className={"dm-right-border"}>
             <div className={"dm-right-border-navigation"}>
@@ -123,7 +138,7 @@ function DmRightBorder({encounter}: {encounter: any}) {
                     <h2>Encounter Information</h2>
                     <ul>
                         {
-                            encounter && encounter.enemies.map((enemy: any, index: number) => {
+                            encounter && enemies.map((enemy: any, index: number) => {
                                 return (
                                     <li key={index}>
                                         <div className={"enemy-info-dm-border"}>

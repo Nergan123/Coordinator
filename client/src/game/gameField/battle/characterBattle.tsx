@@ -1,14 +1,15 @@
 import {CharacterData} from "@types";
 import './characterBattle.css';
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import FriendPopup from "../../characterFriends/friendPopup";
-import io from "socket.io-client";
+import {SocketContext} from "../../../utils/socketContext";
 
 function CharacterBattle({character, selected}: {character: CharacterData, selected: boolean}) {
 
     const [popupOpened , setPopupOpened] = useState(false);
     const [popupCoordinates, setPopupCoordinates] = useState({x: 0, y: 0});
     const [hp, setHp] = useState(character.hp);
+    const socket = useContext(SocketContext);
 
     function handleOnClick(event: React.MouseEvent) {
         const xPercentage = (event.clientX / window.innerWidth) * 100;
@@ -53,7 +54,6 @@ function CharacterBattle({character, selected}: {character: CharacterData, selec
     }
 
     useEffect(() => {
-        const socket = io("http://localhost:8000");
         socket.on("update-character-health", (data: {name: string, health: number}) => {
             if (data.name === character.name) {
                 setHp(data.health);
@@ -61,9 +61,7 @@ function CharacterBattle({character, selected}: {character: CharacterData, selec
         });
 
         return () => {
-            socket.emit('manual-disconnect');
             socket.off("update-character-health");
-            socket.close();
         }
     }, []);
 

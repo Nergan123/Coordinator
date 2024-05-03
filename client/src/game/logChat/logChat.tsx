@@ -1,21 +1,19 @@
 import './logChat.css';
-import io from "socket.io-client";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {SocketContext} from "../../utils/socketContext";
 
 function LogChat({initialMessages}: {initialMessages: string[]}) {
 
     const [messages, setMessages] = useState<string[]>(initialMessages);
+    const socket = useContext(SocketContext);
 
     useEffect(() => {
-        const socket = io("http://localhost:8000");
         socket.on("message", (messagesNew: string[]) => {
             setMessages(messagesNew);
         });
 
         return () => {
-            socket.emit('manual-disconnect');
             socket.off("message");
-            socket.close()
         };
     }, []);
 

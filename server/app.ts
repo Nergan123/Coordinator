@@ -15,6 +15,7 @@ import {Server} from "socket.io";
 import {createServer} from "http";
 import path from "path";
 import fs from "fs";
+import Enemy from "./routes/values/services/enemies/enemy";
 
 const upload = multer();
 
@@ -189,6 +190,16 @@ export default class App {
                 musicBattle: locationFound.musicBattle,
             };
             this.socket.emit("update-encounter", locationToSend);
+
+            const allEnemies = this.resolver.enemies.getEnemies();
+            const enemiesToSend = this.game.state.encounter.enemies.map((enemy: Enemy) => {
+                return allEnemies.find((en: any) => {
+                    return en.id === enemy.id;
+                });
+            }).filter((enemy: any): enemy is any => Boolean(enemy));
+
+            this.socket.emit("update-enemies", enemiesToSend);
+
         });
         this.app.post('/api/game/update-character-item', verifyToken, (req, res) => {
             this.logger.info('POST /api/game/update-character-item');

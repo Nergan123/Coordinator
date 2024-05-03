@@ -1,7 +1,7 @@
 import {CharacterData} from "@types";
 import "./popUp.css";
-import React, {useEffect, useState} from "react";
-import io from "socket.io-client";
+import React, {useContext, useEffect, useState} from "react";
+import {SocketContext} from "../../utils/socketContext";
 
 function FriendPopup({friend, onClose, coordinates, invert}: {
     friend: CharacterData,
@@ -11,6 +11,7 @@ function FriendPopup({friend, onClose, coordinates, invert}: {
 }) {
 
     const [hp, setHp] = useState(friend.hp);
+    const socket = useContext(SocketContext);
 
     function handleClick() {
         onClose(false);
@@ -25,7 +26,6 @@ function FriendPopup({friend, onClose, coordinates, invert}: {
     }
 
     useEffect(() => {
-        const socket = io("http://localhost:8000");
         socket.on("update-character-health", (data: {name: string, health: number}) => {
             if (data.name === friend.name) {
                 setHp(data.health);
@@ -33,9 +33,7 @@ function FriendPopup({friend, onClose, coordinates, invert}: {
         });
 
         return () => {
-            socket.emit('manual-disconnect');
             socket.off("update-character-health");
-            socket.close();
         }
     }, []);
 

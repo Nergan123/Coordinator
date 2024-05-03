@@ -1,16 +1,16 @@
 import {ItemData} from "@types";
 import Item from "../../dm/characters/item";
 import "./storage.css";
-import {useEffect, useState} from "react";
-import io from "socket.io-client";
+import {useContext, useEffect, useState} from "react";
 import Health from "./health";
+import {SocketContext} from "../../utils/socketContext";
 
 function FriendStorage({items, id, healthMax, healthCur}: {items: {[key: string]: ItemData}, id: string, healthMax: number, healthCur: number}) {
 
     const [characterItems, setCharacterItems] = useState(items);
+    const socket = useContext(SocketContext);
 
     useEffect(() => {
-        const socket = io("http://localhost:8000");
         socket.on(
             'update-character-items', ({items, userId}: {items: {[key: string]: ItemData}, userId: string}) => {
                 if (userId === id) {
@@ -20,9 +20,7 @@ function FriendStorage({items, id, healthMax, healthCur}: {items: {[key: string]
         );
 
         return () => {
-            socket.emit('manual-disconnect');
             socket.off('update-character-items');
-            socket.close();
         }
     }, []);
 

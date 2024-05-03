@@ -17,7 +17,7 @@ function TopBar({character}: {character: CharacterData}) {
     }
 
     useEffect(() => {
-        const socket = io("http://localhost:8000");
+        const socket = io();
         socket.on("update-character-health", (data: {name: string, health: number}) => {
             if (data.name === character.name) {
                 setHp(data.health);
@@ -25,9 +25,7 @@ function TopBar({character}: {character: CharacterData}) {
         });
 
         return () => {
-            socket.emit('manual-disconnect');
             socket.off("update-character-health");
-            socket.close();
         };
     }, []);
 

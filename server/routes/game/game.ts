@@ -71,7 +71,7 @@ class Game {
 
     public updateEncounter(enemies: number[], location: string) {
         const allEnemies = new Enemies().getEnemies()
-        const enemiesToSend = enemies.map((enemy: number) => {
+        let enemiesToSend = enemies.map((enemy: number) => {
             return allEnemies.find((en: any) => {
                 return en.id === enemy;
             });
@@ -79,6 +79,10 @@ class Game {
 
         if (!enemiesToSend) {
             throw new Error("Enemies not found");
+        }
+
+        if (this.state.battle !== null) {
+            enemiesToSend = [...this.state.encounter.enemies, ...enemiesToSend];
         }
 
         const prevLocation = this.state.encounter.location.name;
