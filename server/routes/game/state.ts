@@ -237,9 +237,6 @@ class State {
             this.messages.shift();
         }
         this.messages.push(message);
-        this.save().then(() => {
-            this.logger.info("Message added successfully");
-        });
     }
 
     public updateEncounter(enemies: Enemy[], location: GameLocation) {

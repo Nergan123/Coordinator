@@ -10,8 +10,8 @@ function LocationField({location}: {location: LocationData}) {
     const socket = useContext(SocketContext);
 
     useEffect(() => {
-        socket.on("update-encounter", (location: LocationData) => {
-            setLocationState(location);
+        socket.on("update-encounter", (encounter: {location: any, enemies: any}) => {
+            setLocationState(encounter.location);
         });
 
         return () => {

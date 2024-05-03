@@ -69,9 +69,20 @@ export default class App {
         this.socket.on('connection', (socket) => {
             this.logger.info('a user connected');
 
-            socket.on('manual-disconnect', () => {
-                this.logger.info('a user manually disconnected');
-                socket.disconnect();
+            socket.on('add-message', (message) => {
+                this.logger.info('message: ' + message);
+                this.game.state.addMessage(message);
+                this.socket.emit('message', this.game.state.getMessages());
+            });
+
+            socket.on('show-character', (character) => {
+                this.logger.info('show-character: ' + character);
+                this.socket.emit('show-character', character);
+            });
+
+            socket.on('hide-character', (id) => {
+                this.logger.info('hide-character: ' + id);
+                this.socket.emit('hide-character', id);
             });
 
             socket.on('disconnect', () => {
@@ -189,16 +200,27 @@ export default class App {
                 musicCalm: locationFound.musicCalm,
                 musicBattle: locationFound.musicBattle,
             };
-            this.socket.emit("update-encounter", locationToSend);
 
             const allEnemies = this.resolver.enemies.getEnemies();
-            const enemiesToSend = this.game.state.encounter.enemies.map((enemy: Enemy) => {
+            const enemiesList = this.game.state.encounter.enemies.map((enemy: Enemy) => {
                 return allEnemies.find((en: any) => {
                     return en.id === enemy.id;
                 });
             }).filter((enemy: any): enemy is any => Boolean(enemy));
 
-            this.socket.emit("update-enemies", enemiesToSend);
+            const enemiesToSend = enemiesList.map((enemy: any) => {
+                return {
+                    id: enemy.id,
+                    hp: enemy.hp,
+                    name: enemy.name,
+                    image: fs.readFileSync(enemy.image, 'base64'),
+                    description: enemy.description,
+                    abilities: enemy.abilities,
+                    armor: enemy.armor
+                };
+            });
+
+            this.socket.emit("update-encounter", {location: locationToSend, enemies: enemiesToSend});
 
         });
         this.app.post('/api/game/update-character-item', verifyToken, (req, res) => {

@@ -11,7 +11,7 @@ function GameField({state, userRole}: {state: any, userRole: string}) {
     const [locationState, setLocationState] = useState<LocationData>(state.encounter.location);
     const [battle, setBattle] = useState<BattleData | null>(state.battle);
     const [characterToShow, setCharacterToShow] = useState<EnemyData>();
-    const [encounter, setEncounter] = useState<any>(state.encounter);
+    const [encounterState, setEncounterState] = useState<any>(state.encounter);
     const sourceImage = `data:image/jpeg;base64,${locationState.image}`;
     const navigate = useNavigate();
     const socket = useContext(SocketContext);
@@ -43,7 +43,7 @@ function GameField({state, userRole}: {state: any, userRole: string}) {
             } else {
                 console.log("Item: ", item);
                 console.log("State: ", state);
-                return state.encounter.enemies.find((enemy: any) => {
+                return encounterState.enemies.find((enemy: any) => {
                     console.log("Enemy: ", enemy);
                     console.log("ID: ", enemy.id.toString());
                     return enemy.id.toString() === item.id
@@ -59,26 +59,22 @@ function GameField({state, userRole}: {state: any, userRole: string}) {
     }
 
     useEffect(() => {
-        socket.on("update-encounter", (location: LocationData) => {
-            setLocationState(location);
+        getBattle().then(r => console.log(r));
+        socket.on("update-encounter", (encounter: {location: any, enemies: any}) => {
+            console.log("Encounter received: ", encounter);
+            console.log("EncounterState old: ", encounterState);
+            setEncounterState(encounter);
+            setLocationState(encounter.location);
+            console.log("EncounterState new: ", encounterState);
         });
         socket.on("battle", (battle: BattleData) => {
-            console.log("Received: ", battle);
             handleBattle(battle);
         });
-        socket.on("show-character", (id: number) => {
-            const enemyToShow = state.encounter.enemies.find((enemy: any) => enemy.id == id);
-            setCharacterToShow(enemyToShow);
+        socket.on("show-character", (character: any) => {
+            setCharacterToShow(character);
         });
         socket.on("hide-character", (id: number) => {
             setCharacterToShow(undefined);
-        });
-        socket.on("update-enemies", (enemies: any) => {
-            const newEncounter = {
-                ...encounter,
-                enemies: enemies,
-            }
-            setEncounter(newEncounter);
         });
 
         return () => {
@@ -88,13 +84,10 @@ function GameField({state, userRole}: {state: any, userRole: string}) {
             socket.off("hide-character");
         }
     }, []);
-    useEffect(() => {
-        getBattle().then(r => console.log(r));
-    }, []);
 
     return (
         <div className="game-field">
-            <img src={sourceImage} alt={state.encounter.location.name} className="gameImage"/>
+            <img src={sourceImage} alt={encounterState.location.name} className="gameImage"/>
             {battle != null && <Battle battle={battle} userRole={userRole}/>}
             {characterToShow && !battle && <CharacterToShow enemy={characterToShow} />}
         </div>
