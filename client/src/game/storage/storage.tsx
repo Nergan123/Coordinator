@@ -1,13 +1,13 @@
 import "./storage.css";
 import Item from "./item";
 import {ItemData} from "@types";
-import {useEffect, useState} from "react";
-import io from "socket.io-client";
+import {useContext, useEffect, useState} from "react";
+import {SocketContext} from "../../utils/socketContext";
 
 function Storage({items, userId}: {items: {[key: string]: ItemData}, userId: string}) {
 
-    const socket = io("http://localhost:8000");
     const [characterItems, setCharacterItems] = useState(items);
+    const socket = useContext(SocketContext);
 
     useEffect(() => {
         socket.on(
@@ -20,7 +20,6 @@ function Storage({items, userId}: {items: {[key: string]: ItemData}, userId: str
 
         return () => {
             socket.off('update-character-items');
-            socket.close();
         };
     }, []);
 

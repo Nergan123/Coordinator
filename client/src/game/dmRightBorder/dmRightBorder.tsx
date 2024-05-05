@@ -1,10 +1,14 @@
 import {useNavigate} from "react-router-dom";
 import AudioStream from "../audio/audioStream";
 import "./dmRightBorder.css";
+import {useContext, useEffect, useState} from "react";
+import {SocketContext} from "../../utils/socketContext";
 
-function DmRightBorder({encounter}: {encounter: any}) {
+function DmRightBorder({encounterInput}: {encounterInput: any}) {
 
     const navigate = useNavigate();
+    const [enemies, setEnemies] = useState<any>([...encounterInput.enemies]);
+    const socket = useContext(SocketContext);
 
     async function startBattle() {
         const setBattle = await getBattle();
@@ -75,39 +79,26 @@ function DmRightBorder({encounter}: {encounter: any}) {
         }
     }
 
-    async function showCharacter(id: string) {
+    async function showCharacter(character: any) {
         console.log("Calling api show")
-        const response = await fetch("/api/game/show-character", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({id: id}),
-        });
-
-        if (response.status === 200) {
-            console.log("Character shown");
-        } else {
-            console.error("Failed to show character");
-        }
+        console.log(character);
+        socket.emit("show-character", character);
     }
 
     async function hideCharacter(id: string) {
         console.log("Calling api hide")
-        const response = await fetch("/api/game/hide-character", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({id: id}),
+        socket.emit("hide-character", id);
+    }
+
+    useEffect(() => {
+        socket.on("update-encounter", (encounter: {location: any, enemies: any}) => {
+            setEnemies(encounter.enemies);
         });
 
-        if (response.status === 200) {
-            console.log("Character hidden");
-        } else {
-            console.error("Failed to hide character");
+        return () => {
+            socket.off("update-encounter");
         }
-    }
+    }, []);
 
     return (
         <div className={"dm-right-border"}>
@@ -123,7 +114,7 @@ function DmRightBorder({encounter}: {encounter: any}) {
                     <h2>Encounter Information</h2>
                     <ul>
                         {
-                            encounter && encounter.enemies.map((enemy: any, index: number) => {
+                            enemies && enemies.map((enemy: any, index: number) => {
                                 return (
                                     <li key={index}>
                                         <div className={"enemy-info-dm-border"}>
@@ -132,7 +123,7 @@ function DmRightBorder({encounter}: {encounter: any}) {
                                             <p>AC: {enemy.armor}</p>
                                         </div>
                                         <button onClick={async () => await addToBattle(enemy.id)}>Add to battle</button>
-                                        <button onClick={async () => await showCharacter(enemy.id.toString())}>Show</button>
+                                        <button onClick={async () => await showCharacter(enemy)}>Show</button>
                                         <button onClick={async () => await hideCharacter(enemy.id.toString())}>Hide</button>
                                     </li>
                                 );

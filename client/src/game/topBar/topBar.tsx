@@ -1,23 +1,23 @@
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import DiceRoller from "./diceRoller";
 import "./topBar.css";
 import {CharacterData} from "@types";
-import io from "socket.io-client";
 import AudioStream from "../audio/audioStream";
+import {SocketContext} from "../../utils/socketContext";
 
 function TopBar({character}: {character: CharacterData}) {
 
     const [diceRollerVisible, setDiceRollerVisible] = useState(false);
     const [hp, setHp] = useState(character.hp);
     const navigate = useNavigate();
+    const socket = useContext(SocketContext);
 
     function rollDice() {
         setDiceRollerVisible(!diceRollerVisible);
     }
 
     useEffect(() => {
-        const socket = io("http://localhost:8000");
         socket.on("update-character-health", (data: {name: string, health: number}) => {
             if (data.name === character.name) {
                 setHp(data.health);
@@ -25,9 +25,7 @@ function TopBar({character}: {character: CharacterData}) {
         });
 
         return () => {
-            socket.emit('manual-disconnect');
             socket.off("update-character-health");
-            socket.close();
         };
     }, []);
 

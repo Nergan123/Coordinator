@@ -2,12 +2,15 @@ import React from 'react';
 import './App.css';
 import {BrowserRouter} from "react-router-dom";
 import RoutesHome from "./routing/routes";
+import {SocketProvider} from "./utils/socketContext";
 
 function App() {
     return (
-        <BrowserRouter>
-            <RoutesHome />
-        </BrowserRouter>
+        <SocketProvider>
+            <BrowserRouter>
+                <RoutesHome />
+            </BrowserRouter>
+        </SocketProvider>
     );
 }
 

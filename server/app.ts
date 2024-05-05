@@ -14,6 +14,8 @@ import Game from "./routes/game/game";
 import {Server} from "socket.io";
 import {createServer} from "http";
 import path from "path";
+import fs from "fs";
+import Enemy from "./routes/values/services/enemies/enemy";
 
 const upload = multer();
 
@@ -67,9 +69,20 @@ export default class App {
         this.socket.on('connection', (socket) => {
             this.logger.info('a user connected');
 
-            socket.on('manual-disconnect', () => {
-                this.logger.info('a user manually disconnected');
-                socket.disconnect();
+            socket.on('add-message', (message) => {
+                this.logger.info('message: ' + message);
+                this.game.state.addMessage(message);
+                this.socket.emit('message', this.game.state.getMessages());
+            });
+
+            socket.on('show-character', (character) => {
+                this.logger.info('show-character: ' + character);
+                this.socket.emit('show-character', character);
+            });
+
+            socket.on('hide-character', (id) => {
+                this.logger.info('hide-character: ' + id);
+                this.socket.emit('hide-character', id);
             });
 
             socket.on('disconnect', () => {
@@ -157,7 +170,7 @@ export default class App {
                 res.sendStatus(401);
                 return;
             }
-            res.send(this.game.getState());
+            this.game.getState().then(state => res.send(state));
         });
         this.app.post('/api/game/update-encounter', verifyToken, (req, res) => {
             this.logger.info('POST /api/update-encounter');
@@ -166,19 +179,49 @@ export default class App {
                 return;
             }
             const encounter = req.body.encounter;
+            console.log(encounter);
             const prevLocation = this.game.state.getCurrentLocation().name;
             this.game.updateEncounter(encounter.enemies, encounter.location);
             res.sendStatus(200);
-            const locationToSend = this.resolver.locations.getLocations().find((loc: any) => {
+            const locationFound = this.resolver.locations.getLocations().find((loc: any) => {
                 return loc.name === encounter.location;
             });
-            if (!locationToSend) {
+            if (!locationFound) {
                 throw new Error("Location not found");
             }
             if (prevLocation !== encounter.location) {
                 this.socket.emit("audio-updated");
             }
-            this.socket.emit("update-encounter", locationToSend);
+            const locationToSend = {
+                name: locationFound.name,
+                description: locationFound.description,
+                image: fs.readFileSync(locationFound.image, 'base64'),
+                map: fs.readFileSync(locationFound.map, 'base64'),
+                musicCalm: locationFound.musicCalm,
+                musicBattle: locationFound.musicBattle,
+            };
+
+            const allEnemies = this.resolver.enemies.getEnemies();
+            const enemiesList = this.game.state.encounter.enemies.map((enemy: Enemy) => {
+                return allEnemies.find((en: any) => {
+                    return en.id === enemy.id;
+                });
+            }).filter((enemy: any): enemy is any => Boolean(enemy));
+
+            const enemiesToSend = enemiesList.map((enemy: any) => {
+                return {
+                    id: enemy.id,
+                    hp: enemy.hp,
+                    name: enemy.name,
+                    image: fs.readFileSync(enemy.image, 'base64'),
+                    description: enemy.description,
+                    abilities: enemy.abilities,
+                    armor: enemy.armor
+                };
+            });
+
+            this.socket.emit("update-encounter", {location: locationToSend, enemies: enemiesToSend});
+
         });
         this.app.post('/api/game/update-character-item', verifyToken, (req, res) => {
             this.logger.info('POST /api/game/update-character-item');
@@ -195,7 +238,7 @@ export default class App {
 
             this.socket.emit("update-character-items", {
                 id: userId,
-                items: this.game.state.getState().characters[userId].items
+                items: this.game.state.getItems(userId)
             });
         });
         this.app.post('/api/game/add-message', verifyToken, (req, res) => {
@@ -205,7 +248,7 @@ export default class App {
                 return;
             }
             this.game.state.addMessage(req.body.message);
-            this.socket.emit('message', this.game.state.getState().messages);
+            this.socket.emit('message', this.game.state.getMessages());
         });
         this.app.post('/api/game/update-character-health', verifyToken, (req, res) => {
             this.logger.info('POST /api/update-character-health');
@@ -219,7 +262,7 @@ export default class App {
             res.sendStatus(200);
 
             this.socket.emit("update-character-health", {
-                name: this.game.state.getState().characters[userId].name,
+                name: this.game.state.getCharacterName(userId),
                 health: health,
             });
         });

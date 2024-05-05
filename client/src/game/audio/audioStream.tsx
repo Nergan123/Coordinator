@@ -1,11 +1,12 @@
-import {useEffect, useRef, useState} from 'react';
-import io from "socket.io-client";
+import {useContext, useEffect, useRef, useState} from 'react';
 import {VolumeMute, VolumeUpRounded} from "@mui/icons-material";
 import './audioStream.css';
+import {SocketContext} from "../../utils/socketContext";
 
 function AudioStream() {
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [muted, setMuted] = useState<boolean>(false);
+    const socket = useContext(SocketContext);
 
     function setAudio() {
         audioRef.current = new Audio('/api/audio/stream');
@@ -49,7 +50,6 @@ function AudioStream() {
     }
 
     useEffect(() => {
-        const socket = io("http://localhost:8000");
         socket.on('audio-updated', () => {
             console.log('Audio updated');
             updateAudio();
@@ -67,9 +67,7 @@ function AudioStream() {
                 audioRef.current = null;
             }
 
-            socket.emit('manual-disconnect');
             socket.off('audio-updated');
-            socket.close();
         };
     }, []);
 

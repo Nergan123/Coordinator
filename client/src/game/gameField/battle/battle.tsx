@@ -1,12 +1,13 @@
 import CharacterBattle from "./characterBattle";
 import EnemyBattle from "./enemyBattle";
 import './battle.css';
-import io from "socket.io-client";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {SocketContext} from "../../../utils/socketContext";
 
 function Battle({battle, userRole}: {battle: {turn: number, queue: any[]}, userRole: string}) {
 
     const [turn, setTurn] = useState<number>(battle.turn);
+    const socket = useContext(SocketContext);
 
     function getCharacterOrEnemy(item: any, selected: boolean, index: number) {
         if (item.role) {
@@ -17,15 +18,12 @@ function Battle({battle, userRole}: {battle: {turn: number, queue: any[]}, userR
     }
 
     useEffect(() => {
-        const socket = io("http://localhost:8000");
         socket.on("next-turn", (turn: number) => {
             setTurn(turn);
         });
 
         return () => {
-            socket.emit('manual-disconnect');
             socket.off("next-turn");
-            socket.close();
         };
     }, []);
 

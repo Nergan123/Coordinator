@@ -1,10 +1,12 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import "./diceRoller.css";
 import {useNavigate} from "react-router-dom";
+import {SocketContext} from "../../utils/socketContext";
 
 function DiceRoller({setState, userName}: {setState: any, userName: string}) {
   const [diceSides, setDiceSides] = useState<number>(20);
   const [diceNumber, setDiceNumber] = useState<number>(1);
+  const socket = useContext(SocketContext);
 
   const navigate = useNavigate();
 
@@ -56,13 +58,7 @@ function DiceRoller({setState, userName}: {setState: any, userName: string}) {
         result.push(roll);
     }
     const message = createMessage(result, userName);
-    fetch("/api/game/add-message", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({message: message})
-    }).then(r => { if (r.status === 401) navigate("/login"); });
+    socket.emit("add-message", message);
     setState(false);
   }
 

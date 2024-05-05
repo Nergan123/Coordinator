@@ -1,23 +1,21 @@
 import {LocationData} from "@types";
 import LocationMap from "./locationMap";
 import "./locationField.css";
-import io from "socket.io-client";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {SocketContext} from "../../utils/socketContext";
 
 function LocationField({location}: {location: LocationData}) {
 
     const [locationState, setLocationState] = useState<LocationData>(location);
+    const socket = useContext(SocketContext);
 
     useEffect(() => {
-        const socket = io("http://localhost:8000");
-        socket.on("update-encounter", (location: LocationData) => {
-            setLocationState(location);
+        socket.on("update-encounter", (encounter: {location: any, enemies: any}) => {
+            setLocationState(encounter.location);
         });
 
         return () => {
-            socket.emit('manual-disconnect');
             socket.off("update-encounter");
-            socket.close();
         };
     }, []);
 

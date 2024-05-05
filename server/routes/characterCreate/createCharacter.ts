@@ -2,6 +2,7 @@ import DbHandler from "../../utils/db";
 import winston from "winston";
 import Bucket from "../../utils/bucket";
 import {logger} from "../../utils/logger";
+import Roles from "../values/services/roles/roles";
 
 class CreateCharacter {
     private db: DbHandler;
@@ -49,9 +50,19 @@ class CreateCharacter {
         this.logger.info(`Creating character for user ${userName}`);
         const result = await this.bucket.uploadFile(JSON.stringify(dataToStore), dataFileName);
         this.logger.info(`Result status: ${result.status}`);
+
+        const dataToStoreDb = {
+            name: name,
+            hp: hp,
+            description: description,
+            role: new Roles().getRoles().find((role: any) => role.name === dataToStore.role),
+            imageName: image.originalname,
+            items: items
+        }
+
         if (result.status === 200) {
             await this.bucket.uploadFile(image.buffer, image.originalname);
-            await this.saveCharacterToDb(req.user, dataToStore, dataFileName);
+            await this.saveCharacterToDb(req.user, dataToStoreDb, dataFileName);
             res.status(200).send('Character data uploaded successfully');
         } else {
             this.logger.error('Failed to upload character data');
@@ -73,8 +84,8 @@ class CreateCharacter {
     }
 
     private async saveCharacterToDb(user: any, data: any, fileName: string) {
-        const query = `INSERT INTO ${this.tableName} (user_id, name, path) VALUES ($1, $2, $3)`;
-        const values = [user.id, data.name, fileName];
+        const query = `INSERT INTO ${this.tableName} (user_id, name, path, hp, image, role, items, description) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`;
+        const values = [user.id, data.name, fileName, data.role.stats.hp, data.imageName, data.role.name, JSON.stringify(data.items), data.description];
 
         await this.db.query(query, values);
     }

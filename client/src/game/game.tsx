@@ -61,7 +61,7 @@ function Game() {
 
     function getRightBorder() {
         if (userRole === "DM") {
-            return (state && <DmRightBorder encounter={state.encounter} />);
+            return (state && state.encounter && <DmRightBorder encounterInput={state.encounter} />);
         } else {
             return (state.characters && <CharacterField character={state.characters[userId]}/>);
         }
@@ -71,6 +71,9 @@ function Game() {
         getRole().then(r => console.log(r));
         getUserId().then(r => console.log(r));
         getState().then(r => console.log(r));
+
+
+
     }, []);
 
     return (

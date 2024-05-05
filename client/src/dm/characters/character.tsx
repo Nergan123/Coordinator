@@ -3,12 +3,10 @@ import "./character.css";
 
 function UserCharacter({character, id}: {character: any, id: string}) {
 
-    const imageSource = "data:image/png;base64," + character.image;
-
     return (
         <div className={"user-character-container"}>
             <h1>{character.name}</h1>
-            <img src={imageSource} alt={character.name} />
+            <img src={character.image} alt={character.name} />
             <div className={"user-character-items-lib"}>
                 <div className={"user-character-item-row-dm"}>
                     <Item item={character.items[1]} cell={"1"} userId={id}/>
