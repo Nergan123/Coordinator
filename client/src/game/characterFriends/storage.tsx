@@ -5,44 +5,39 @@ import {useContext, useEffect, useState} from "react";
 import Health from "./health";
 import {SocketContext} from "../../utils/socketContext";
 
-function FriendStorage({items, id, healthMax, healthCur}: {items: {[key: string]: ItemData}, id: string, healthMax: number, healthCur: number}) {
+function FriendStorage({itemsInput, userId, healthMax, healthCur}: {itemsInput: {[key: string]: ItemData}, userId: string, healthMax: number, healthCur: number}) {
 
-    const [characterItems, setCharacterItems] = useState(items);
+    const [characterItems, setCharacterItems] = useState(itemsInput);
     const socket = useContext(SocketContext);
 
-    useEffect(() => {
-        socket.on(
-            'update-character-items', ({items, userId}: {items: {[key: string]: ItemData}, userId: string}) => {
-                if (userId === id) {
-                    setCharacterItems(items);
-                }
-            }
-        );
+    const getItems = async () => {
+        const response = await fetch("/api/game/get-character-items", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({userId: userId})
+        });
 
-        return () => {
-            socket.off('update-character-items');
+        if (response.status === 401) {
+            return;
         }
+
+        const data = await response.json();
+        setCharacterItems(data.items);
+    }
+
+    useEffect(() => {
+        getItems().then();
     }, []);
 
     return (
         <div className={"friend-storage-and-health"}>
-            <Health healthMax={healthMax} healthCur={healthCur} userId={id}/>
+            <Health healthMax={healthMax} healthCur={healthCur} userId={userId}/>
             <div className={"user-character-items"}>
-                <div className={"user-character-item-row-dm"}>
-                    <Item item={characterItems[1]} cell={"1"} userId={id}/>
-                    <Item item={characterItems[2]} cell={"2"} userId={id}/>
-                    <Item item={characterItems[3]} cell={"3"} userId={id}/>
-                </div>
-                <div className={"user-character-item-row-dm"}>
-                    <Item item={characterItems[4]} cell={"4"} userId={id}/>
-                    <Item item={characterItems[5]} cell={"5"} userId={id}/>
-                    <Item item={characterItems[6]} cell={"6"} userId={id}/>
-                </div>
-                <div className={"user-character-item-row-dm"}>
-                    <Item item={characterItems[7]} cell={"7"} userId={id}/>
-                    <Item item={characterItems[8]} cell={"8"} userId={id}/>
-                    <Item item={characterItems[9]} cell={"9"} userId={id}/>
-                </div>
+                {Object.keys(characterItems).map((key) => (
+                    <Item item={characterItems[key]} cell={key} userId={userId} key={key}/>
+                ))}
             </div>
         </div>
     );

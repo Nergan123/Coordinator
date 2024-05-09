@@ -12,7 +12,8 @@
     "skipLibCheck": true,
     "paths": {
       "@types": ["./server/utils/types"],
-    }
+    },
+    "noImplicitAny": false,
   },
   "exclude": [
     "client",

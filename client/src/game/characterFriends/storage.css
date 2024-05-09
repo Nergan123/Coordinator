@@ -16,14 +16,11 @@
 }
 
 .user-character-items {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+    justify-items: center;
+    align-items: center;
     margin: 10px;
-}
-
-.user-character-item-row-dm {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
 }

@@ -5,23 +5,101 @@
     "image": "server/data/locationImages/lobby.jpg",
     "description": "Regular lobby",
     "musicCalm": [
-      "https://www.youtube.com/watch?v=7eq5AXXrLUk&t=3s",
-      "https://www.youtube.com/watch?v=8ROFr7knx5Y"
+      "https://www.youtube.com/watch?v=KGsJHYSzAKM",
+      "https://www.youtube.com/watch?v=8u_m4R4jomk",
+      "https://www.youtube.com/watch?v=PYtefaXgiJs",
+      "https://www.youtube.com/watch?v=aWoqe0yZzmY"
     ],
     "musicBattle": [
-      "https://www.youtube.com/watch?v=LvjO-UhCyHw"
+      "https://www.youtube.com/watch?v=KGsJHYSzAKM",
+      "https://www.youtube.com/watch?v=8u_m4R4jomk",
+      "https://www.youtube.com/watch?v=PYtefaXgiJs",
+      "https://www.youtube.com/watch?v=aWoqe0yZzmY"
     ]
   },
-  "facility": {
-    "name": "Facility",
-    "map": "server/data/locationMaps/lobby.png",
-    "image": "server/data/locationImages/facility.jpg",
-    "description": "Regular facility",
+  "colony": {
+    "name": "Colony",
+    "map": "server/data/locationMaps/colony.png",
+    "image": "server/data/locationImages/Colony/colony.jpg",
+    "description": "The colony situated around the Terra Genesis facility on Europa represents humanity's foothold in the harsh and unforgiving environment of Jupiter's moon. Despite the extreme conditions and constant threats posed by cosmic radiation and the icy terrain, the colony serves as a vital support infrastructure for the secretive research operations conducted within the Terra Genesis facility.",
     "musicCalm": [
-      "https://www.youtube.com/watch?v=ICTN3nTE204&t=39s"
+      "https://www.youtube.com/watch?v=5cA9ZZAiP7U",
+      "https://www.youtube.com/watch?v=WQBc0ZWrXvg"
     ],
     "musicBattle": [
-      "https://www.youtube.com/watch?v=LvjO-UhCyHw"
+      "https://www.youtube.com/watch?v=Ph4BZqB7yr4",
+      "https://www.youtube.com/watch?v=DCHwMsTlLxo"
+    ]
+  },
+  "bar": {
+    "name": "Criminal Bar",
+    "map": "server/data/locationMaps/lobby.png",
+    "image": "server/data/locationImages/Colony/bar.jpg",
+    "description": "The criminal bar is a seedy establishment on the outskirts of the colony, known for its illicit activities, shady clientele, and underground dealings. Despite its reputation, the bar serves as a gathering place for those seeking to escape the\nrigors of colony life and indulge in vices forbidden within the confines of the settlement.",
+    "musicCalm": [
+      "https://www.youtube.com/watch?v=omMWu5A1GrM",
+      "https://www.youtube.com/watch?v=SMy3ZKqhNDY",
+      "https://www.youtube.com/watch?v=xr7o_4xQ6I0"
+    ],
+    "musicBattle": [
+      "https://www.youtube.com/watch?v=nqM9FfbCXbA",
+      "https://www.youtube.com/watch?v=1HAy95zUAVs"
+    ]
+  },
+  "police": {
+    "name": "Police Station",
+    "map": "server/data/locationMaps/lobby.png",
+    "image": "server/data/locationImages/Colony/police.jpg",
+    "description": "The police station is the central hub of law enforcement within the colony, responsible for maintaining order and security in the face of the various threats posed by the harsh environment and criminal elements that seek to exploit the vulnerable settlement. The station serves as a base of operations for the colony's police force, tasked with investigating crimes, apprehending suspects, and upholding the law.",
+    "musicCalm": [
+      "https://www.youtube.com/watch?v=5kEqdj8Royc",
+      "https://www.youtube.com/watch?v=Yo8bX3wivPs",
+      "https://www.youtube.com/watch?v=IQNwcDBNdOE"
+    ],
+    "musicBattle": [
+      "https://www.youtube.com/watch?v=Oc-EM6ADcEw",
+      "https://www.youtube.com/watch?v=IHzL0JtRAYY"
+    ]
+  },
+  "shuttle": {
+    "name": "Shuttle",
+    "map": "server/data/locationMaps/shuttle.png",
+    "image": "server/data/locationImages/Colony/shuttle.jpg",
+    "description": "The shuttle where the mercenaries are going to be transported to the Terra Genesis facility.",
+    "musicCalm": [
+      "https://www.youtube.com/watch?v=1J4e33wmnYI",
+      "https://www.youtube.com/watch?v=Yj8V6v-GZ6w"
+    ],
+    "musicBattle": [
+      "https://www.youtube.com/watch?v=cej2O-mem64"
+    ]
+  },
+  "hydroponics": {
+    "name": "Hydroponics facility",
+    "map": "server/data/locationMaps/lobby.png",
+    "image": "server/data/locationImages/Colony/hydroponics.jpg",
+    "description": "The hydroponics facility is a vital component of the colony's infrastructure, providing a sustainable source of food and oxygen for the inhabitants of the settlement. The facility utilizes advanced agricultural techniques to cultivate crops in a controlled environment, allowing for the production of fresh produce despite the harsh conditions of Europa's icy surface.",
+    "musicCalm": [
+      "https://www.youtube.com/watch?v=u8VFJAaG_mg",
+      "https://www.youtube.com/watch?v=2b_d1EylEvQ"
+    ],
+    "musicBattle": [
+      "https://www.youtube.com/watch?v=Ph4BZqB7yr4",
+      "https://www.youtube.com/watch?v=DCHwMsTlLxo"
+    ]
+  },
+  "news": {
+    "name": "News Station",
+    "map": "server/data/locationMaps/lobby.png",
+    "image": "server/data/locationImages/Colony/news.jpg",
+    "description": "The news station is the primary source of information and communication within the colony, broadcasting updates, announcements, and emergency alerts to the inhabitants of the settlement. The station serves as a vital link between the colony and the outside world, providing news coverage of events on Europa and beyond.",
+    "musicCalm": [
+      "https://www.youtube.com/watch?v=pnhRMQinxyk",
+      "https://www.youtube.com/watch?v=6sQXSdzk6U4"
+    ],
+    "musicBattle": [
+      "https://www.youtube.com/watch?v=Oc-EM6ADcEw",
+      "https://www.youtube.com/watch?v=IHzL0JtRAYY"
     ]
   }
 }
