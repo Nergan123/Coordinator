@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import AudioStream from "../audio/audioStream";
 import "./dmRightBorder.css";
-import {useContext, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import {SocketContext} from "../../utils/socketContext";
 
 function DmRightBorder({encounterInput}: {encounterInput: any}) {
@@ -90,9 +90,13 @@ function DmRightBorder({encounterInput}: {encounterInput: any}) {
         socket.emit("hide-character", id);
     }
 
+    const handleEncounter = useCallback((encounter: any) => {
+        setEnemies(encounter.enemies);
+    },[]);
+
     useEffect(() => {
         socket.on("update-encounter", (encounter: {location: any, enemies: any}) => {
-            setEnemies(encounter.enemies);
+            handleEncounter(encounter);
         });
 
         return () => {
