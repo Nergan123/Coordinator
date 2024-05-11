@@ -48,7 +48,7 @@
   },
   "police": {
     "name": "Police Station",
-    "map": "server/data/locationMaps/lobby.png",
+    "map": "server/data/locationMaps/police.png",
     "image": "server/data/locationImages/Colony/police.jpg",
     "description": "The police station is the central hub of law enforcement within the colony, responsible for maintaining order and security in the face of the various threats posed by the harsh environment and criminal elements that seek to exploit the vulnerable settlement. The station serves as a base of operations for the colony's police force, tasked with investigating crimes, apprehending suspects, and upholding the law.",
     "musicCalm": [
@@ -76,7 +76,7 @@
   },
   "hydroponics": {
     "name": "Hydroponics facility",
-    "map": "server/data/locationMaps/lobby.png",
+    "map": "server/data/locationMaps/hydroponics.png",
     "image": "server/data/locationImages/Colony/hydroponics.jpg",
     "description": "The hydroponics facility is a vital component of the colony's infrastructure, providing a sustainable source of food and oxygen for the inhabitants of the settlement. The facility utilizes advanced agricultural techniques to cultivate crops in a controlled environment, allowing for the production of fresh produce despite the harsh conditions of Europa's icy surface.",
     "musicCalm": [
