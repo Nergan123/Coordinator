@@ -50,11 +50,11 @@ function AudioStream() {
     }
 
     useEffect(() => {
+        setAudio();
         socket.on('audio-updated', () => {
             console.log('Audio updated');
             updateAudio();
         });
-        setAudio();
 
         return () => {
             if (audioRef.current) {

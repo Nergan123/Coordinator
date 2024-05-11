@@ -12,7 +12,7 @@ function Storage({items, userId}: {items: {[key: string]: ItemData}, userId: str
     useEffect(() => {
         socket.on(
             'update-character-items', ({items, id}: {items: {[key: string]: ItemData}, id: string}) => {
-                if (id === userId) {
+                if (userId === id) {
                     setCharacterItems(items);
                 }
             }

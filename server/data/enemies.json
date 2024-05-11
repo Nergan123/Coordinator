@@ -34,5 +34,167 @@
       }
     ],
     "description": "Slasher necromorph. Once was a human"
+  },
+  {
+    "name": "Remy Delacroix",
+    "id": 3,
+    "hp": 200,
+    "armor": 15,
+    "image": "server/data/npcImages/Colony/Bar/Remy.jpeg",
+    "abilities": [
+      {
+        "name": "Pistol",
+        "description": "test"
+      },
+      {
+        "name": "Grenade",
+        "description": "test"
+      }
+    ],
+    "description": "A shadowy figure with connections to the criminal underworld, Remy Delacroix trades in information and secrets, for the right price."
+  },
+  {
+    "name": "Lena Kovac",
+    "id": 4,
+    "hp": 200,
+    "armor": 15,
+    "image": "server/data/npcImages/Colony/Bar/LenaKovac.jpg",
+    "abilities": [
+      {
+        "name": "Pistol",
+        "description": "test"
+      },
+      {
+        "name": "Grenade",
+        "description": "test"
+      }
+    ],
+    "description": "A no-nonsense bouncer and enforcer, Lena Kovac ensures that troublemakers are swiftly dealt with and maintains order in the bar."
+  },
+  {
+    "name": "Jack Malone",
+    "id": 5,
+    "hp": 200,
+    "armor": 15,
+    "image": "server/data/npcImages/Colony/Bar/Jack.jpg",
+    "abilities": [
+      {
+        "name": "Pistol",
+        "description": "test"
+      },
+      {
+        "name": "Grenade",
+        "description": "test"
+      }
+    ],
+    "description": "The grizzled owner and operator of the criminal bar, Jack Malone is a former smuggler with a checkered past."
+  },
+  {
+    "name": "Elena Vasquez",
+    "id": 6,
+    "hp": 200,
+    "armor": 15,
+    "image": "server/data/npcImages/Colony/Hydroponics/Elena.jpeg",
+    "abilities": [
+      {
+        "name": "Pistol",
+        "description": "test"
+      },
+      {
+        "name": "Grenade",
+        "description": "test"
+      }
+    ],
+    "description": "The head botanist and chief scientist of the hydroponics facility, Dr. Vasquez oversees the cultivation of crops and research into sustainable agriculture."
+  },
+  {
+    "name": "Mark Damian",
+    "id": 7,
+    "hp": 200,
+    "armor": 15,
+    "image": "server/data/npcImages/Colony/Hydroponics/Mark.jpg",
+    "abilities": [
+      {
+        "name": "Pistol",
+        "description": "test"
+      },
+      {
+        "name": "Grenade",
+        "description": "test"
+      }
+    ],
+    "description": "A skilled engineer responsible for maintaining the facility's equipment and ensuring the smooth operation of the hydroponics systems."
+  },
+  {
+    "name": "Alex Wong",
+    "id": 8,
+    "hp": 200,
+    "armor": 15,
+    "image": "server/data/npcImages/Colony/News/alex.jpeg",
+    "abilities": [
+      {
+        "name": "Pistol",
+        "description": "test"
+      },
+      {
+        "name": "Grenade",
+        "description": "test"
+      }
+    ],
+    "description": "A dedicated investigative journalist, Alex Wong is always on the lookout for the next big story, no matter the risks."
+  },
+  {
+    "name": "Sarah Park",
+    "id": 9,
+    "hp": 200,
+    "armor": 15,
+    "image": "server/data/npcImages/Colony/News/sarah.jpg",
+    "abilities": [
+      {
+        "name": "Pistol",
+        "description": "test"
+      },
+      {
+        "name": "Grenade",
+        "description": "test"
+      }
+    ],
+    "description": "A charismatic and respected journalist, Sarah Park is the face of the news station, known for her insightful reporting."
+  },
+  {
+    "name": "Markus Chen",
+    "id": 10,
+    "hp": 200,
+    "armor": 15,
+    "image": "server/data/npcImages/Colony/Police/Markus.jpg",
+    "abilities": [
+      {
+        "name": "Pistol",
+        "description": "test"
+      },
+      {
+        "name": "Grenade",
+        "description": "test"
+      }
+    ],
+    "description": "A young and eager recruit, Officer Chen is known for his dedication to duty and willingness to go the extra mile."
+  },
+  {
+    "name": "Elena Vargas",
+    "id": 11,
+    "hp": 200,
+    "armor": 15,
+    "image": "server/data/npcImages/Colony/Police/Elena.jpg",
+    "abilities": [
+      {
+        "name": "Pistol",
+        "description": "test"
+      },
+      {
+        "name": "Grenade",
+        "description": "test"
+      }
+    ],
+    "description": "The head of the colony's police force, Captain Vargas is a seasoned law enforcement officer with a no-nonsense attitude."
   }
 ]

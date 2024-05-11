@@ -1,6 +1,6 @@
 import {BattleData, EnemyData, LocationData} from "@types";
 import './gameField.css';
-import React, {useContext, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 import Battle from "./battle/battle";
 import {useNavigate} from "react-router-dom";
 import CharacterToShow from "./characterToShow";
@@ -11,7 +11,8 @@ function GameField({state, userRole}: {state: any, userRole: string}) {
     const [locationState, setLocationState] = useState<LocationData>(state.encounter.location);
     const [battle, setBattle] = useState<BattleData | null>(state.battle);
     const [characterToShow, setCharacterToShow] = useState<EnemyData>();
-    const [encounterState, setEncounterState] = useState<any>(state.encounter);
+    const encounterStateRef = useRef(state.encounter);
+    encounterStateRef.current = state.encounter;
     const sourceImage = `data:image/jpeg;base64,${locationState.image}`;
     const navigate = useNavigate();
     const socket = useContext(SocketContext);
@@ -32,40 +33,57 @@ function GameField({state, userRole}: {state: any, userRole: string}) {
         handleBattle(data.battle);
     }
 
+    const fetchEnemies = async () => {
+        try {
+            const response = await fetch(
+                "/api/values",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(
+                        {value: "enemies"}
+                    ),
+                }
+            );
+            return await response.json();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     function handleBattle(battle: BattleData) {
         if (battle == null) {
             setBattle(battle);
             return;
         }
-        const queue = battle.queue.map((item) => {
-            if (item.player) {
-                return state.characters[item.id];
-            } else {
-                console.log("Item: ", item);
-                console.log("State: ", state);
-                return encounterState.enemies.find((enemy: any) => {
-                    console.log("Enemy: ", enemy);
-                    console.log("ID: ", enemy.id.toString());
-                    return enemy.id.toString() === item.id
-                });
+
+        fetchEnemies().then((enemies) => {
+            const newBattle = {
+                ...battle,
+                queue: battle.queue.map((item) => {
+                    if (item.player) {
+                        return state.characters[item.id];
+                    } else {
+                        return enemies.find((enemy: any) => {
+                            return enemy.id.toString() === item.id
+                        });
+                    }
+                }),
             }
+            setBattle(newBattle);
         });
-        const newBattle = {
-            ...battle,
-            queue: queue,
-        }
-        setCharacterToShow(undefined);
-        setBattle(newBattle);
     }
 
+    const handleLocation = useCallback((encounter: any) => {
+        setLocationState(encounter.location);
+    }, []);
+
     useEffect(() => {
-        getBattle().then(r => console.log(r));
+        getBattle().then();
         socket.on("update-encounter", (encounter: {location: any, enemies: any}) => {
-            console.log("Encounter received: ", encounter);
-            console.log("EncounterState old: ", encounterState);
-            setEncounterState(encounter);
-            setLocationState(encounter.location);
-            console.log("EncounterState new: ", encounterState);
+            handleLocation(encounter);
         });
         socket.on("battle", (battle: BattleData) => {
             handleBattle(battle);
@@ -87,7 +105,7 @@ function GameField({state, userRole}: {state: any, userRole: string}) {
 
     return (
         <div className="game-field">
-            <img src={sourceImage} alt={encounterState.location.name} className="gameImage"/>
+            <img src={sourceImage} alt={encounterStateRef.current.location.name} className="gameImage"/>
             {battle != null && <Battle battle={battle} userRole={userRole}/>}
             {characterToShow && !battle && <CharacterToShow enemy={characterToShow} />}
         </div>

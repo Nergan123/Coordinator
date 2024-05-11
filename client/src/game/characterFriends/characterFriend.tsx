@@ -2,11 +2,13 @@ import React, {useContext, useEffect, useState} from "react";
 import FriendStorage from "./storage";
 import FriendPopup from "./friendPopup";
 import {SocketContext} from "../../utils/socketContext";
+import {ItemData} from "@types";
 
-function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: string, id: string }) {
+function CharacterFriend({ friend, userRole, userId }: { friend: any, userRole: string, userId: string }) {
 
     const [storageOpened, setStorageOpened] = useState(false);
     const [hp, setHp] = useState(friend.hp);
+    const [characterItems, setCharacterItems] = useState(friend.items);
     const [popupOpened , setPopupOpened] = useState(false);
     const [popupCoordinates, setPopupCoordinates] = useState({x: 0, y: 0});
     const socket = useContext(SocketContext);
@@ -55,15 +57,24 @@ function CharacterFriend({ friend, userRole, id }: { friend: any, userRole: stri
                 setHp(data.health);
             }
         });
+        socket.on(
+            'update-character-items', ({items, id}: {items: {[key: string]: ItemData}, id: string}) => {
+                console.log("update-character-items");
+                if (userId === id) {
+                    setCharacterItems(items);
+                }
+            }
+        );
 
         return () => {
             socket.off("update-character-health");
+            socket.off('update-character-items');
         }
     }, []);
 
     return (
         <>
-            {storageOpened && <FriendStorage items={friend.items} id={id} healthMax={friend.role.stats.hp}
+            {storageOpened && <FriendStorage itemsInput={characterItems} userId={userId} healthMax={friend.role.stats.hp}
                                              healthCur={friend.hp}/>}
             {popupOpened &&
                 <FriendPopup friend={friend} onClose={() => setPopupOpened(false)} coordinates={popupCoordinates} invert={false}/>}

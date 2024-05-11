@@ -9,7 +9,7 @@ function CharactersFriends({characters, userRole}: {characters: {[key: string]: 
         const charactersList = [];
         for (const key in characters){
             charactersList.push(
-                CharacterFriend({friend: characters[key], userRole: userRole, id: key})
+                CharacterFriend({friend: characters[key], userRole: userRole, userId: key})
             );
         }
         return charactersList;
