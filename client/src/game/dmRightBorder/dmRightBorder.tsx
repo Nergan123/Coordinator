@@ -3,6 +3,7 @@ import AudioStream from "../audio/audioStream";
 import "./dmRightBorder.css";
 import {useCallback, useContext, useEffect, useState} from "react";
 import {SocketContext} from "../../utils/socketContext";
+import Notes from "../topBar/notes/notes";
 
 function DmRightBorder({encounterInput}: {encounterInput: any}) {
 
@@ -112,6 +113,7 @@ function DmRightBorder({encounterInput}: {encounterInput: any}) {
                 <button onClick={startBattle}>Start Battle</button>
                 <button onClick={makeTurn}>Next Turn</button>
                 <AudioStream />
+                <Notes />
             </div>
             <div className={"dm-right-border-content"}>
                 <div className={"dm-right-border-content-encounter-info"}>

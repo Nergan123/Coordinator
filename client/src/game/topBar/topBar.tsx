@@ -5,6 +5,7 @@ import "./topBar.css";
 import {CharacterData} from "@types";
 import AudioStream from "../audio/audioStream";
 import {SocketContext} from "../../utils/socketContext";
+import Notes from "./notes/notes";
 
 function TopBar({character}: {character: CharacterData}) {
 
@@ -46,6 +47,7 @@ function TopBar({character}: {character: CharacterData}) {
             </div>
             <div className="top-bar-right">
                 <button onClick={rollDice}>Roll Dice</button>
+                <Notes />
             </div>
         </div>
     )

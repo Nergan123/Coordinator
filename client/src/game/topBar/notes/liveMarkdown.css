@@ -1,0 +1,90 @@
+.live-markdown{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding: 0 10px;
+    font-size: 1.2em;
+    line-height: 1.5em;
+    color: white;
+    transition: all 0.3s;
+}
+
+.wrapper-live-markdown-preview {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 68%;
+    overflow: auto;
+    transition: all 0.3s;
+    margin-bottom: 1rem;
+    outline: none;
+}
+
+.wrapper-live-markdown-editor {
+    outline: none;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 27%;
+    overflow: auto;
+}
+
+.wrapper-live-markdown-editor textarea {
+    width: 100%;
+    height: 80%;
+    background-color: #011627;
+    color: white;
+    font-size: 1.2em;
+    line-height: 1.5em;
+    border: none;
+    resize: none;
+    padding: 10px;
+    transition: all 0.3s;
+    outline: none;
+}
+
+.head-live-markdown {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 3%;
+    font-size: 1.2em;
+    line-height: 1.5em;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem;
+}
+
+.markdown {
+    all: initial;
+    color: white;
+    padding: 1.5rem;
+    border: none;
+    outline: none !important;
+    resize: none;
+    overflow-x: hidden;
+}
+
+.markdown h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+    border-bottom: white 1px solid;
+}
+
+.markdown h2 {
+    font-size: 1.5em;
+    margin: 0.83em 0;
+    border-bottom: white 1px solid;
+}
+
+.markdown h3 {
+    font-size: 1.17em;
+    margin: 1em 0;
+    border-bottom: white 1px solid;
+}
+
+.markdown a {
+    color: #f25f4c;
+}
