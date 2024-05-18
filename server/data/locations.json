@@ -90,7 +90,7 @@
   },
   "news": {
     "name": "News Station",
-    "map": "server/data/locationMaps/lobby.png",
+    "map": "server/data/locationMaps/news.png",
     "image": "server/data/locationImages/Colony/news.jpg",
     "description": "The news station is the primary source of information and communication within the colony, broadcasting updates, announcements, and emergency alerts to the inhabitants of the settlement. The station serves as a vital link between the colony and the outside world, providing news coverage of events on Europa and beyond.",
     "musicCalm": [
