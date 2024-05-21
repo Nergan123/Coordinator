@@ -23,25 +23,19 @@ function Storage({items, userId}: {items: {[key: string]: ItemData}, userId: str
         };
     }, []);
 
-  return (
-      <div className={"storage"}>
-          <div className={"storage-row"}>
-              <Item item={characterItems[1]}/>
-              <Item item={characterItems[2]}/>
-              <Item item={characterItems[3]}/>
-          </div>
-          <div className={"storage-row"}>
-              <Item item={characterItems[4]}/>
-              <Item item={characterItems[5]}/>
-              <Item item={characterItems[6]}/>
-          </div>
-          <div className={"storage-row"}>
-              <Item item={characterItems[7]}/>
-              <Item item={characterItems[8]}/>
-              <Item item={characterItems[9]}/>
-          </div>
-      </div>
-  );
+    return (
+        <div className={"storage"}>
+            <Item item={characterItems[1]}/>
+            <Item item={characterItems[2]}/>
+            <Item item={characterItems[3]}/>
+            <Item item={characterItems[4]}/>
+            <Item item={characterItems[5]}/>
+            <Item item={characterItems[6]}/>
+            <Item item={characterItems[7]}/>
+            <Item item={characterItems[8]}/>
+            <Item item={characterItems[9]}/>
+        </div>
+    );
 }
 
 export default Storage;
