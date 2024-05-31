@@ -1,8 +1,8 @@
 {
   "lobby": {
     "name": "Lobby",
-    "map": "server/data/locationMaps/lobby.png",
-    "image": "server/data/locationImages/lobby.jpg",
+    "map": "campaign/locationMaps/lobby.png",
+    "image": "campaign/locationImages/lobby.jpg",
     "description": "Regular lobby",
     "musicCalm": [
       "https://www.youtube.com/watch?v=KGsJHYSzAKM",
@@ -19,8 +19,8 @@
   },
   "colony": {
     "name": "Colony",
-    "map": "server/data/locationMaps/colony.png",
-    "image": "server/data/locationImages/Colony/colony.jpg",
+    "map": "campaign/locationMaps/colony.png",
+    "image": "campaign/locationImages/Colony/colony.jpg",
     "description": "The colony situated around the Terra Genesis facility on Europa represents humanity's foothold in the harsh and unforgiving environment of Jupiter's moon. Despite the extreme conditions and constant threats posed by cosmic radiation and the icy terrain, the colony serves as a vital support infrastructure for the secretive research operations conducted within the Terra Genesis facility.",
     "musicCalm": [
       "https://www.youtube.com/watch?v=5cA9ZZAiP7U",
@@ -33,8 +33,8 @@
   },
   "bar": {
     "name": "Criminal Bar",
-    "map": "server/data/locationMaps/lobby.png",
-    "image": "server/data/locationImages/Colony/bar.jpg",
+    "map": "campaign/locationMaps/lobby.png",
+    "image": "campaign/locationImages/Colony/bar.jpg",
     "description": "The criminal bar is a seedy establishment on the outskirts of the colony, known for its illicit activities, shady clientele, and underground dealings. Despite its reputation, the bar serves as a gathering place for those seeking to escape the\nrigors of colony life and indulge in vices forbidden within the confines of the settlement.",
     "musicCalm": [
       "https://www.youtube.com/watch?v=omMWu5A1GrM",
@@ -48,8 +48,8 @@
   },
   "police": {
     "name": "Police Station",
-    "map": "server/data/locationMaps/police.png",
-    "image": "server/data/locationImages/Colony/police.jpg",
+    "map": "campaign/locationMaps/police.png",
+    "image": "campaign/locationImages/Colony/police.jpg",
     "description": "The police station is the central hub of law enforcement within the colony, responsible for maintaining order and security in the face of the various threats posed by the harsh environment and criminal elements that seek to exploit the vulnerable settlement. The station serves as a base of operations for the colony's police force, tasked with investigating crimes, apprehending suspects, and upholding the law.",
     "musicCalm": [
       "https://www.youtube.com/watch?v=5kEqdj8Royc",
@@ -63,8 +63,8 @@
   },
   "shuttle": {
     "name": "Shuttle",
-    "map": "server/data/locationMaps/shuttle.png",
-    "image": "server/data/locationImages/Colony/shuttle.jpg",
+    "map": "campaign/locationMaps/shuttle.png",
+    "image": "campaign/locationImages/Colony/shuttle.jpg",
     "description": "The shuttle where the mercenaries are going to be transported to the Terra Genesis facility.",
     "musicCalm": [
       "https://www.youtube.com/watch?v=1J4e33wmnYI",
@@ -76,8 +76,8 @@
   },
   "hydroponics": {
     "name": "Hydroponics facility",
-    "map": "server/data/locationMaps/hydroponics.png",
-    "image": "server/data/locationImages/Colony/hydroponics.jpg",
+    "map": "campaign/locationMaps/hydroponics.png",
+    "image": "campaign/locationImages/Colony/hydroponics.jpg",
     "description": "The hydroponics facility is a vital component of the colony's infrastructure, providing a sustainable source of food and oxygen for the inhabitants of the settlement. The facility utilizes advanced agricultural techniques to cultivate crops in a controlled environment, allowing for the production of fresh produce despite the harsh conditions of Europa's icy surface.",
     "musicCalm": [
       "https://www.youtube.com/watch?v=u8VFJAaG_mg",
@@ -90,8 +90,8 @@
   },
   "news": {
     "name": "News Station",
-    "map": "server/data/locationMaps/news.png",
-    "image": "server/data/locationImages/Colony/news.jpg",
+    "map": "campaign/locationMaps/news.png",
+    "image": "campaign/locationImages/Colony/news.jpg",
     "description": "The news station is the primary source of information and communication within the colony, broadcasting updates, announcements, and emergency alerts to the inhabitants of the settlement. The station serves as a vital link between the colony and the outside world, providing news coverage of events on Europa and beyond.",
     "musicCalm": [
       "https://www.youtube.com/watch?v=pnhRMQinxyk",

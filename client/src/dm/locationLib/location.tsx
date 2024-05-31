@@ -2,7 +2,7 @@ import {LocationData} from "@types";
 
 function Location({data, encounter, setEncounter}: {data: LocationData, encounter: any, setEncounter: any}) {
 
-    const imageSource = "data:image/png;base64," + data.image;
+    const imageSource = data.image;
 
     function setAsMap() {
         const newEncounter = {

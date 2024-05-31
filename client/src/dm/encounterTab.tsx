@@ -13,7 +13,7 @@ function EncounterTab({encounter, setEncounter}: {encounter: any, setEncounter: 
         setEncounter(newEncounter);
     }
 
-    const locationImageSource = "data:image/png;base64," + encounter.location.image;
+    const locationImageSource = encounter.location.image;
 
     async function setStateEncounter() {
 

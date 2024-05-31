@@ -3,7 +3,7 @@ import './characterToShow.css';
 
 function CharacterToShow({enemy}: {enemy: EnemyData}) {
 
-    const sourceImage = `data:image/jpeg;base64,${enemy.image}`;
+    const sourceImage = enemy.image;
 
     const style = {
         backgroundImage: `url(${sourceImage})`,

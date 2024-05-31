@@ -8,15 +8,12 @@ function LocationsLib({encounter, setEncounter}: {encounter: any, setEncounter: 
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch('/api/values',
+            const response = await fetch('/api/locations',
                 {
-                    method: 'POST',
+                    method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(
-                        {value: 'locations'}
-                    ),
                 });
             const data = await response.json();
             setLocations(data);

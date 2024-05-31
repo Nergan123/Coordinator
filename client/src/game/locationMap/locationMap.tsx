@@ -4,7 +4,8 @@ import "./locationMap.css";
 function LocationMap({map}: {map: string}) {
 
     const [isMapOpen, setIsMapOpen] = useState(false);
-    const sourceImage = `data:image/jpeg;base64,${map}`;
+    console.log(map)
+    const sourceImage = map;
 
     function handleClick() {
         setIsMapOpen(!isMapOpen);

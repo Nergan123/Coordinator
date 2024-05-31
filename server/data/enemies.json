@@ -1,46 +1,10 @@
 [
   {
-    "name": "Machine",
-    "id": 1,
-    "hp": 100,
-    "armor": 10,
-    "image": "server/data/enemy.png",
-    "abilities": [
-      {
-        "name": "Laser",
-        "description": "test"
-      },
-      {
-        "name": "Missile",
-        "description": "test"
-      }
-    ],
-    "description": "Machine created for test purposes"
-  },
-  {
-    "name": "Slasher",
-    "id": 2,
-    "hp": 150,
-    "armor": 5,
-    "image": "server/data/enemy.png",
-    "abilities": [
-      {
-        "name": "Sword",
-        "description": "test"
-      },
-      {
-        "name": "Shield",
-        "description": "test"
-      }
-    ],
-    "description": "Slasher necromorph. Once was a human"
-  },
-  {
     "name": "Remy Delacroix",
     "id": 3,
     "hp": 200,
     "armor": 15,
-    "image": "server/data/npcImages/Colony/Bar/Remy.jpeg",
+    "image": "campaign/npcImages/Colony/Bar/Remy.jpeg",
     "abilities": [
       {
         "name": "Pistol",
@@ -58,7 +22,7 @@
     "id": 4,
     "hp": 200,
     "armor": 15,
-    "image": "server/data/npcImages/Colony/Bar/LenaKovac.jpg",
+    "image": "campaign/npcImages/Colony/Bar/LenaKovac.jpg",
     "abilities": [
       {
         "name": "Pistol",
@@ -76,7 +40,7 @@
     "id": 5,
     "hp": 200,
     "armor": 15,
-    "image": "server/data/npcImages/Colony/Bar/Jack.jpg",
+    "image": "campaign/npcImages/Colony/Bar/Jack.jpg",
     "abilities": [
       {
         "name": "Pistol",
@@ -94,7 +58,7 @@
     "id": 6,
     "hp": 200,
     "armor": 15,
-    "image": "server/data/npcImages/Colony/Hydroponics/Elena.jpeg",
+    "image": "campaign/npcImages/Colony/Hydroponics/Elena.jpeg",
     "abilities": [
       {
         "name": "Pistol",
@@ -112,7 +76,7 @@
     "id": 7,
     "hp": 200,
     "armor": 15,
-    "image": "server/data/npcImages/Colony/Hydroponics/Mark.jpg",
+    "image": "campaign/npcImages/Colony/Hydroponics/Mark.jpg",
     "abilities": [
       {
         "name": "Pistol",
@@ -130,7 +94,7 @@
     "id": 8,
     "hp": 200,
     "armor": 15,
-    "image": "server/data/npcImages/Colony/News/alex.jpeg",
+    "image": "campaign/npcImages/Colony/News/alex.jpeg",
     "abilities": [
       {
         "name": "Pistol",
@@ -148,7 +112,7 @@
     "id": 9,
     "hp": 200,
     "armor": 15,
-    "image": "server/data/npcImages/Colony/News/sarah.jpg",
+    "image": "campaign/npcImages/Colony/News/sarah.jpg",
     "abilities": [
       {
         "name": "Pistol",
@@ -166,7 +130,7 @@
     "id": 10,
     "hp": 200,
     "armor": 15,
-    "image": "server/data/npcImages/Colony/Police/Markus.jpg",
+    "image": "campaign/npcImages/Colony/Police/Markus.jpg",
     "abilities": [
       {
         "name": "Pistol",
@@ -184,7 +148,7 @@
     "id": 11,
     "hp": 200,
     "armor": 15,
-    "image": "server/data/npcImages/Colony/Police/Elena.jpg",
+    "image": "campaign/npcImages/Colony/Police/Elena.jpg",
     "abilities": [
       {
         "name": "Pistol",

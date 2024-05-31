@@ -5,7 +5,7 @@ type Props = {
 function Enemy({image}: Props) {
     return (
         <div className="enemy">
-            <img src={`data:image/png;base64,${image}`} alt="Game"/>
+            <img src={image} alt="Game"/>
         </div>
     );
 }

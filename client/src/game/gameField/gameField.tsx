@@ -13,7 +13,7 @@ function GameField({state, userRole}: {state: any, userRole: string}) {
     const [characterToShow, setCharacterToShow] = useState<EnemyData>();
     const encounterStateRef = useRef(state.encounter);
     encounterStateRef.current = state.encounter;
-    const sourceImage = `data:image/jpeg;base64,${locationState.image}`;
+    const sourceImage = locationState.image;
     const navigate = useNavigate();
     const socket = useContext(SocketContext);
 

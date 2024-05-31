@@ -3,7 +3,7 @@ import Ability from "./ability";
 
 function Enemy({data, encounter, setEncounter}: {data: EnemyData, encounter: any, setEncounter: any}) {
 
-    const imageSource = "data:image/png;base64," + data.image;
+    const imageSource = data.image;
 
     function addToEncounter() {
         const newEncounter = {

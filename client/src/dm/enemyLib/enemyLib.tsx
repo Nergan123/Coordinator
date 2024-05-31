@@ -10,15 +10,12 @@ function EnemyLib({encounter, setEncounter}: {encounter: any, setEncounter: any}
     const fetchEnemies = async () => {
         try {
             const response = await fetch(
-                "/api/values",
+                "/api/enemies",
                 {
-                    method: "POST",
+                    method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(
-                        {value: "enemies"}
-                    ),
+                    }
                 }
             );
             const data = await response.json();

@@ -194,18 +194,22 @@ class State {
                 name: enemy.name,
                 hp: enemy.hp,
                 description: enemy.description,
-                image: fs.readFileSync(enemy.image, 'base64'),
+                image: this.bucket.getSignedUrl(enemy.image).then((url) => {
+                    return url;
+                }),
             }
         });
 
         const locationToSend = {
             name: this.encounter.location.name,
             description: this.encounter.location.description,
-            image: fs.readFileSync(this.encounter.location.image, 'base64'),
-            map: fs.readFileSync(this.encounter.location.map, 'base64'),
+            image: await this.bucket.getSignedUrl(this.encounter.location.image),
+            map: await this.bucket.getSignedUrl(this.encounter.location.map),
             musicCalm: this.encounter.location.musicCalm,
             musicBattle: this.encounter.location.musicBattle,
         }
+
+        console.log(locationToSend);
 
         const encounterToSend = {
             enemies: enemiesToSend,

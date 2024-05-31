@@ -16,6 +16,7 @@ import {createServer} from "http";
 import path from "path";
 import fs from "fs";
 import Enemy from "./routes/values/services/enemies/enemy";
+import Bucket from "./utils/bucket";
 
 const upload = multer();
 
@@ -29,6 +30,7 @@ export default class App {
     private game: Game;
     private socket: Server;
     private server: any;
+    private bucket: Bucket;
 
     constructor() {
         this.resolver = new Resolver();
@@ -36,6 +38,7 @@ export default class App {
         this.loginHandler = new LoginHandler();
         this.createCharacter = new CreateCharacter();
         this.game = new Game();
+        this.bucket = new Bucket();
 
         this.logger = logger;
 
@@ -75,7 +78,7 @@ export default class App {
                 this.socket.emit('message', this.game.state.getMessages());
             });
 
-            socket.on('show-character', (character) => {
+            socket.on('show-character', async (character) => {
                 this.logger.info('show-character: ' + character);
                 this.socket.emit('show-character', character);
             });
@@ -91,7 +94,7 @@ export default class App {
         });
     }
 
-    private setEndPoints(): void {
+    private async setEndPoints() {
         this.app.get('/', (req, res) => {
             this.logger.info('GET /');
             res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
@@ -99,9 +102,17 @@ export default class App {
         this.app.post('/api/values', verifyToken, (req, res) => {
             this.logger.info('POST /api/values');
             this.resolver.getValue(req).then((data) => {
+                console.log(data);
                 res.header('Content-Type', 'application/json');
                 res.send(JSON.stringify(data));
             });
+        });
+
+        this.app.get('/api/locations', verifyToken, (req, res) => {
+            res.send(this.resolver.locations.getLocations());
+        });
+        this.app.get('/api/enemies', verifyToken, (req, res) => {
+            res.send(this.resolver.enemies.getEnemies());
         });
 
         this.app.post('/api/register', async (req, res) => {
@@ -172,7 +183,7 @@ export default class App {
             }
             this.game.getState().then(state => res.send(state));
         });
-        this.app.post('/api/game/update-encounter', verifyToken, (req, res) => {
+        this.app.post('/api/game/update-encounter', verifyToken, async (req, res) => {
             this.logger.info('POST /api/update-encounter');
             if (!req.user) {
                 res.sendStatus(401);
@@ -192,11 +203,13 @@ export default class App {
             if (prevLocation !== encounter.location) {
                 this.socket.emit("audio-updated");
             }
+            const imageUrl = await this.bucket.getSignedUrl(locationFound.image);
+            const mapUrl = await this.bucket.getSignedUrl(locationFound.map);
             const locationToSend = {
                 name: locationFound.name,
                 description: locationFound.description,
-                image: fs.readFileSync(locationFound.image, 'base64'),
-                map: fs.readFileSync(locationFound.map, 'base64'),
+                image: imageUrl,
+                map: mapUrl,
                 musicCalm: locationFound.musicCalm,
                 musicBattle: locationFound.musicBattle,
             };
@@ -208,17 +221,18 @@ export default class App {
                 });
             }).filter((enemy: any): enemy is any => Boolean(enemy));
 
-            const enemiesToSend = enemiesList.map((enemy: any) => {
+            const enemiesToSend = await Promise.all(enemiesList.map(async (enemy: any) => {
+                const enemyImageUrl = await this.bucket.getSignedUrl(enemy.image);
                 return {
                     id: enemy.id,
                     hp: enemy.hp,
                     name: enemy.name,
-                    image: fs.readFileSync(enemy.image, 'base64'),
+                    image: enemyImageUrl,
                     description: enemy.description,
                     abilities: enemy.abilities,
                     armor: enemy.armor
                 };
-            });
+            }));
 
             this.socket.emit("update-encounter", {location: locationToSend, enemies: enemiesToSend});
 
